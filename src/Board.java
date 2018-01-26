@@ -11,4 +11,10 @@ public class Board extends Obstacle {
     public Boolean isValidMove() {
         return null;
     }
+
+    public void PlaceObstical() {
+    }
+
+    public void PlacePlayer() {
+    }
 }

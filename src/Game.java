@@ -1,10 +1,15 @@
-public class Game {
+public class Game extends UserInput {
     private int difficulty;
-    private int velocity_modifyer;
 
     public void newSinglePlayerGame() {
     }
 
     public void newMultiPlayerGame() {
+    }
+
+    public void runTimer() {
+    }
+
+    public void getRunTime() {
     }
 }

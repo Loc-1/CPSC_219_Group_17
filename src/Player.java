@@ -3,9 +3,21 @@ public class Player {
     private int y_location;
     private int x_location;
     private int score = 0;
-    private String player_handle;
+    private String handle;
 
-    public void setPlayerHandle() {
+    public void setHandle() {
+    }
+
+    public void moveUp() {
+    }
+
+    public void moveDown() {
+    }
+
+    public void moveRight() {
+    }
+
+    public void moveLeft() {
     }
 
 }

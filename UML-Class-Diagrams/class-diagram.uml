@@ -3,22 +3,27 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="266.0" y="400.0">HighScores</node>
-    <node x="4.0" y="172.0">Obstacle</node>
-    <node x="261.0" y="194.0">Player</node>
-    <node x="16.5" y="4.0">Board</node>
-    <node x="0.0" y="331.0">Game</node>
+    <node x="265.0" y="419.0">HighScores</node>
+    <node x="0.0" y="0.0">Obstacle</node>
+    <node x="266.0" y="0.0">Player</node>
+    <node x="17.0" y="212.0">Board</node>
+    <node x="0.0" y="531.0">Game</node>
+    <node x="13.0" y="419.0">UserInput</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="Board" target="Obstacle">
+    <edge source="Game" target="UserInput">
       <point x="0.0" y="-48.0" />
-      <point x="0.0" y="70.0" />
+      <point x="0.0" y="36.5" />
+    </edge>
+    <edge source="Board" target="Obstacle">
+      <point x="0.0" y="-81.0" />
+      <point x="0.0" y="81.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="15.5" y="221.5" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="15.5" y="341.5" />
   <SelectedNodes>
-    <node>Board</node>
+    <node>Game</node>
   </SelectedNodes>
   <Categories>
     <Category>Fields</Category>

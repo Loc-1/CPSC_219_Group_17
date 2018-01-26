@@ -10,4 +10,8 @@ public class Obstacle {
     public Boolean pathExists() {
         return null;
     }
+
+    public int calculatePathSpacing(int difficulty) {
+        return 0;
+    }
 }
