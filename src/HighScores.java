@@ -1,9 +1,13 @@
 public class HighScores {
     private String[][] high_scores;
 
-    public void getScores() {
+    public int[][] get() {
+        return null;
     }
 
-    public void setHighScore(String user_name, int Score) {
+    public void set(String user_name, int score) {
+    }
+
+    public void save() {
     }
 }

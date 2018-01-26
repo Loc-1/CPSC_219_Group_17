@@ -1,20 +1,20 @@
 public class Board extends Obstacle {
     private int[][] board;
 
-    public int[][] generateBoard() {
+    public int[][] generate() {
         return null;
     }
 
-    public void moveBoardUp() {
+    public void moveUp() {
     }
 
     public Boolean isValidMove() {
         return null;
     }
 
-    public void PlaceObstical() {
+    public void placeObstical() {
     }
 
-    public void PlacePlayer() {
+    public void placePlayer() {
     }
 }
