@@ -1,0 +1,97 @@
+# GENERAL FORMATTING GUIDELINES OBEYED BY ALL
+
+1) Four spaces, not tabs; never, EVER, tabs.
+
+2) Methods:
+
+    names: camelCase
+    example:
+
+    /**
+    * // optional explanation goes here.
+    * @param variableOne is variable one.
+    * @param variableTwo is variable two.
+    **/
+    public void newMethod(int variableOne, Boolean variableTwo) {
+        // code goes here.
+
+    }
+
+    main points: there is a space between the ) and { at the end of the declaration.
+                 there is ALWAYS a return at the end of the declaration.
+                 the docstring goes ABOVE the method, and the name of the method should tell you everything you need
+                 to know about what it does. If you need to provide an explanation do it in 10 words or less.
+                 in line comments should go beside the thing being explained. For example:
+
+                    Boolean x = 0; // I need this because I'm a bad programmer.
+
+3) Classes:
+
+    example:
+
+    /**
+    * // Explain what the class IS not what it DOES. You explain what it does in the constructors and methods.
+    **/
+    public class NewClass {
+        int varOne;
+        Boolean varTwo;
+
+        public void main(String[] args) {
+        }
+
+        /**
+        * // optional explanation.
+        * @param setVarOne sets varOne.
+        * @param setVarTwo sets varTwo.
+        **/
+        public int NewClass(int setVarOne, Boolean setVarTwo) {
+            // Do stuff, no space at the top.
+
+            return 0;
+        }
+
+    }
+
+    main points: Note this extra space on the trailing close? It's important, always add an extra space.
+                 Note the blank lines between the methods.
+                 Note there is NO space between the class declaration and the instance vars.
+                 Always put a blank line BEFORE a return statement, never AFTER.
+                 Do NOT document the main function. UNLESS it does something unrelated to testing. The only time this
+                 will be the case (in our project) is the main loop / initial frame. Otherwise, NONE of the classes
+                 need main functions. Also, main functions always go at the top.
+                 Again, method docstrings tell a programmer what a method DOES not how it works. If you need to
+                 explain how a method works, you're writing shit code and should try again. How a method WORKS should
+                 be obvious to anyone that can write code.
+
+ Basically, just use the skeletons already set up for the class to model your classes. The only thing I (Josh) care about
+ is the spaces between the ) and { and the { must always be on the same line as the declaration.
+
+ Things people get bitchy about:
+
+ 1) Lines longer than 120 chars. Keep your statements shorter than this, or carry them over. For example:
+
+    if ( this == that
+    && this + that = this&that
+    || this // that = nothing) {
+        //do something
+    }
+
+    just make sure you put the main operators at the beginning of each line (in this case the && and || operators.)
+
+2) Overly nested loops. If you're going 3 or 4 layers deep, make sure you're not making life too hard for yourself.
+
+3) Explicit overrides of builtins should use the _overrideName convention (put a _ before the declaration so it
+doesn't actually mess with the builtin.)
+
+4) Coordinates should always be expressed as a lowercase x or lowercase y. For example:
+
+    xWidth
+    yWidth
+
+    xLocation
+    yLocation
+
+    xMove
+    yMove
+
+    I'm sure you get it.
