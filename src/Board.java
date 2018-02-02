@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class Board {
     private int width;
     private int height;
-    private char[][] board;
+    private char[][] board; // This could be an array of ints, chars, whatever.
 
     /**
      * Constructor for new boards.
@@ -19,7 +19,7 @@ public class Board {
     public Board(int setWidth, int setHeight) {
         this.width = setWidth;
         this.height = setHeight;
-        if (this.width < 50 || this.height < 50) {
+        if (this.width < 50 || this.height < 50) { // Temp error catching if.
             System.out.println("Width: " + setWidth);
             System.out.println("Height: " + setHeight);
             System.out.println("Width and height arguments must be greater than 50."); // :TODO: not this.
