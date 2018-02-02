@@ -3,6 +3,7 @@
  * current score. Player movement is handled via move methods defined in this class.
  */
 public class Player {
+    private Boolean isAlive;
     private int userID;
     private String userHandle;
     private int yLocation;
@@ -19,11 +20,19 @@ public class Player {
      * @param setUserHandle player's chosen handle.
      */
     public Player(int setXLocation, int setYLocation, int setSprite, int setUserID, String setUserHandle) {
+        this.isAlive = true; // New players start off alive.
         this.xLocation = setXLocation;
         this.yLocation = setYLocation;
         this.sprite = setSprite;
         this.userID = setUserID;
         this.userHandle = setUserHandle;
+    }
+
+    /**
+     * A call to this method will 'kill' the player.
+     */
+    public void kill() {
+        this.isAlive = false;
     }
 
     public int getScore() {
