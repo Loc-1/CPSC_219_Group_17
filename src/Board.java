@@ -1,4 +1,4 @@
-public class Board extends Obstacle {
+public class Board {
     private int[][] board;
 
     public int[][] generate() {

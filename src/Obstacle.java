@@ -8,21 +8,22 @@
  * if the player is 25px, the gap must never shift more than 25px is either direction.). We could even use multiple
  * pipes all following the same rules.
  */
-public class Obstacle {
+public class Obstacle extends Board {
     private int type;
     private int width;
     private int height;
-    private int min_gap;
+    private double difficulty;
+    private int min_gap; // This will set the minimum distance between obstacle objects. So many obstacles may be placed.
 
-    public int[][] newRow() {
-        return null;
+    /**
+     * This takes a board and adds a new obstacle, I think we should allow obstacles to be added 'off-canvas' so
+     * we can generate interesting obstacles
+     * @param board The game board in to add an obstacle to.
+     */
+    public void create(Board board) {
     }
 
-    public Boolean pathExists() {
-        return null;
-    }
-
-    public int calculatePathSpacing(int difficulty) {
+    public int calculatePathSpacing(double difficulty) {
         return 0;
     }
 }

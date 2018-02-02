@@ -1,3 +1,8 @@
+/**
+ * The Enemy class contains all elements related to an enemy: enemies follow 'rails' of set length; enemies move at
+ * a constant velocity; enemies have predetermined starting and ending points on their 'rails.'
+ */
+
 public class Enemy {
     private int direction;
     private int speed;
@@ -6,15 +11,29 @@ public class Enemy {
     private int y_start;
     private int y_end;
 
-    public void setDirection() {
+    /**
+     * @param direction {'0': 'up', '1': 'down', '2', 'left', '3', 'right}
+     */
+    public void setDirection(int direction) {
     }
 
-    public void setStartLocation() {
+    /**
+     * @param x x-coordinate of starting location.
+     * @param y y-coordinate of starting location.
+     */
+    public void setStartLocation(int x, int y) {
     }
 
-    public void setEndLocation() {
+    /**
+     * @param x x-coordinate of ending location.
+     * @param y y-coordinate of ending location.
+     */
+    public void setEndLocation(int x, int y) {
     }
 
-    public void setSpeed() {
+    /**
+     * @param velocity {'1.0': 'Top speed', '0.0': 'Stopped'}
+     */
+    public void setSpeed(double velocity) {
     }
 }
