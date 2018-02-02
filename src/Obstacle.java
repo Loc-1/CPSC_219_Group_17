@@ -21,17 +21,13 @@ public class Obstacle extends Board {
         this.minGap = calculateMinGap();
     }
 
-    /**
-     * This takes a board and adds a new obstacle, I think we should allow obstacles to be added 'off-canvas' so
-     * we can generate interesting obstacles
-     * @param board The game board in to add an obstacle to.
-     */
-    public void create(Board board) {
-    }
-
     private int calculateMinGap() {
         this.minGap = (int) this.difficulty * 3; // (int) is used to round to even numbers.
         return this.minGap;
+    }
+
+    private void findPath(Board board) {
+
     }
 
     public void setType(int type) {
