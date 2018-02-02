@@ -30,48 +30,25 @@ public class Obstacle extends Board {
     public void create(Board board) {
     }
 
-    public int calculateMinGap() {
+    private int calculateMinGap() {
         this.minGap = (int) this.difficulty * 3; // (int) is used to round to even numbers.
         return this.minGap;
-    }
-
-    public int getType() {
-        return type;
     }
 
     public void setType(int type) {
         this.type = type;
     }
 
-    public int getWidth() {
-        return width;
-    }
-
     public void setWidth(int width) {
         this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
     }
 
     public void setHeight(int height) {
         this.height = height;
     }
 
-    public double getDifficulty() {
-        return difficulty;
-    }
-
     public void setDifficulty(double difficulty) {
         this.difficulty = difficulty;
     }
 
-    public int getMinGap() {
-        return minGap;
-    }
-
-    public void setMinGap(int minGap) {
-        this.minGap = minGap;
-    }
 }

@@ -3,23 +3,25 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="243.0" y="661.0">HighScores</node>
-    <node x="0.0" y="212.0">Obstacle</node>
-    <node x="556.0" y="0.0">Player</node>
-    <node x="469.0" y="661.0">UserInput</node>
-    <node x="28.5" y="0.0">Board</node>
-    <node x="289.0" y="0.0">Enemy</node>
-    <node x="0.0" y="661.0">PowerUp</node>
+    <node x="0.0" y="728.0">HighScores</node>
+    <node x="0.0" y="256.0">Obstacle</node>
+    <node x="515.0" y="0.0">Player</node>
+    <node x="226.0" y="728.0">UserInput</node>
+    <node x="8.0" y="0.0">Board</node>
+    <node x="248.0" y="0.0">Enemy</node>
+    <node x="724.0" y="0.0">PowerUp</node>
   </nodes>
   <notes />
   <edges>
     <edge source="Obstacle" target="Board">
-      <point x="0.0" y="-202.0" />
-      <point x="0.0" y="81.0" />
+      <point x="0.0" y="-213.5" />
+      <point x="0.0" y="103.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.1538895152198423" x="440.2730825598436" y="206.323888617489" />
-  <SelectedNodes />
+  <settings layout="Hierarchic Group" zoom="0.7538895152198423" x="435.3144908030506" y="449.6717511589651" />
+  <SelectedNodes>
+    <node>HighScores</node>
+  </SelectedNodes>
   <Categories>
     <Category>Fields</Category>
     <Category>Constructors</Category>
