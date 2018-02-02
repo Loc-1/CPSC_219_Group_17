@@ -49,11 +49,12 @@
 
             return 0;
         }
-
+     <- note this return.
     }
 
-    main points: Note this extra space on the trailing close? It's important, always add an extra space.
-                 Note the blank lines between the methods.
+    main points: Note this extra return on the trailing close? It's important, always add an extra return. Then, you'll
+                 find it a lot easier to dig yourself out of a mis-matched brace '{' issue.
+                 Note the single blank line between the methods.
                  Note there is NO space between the class declaration and the instance vars.
                  Always put a blank line BEFORE a return statement, never AFTER.
                  Do NOT document the main function. UNLESS it does something unrelated to testing. The only time this
