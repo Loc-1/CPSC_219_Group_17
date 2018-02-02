@@ -13,17 +13,65 @@ public class Obstacle extends Board {
     private int width;
     private int height;
     private double difficulty;
-    private int min_gap; // This will set the minimum distance between obstacle objects. So many obstacles may be placed.
+    private int minGap; // This will set the minimum distance between obstacle objects. So many obstacles may be placed.
 
     /**
      * This takes a board and adds a new obstacle, I think we should allow obstacles to be added 'off-canvas' so
      * we can generate interesting obstacles
      * @param board The game board in to add an obstacle to.
      */
+
+    public Obstacle(double difficulty, int type) {
+        this.difficulty = difficulty;
+        this.type = type;
+        this.minGap = calculateMinGap();
+    }
+
     public void create(Board board) {
     }
 
-    public int calculatePathSpacing(double difficulty) {
-        return 0;
+    public int calculateMinGap() {
+        this.minGap = (int) this.difficulty * 3; // (int) is used to round to even numbers.
+        return this.minGap;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public double getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(double difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public int getMinGap() {
+        return minGap;
+    }
+
+    public void setMinGap(int minGap) {
+        this.minGap = minGap;
     }
 }
