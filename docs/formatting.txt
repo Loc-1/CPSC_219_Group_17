@@ -2,6 +2,9 @@
 
 1) Four spaces, not tabs; never, EVER, tabs.
 
+1.a) Variable names: I'm not sure about this, I've been doing camelCase like the methods, we should probably just
+go with this? (Josh)
+
 2) Methods:
 
     names: camelCase
