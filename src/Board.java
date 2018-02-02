@@ -1,11 +1,21 @@
 import java.awt.*;
 import java.util.Arrays;
 
+/**
+ * This class is used to generate and store the board object. Calls to this class must include a valid frame width
+ * and height.
+ */
 public class Board {
     private int width;
     private int height;
     private char[][] board;
 
+    /**
+     * Constructor for new boards.
+     *
+     * @param setWidth  the desired board width.
+     * @param setHeight the desired board height.
+     */
     public Board(int setWidth, int setHeight) {
         this.width = setWidth;
         this.height = setHeight;
@@ -18,6 +28,9 @@ public class Board {
         }
     }
 
+    /**
+     * The generator is called via the Board constructor. :TODO: integrate obstacle generation into this constructor.
+     */
     private void generate() {
         int numRows = this.height / 50;
         int numColumns = this.width / 50;
@@ -29,7 +42,7 @@ public class Board {
         }
     }
 
-    public char[][] getBoard() {
+    public char[][] getBoard() { // :NOTE: DON'T ADD JAVADOCS TO GETTER/SETTER METHODS.
         return board;
     }
 
