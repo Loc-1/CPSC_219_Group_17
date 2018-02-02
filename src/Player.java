@@ -15,17 +15,23 @@ public class Player {
      * @param setXLocation player's starting x coordinate.
      * @param setYLocation player's starting y coordinate.
      * @param setSprite player's character sprite.
+     * @param setUserID either 0 for a single player game or 1 for a two player game.
      * @param setUserHandle player's chosen handle.
      */
-    public Player(int setXLocation, int setYLocation, int setSprite, String setUserHandle) {
+    public Player(int setXLocation, int setYLocation, int setSprite, int setUserID, String setUserHandle) {
         this.xLocation = setXLocation;
         this.yLocation = setYLocation;
         this.sprite = setSprite;
+        this.userID = setUserID;
         this.userHandle = setUserHandle;
     }
 
-    public void setUserHandle(String userHandle) {
-        this.userHandle = userHandle;
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public void moveUp() {
