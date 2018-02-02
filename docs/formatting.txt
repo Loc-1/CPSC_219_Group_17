@@ -67,6 +67,27 @@
  Basically, just use the skeletons already set up for the class to model your classes. The only thing I (Josh) care about
  is the spaces between the ) and { and the { must always be on the same line as the declaration.
 
+ 4) Custom iterators (if you don't know what these are, you're going to need to find out):
+
+    use 'i' as your iterator variable ONLY when iterating over a known-limit counter int. For example:
+
+    for (i = 0; i <= 4; i++) {
+        // do something
+    }
+
+    :NOTE: This depends also on the TA's preferences.
+
+    Otherwise:
+
+    rowNumber = 4
+
+    for (row = 0; row <= rowNumber; row++) {
+        // do something.
+    }
+
+    In other words, instantiate your counter variable as what you are counting; only use i when your counting an one-off
+    int primitive.
+
  Things people get bitchy about:
 
  1) Lines longer than 120 chars. Keep your statements shorter than this, or carry them over. For example:
