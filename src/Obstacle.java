@@ -8,7 +8,7 @@
  * if the player is 25px, the gap must never shift more than 25px is either direction.). We could even use multiple
  * pipes all following the same rules.
  */
-public class Obstacle extends Board {
+public class Obstacle {
     private int type;
     private int width;
     private int height;
