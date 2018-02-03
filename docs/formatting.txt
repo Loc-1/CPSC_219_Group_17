@@ -104,7 +104,6 @@ go with this? (Josh)
     if (this == that
         && this + that = this&that
         || this // that = nothing) {
-
             //do something
     }
 
