@@ -101,13 +101,15 @@ go with this? (Josh)
 
  1) Lines longer than 120 chars. Keep your statements shorter than this, or carry them over. For example:
 
-    if ( this == that
-    && this + that = this&that
-    || this // that = nothing) {
-        //do something
+    if (this == that
+        && this + that = this&that
+        || this // that = nothing) {
+
+            //do something
     }
 
-    just make sure you put the main operators at the beginning of each line (in this case the && and || operators.)
+    just make sure you put the main operators at the beginning of each line (in this case the && and || operators.) And
+    you double tab the actual code body. Also, "if (" is 4 chars, so it makes the code block look nice.
 
 2) Overly nested loops. If you're going 3 or 4 layers deep, make sure you're not making life too hard for yourself.
 
