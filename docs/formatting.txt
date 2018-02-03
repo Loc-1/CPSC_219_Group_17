@@ -99,7 +99,7 @@ go with this? (Josh)
 
  Things people get bitchy about:
 
- 1) Lines longer than 120 chars. Keep your statements shorter than this, or carry them over. For example:
+ 1) Lines longer than 120 chars. Keep your statements/expressions shorter than this, or carry them over. For example:
 
     if (this == that
         && this + that = this&that
