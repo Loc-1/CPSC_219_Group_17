@@ -91,6 +91,12 @@ go with this? (Josh)
     In other words, instantiate your counter variable as what you are counting; only use i when your counting an one-off
     int primitive.
 
+6) Don't annotate getter and setter methods. You can--if you so desire--code them into single lines. For example:
+
+    public int getSomething() { return this.something; }
+
+    Note the spaces separating the statement from the braces.
+
  Things people get bitchy about:
 
  1) Lines longer than 120 chars. Keep your statements shorter than this, or carry them over. For example:
