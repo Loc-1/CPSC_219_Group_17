@@ -49,20 +49,24 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        Board newBoard = new Board(5, 5, 1);
+        Board newBoard = new Board(5, 10, 1);
         newBoard.setBoard(0, 0, 'a');
         System.out.println(Arrays.deepToString(newBoard.getBoard()));
     }
 
     /**
-     * :TODO: This.
-     *
-     * @param xPlayer player's x-coord.
-     * @param yPlayer player's y-coord.
-     * @return True if move is valid.
+     * @param xStart current x coord.
+     * @param yStart current y coord.
+     * @param xEnd destination x coord.
+     * @param yEnd destination y coord.
+     * @return true if move is valid.
      */
-    public Boolean isValidMove(int xPlayer, int yPlayer) {
-        return false;
+    public Boolean isValidMove(int xStart, int yStart, int xEnd, int yEnd) {
+        Boolean isValid = false;
+        if (!this.obstacleMap.isObstacle(xEnd, yEnd)) {
+            isValid = true;
+        }
+        return isValid;
     }
 
     public char[][] getBoard() {
