@@ -55,13 +55,11 @@ public class Board {
     }
 
     /**
-     * @param xStart current x coord.
-     * @param yStart current y coord.
      * @param xEnd destination x coord.
      * @param yEnd destination y coord.
      * @return true if move is valid.
      */
-    public Boolean isValidMove(int xStart, int yStart, int xEnd, int yEnd) {
+    public Boolean isValidMove(int xEnd, int yEnd) {
         Boolean isValid = false;
         if (!this.obstacleMap.isObstacle(xEnd, yEnd)) {
             isValid = true;
