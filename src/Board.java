@@ -30,12 +30,12 @@ public class Board {
             System.out.println("Height: " + setRows);
             System.out.println("Width and height arguments must be greater than 10."); // :TODO: not this.
         } else {
-            for (int row = 0; row <= rows - 1; row++) {
+            for (int row = 0; row <= rows - 1; row++) { // Fill board with 0's
                 for (int col = 0; col <= columns - 1; col++) {
                     this.board[row][col] = '0';
                 }
             }
-            for (int row = 0; row <= rows - 1; row++) {
+            for (int row = 0; row <= rows - 1; row++) { // Generate obstacle map and fill obstacles with X's.
                 for (int col = 0; col <= columns - 1; col++) {
                     if (this.obstacleMap.isObstacle(row, col)) {
                         this.board[row][col] = 'X';
