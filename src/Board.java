@@ -27,6 +27,15 @@ public class Board {
             generate(); // If board dimensions are correct the constructor will call the generator.
         }
     }
+    
+    /**
+     * A default board with dimensions 500x500
+     */
+    public Board() {
+    	this.width = 500;
+    	this.height = 500;
+    	generate();
+    }
 
     /**
      * The generator is called via the Board constructor. :TODO: integrate obstacle generation into this constructor.
