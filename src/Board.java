@@ -9,6 +9,12 @@ public class Board {
     private int columns;
     private char[][] board;
 
+    public static void main(String[] args) {
+        Board newBoard = new Board(10, 10);
+        newBoard.setBoard(0, 0, 'a');
+        System.out.println(Arrays.deepToString(newBoard.getBoard()));
+    }
+
     /**
      * Constructor builds a new board.
      *
@@ -31,13 +37,6 @@ public class Board {
                 }
             }
         }
-    }
-
-
-    public static void main(String[] args) {
-        Board newBoard = new Board(10, 10);
-        newBoard.setBoard(0, 0, 'a');
-        System.out.println(Arrays.deepToString(newBoard.getBoard()));
     }
 
     /**
