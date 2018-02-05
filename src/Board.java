@@ -23,6 +23,7 @@ public class Board {
         this.columns = setColumns;
         this.difficulty = setDifficulty;
         this.board = new char[rows][columns];
+        this.obstacleMap = new ObstacleMap(this.rows, this.columns, this.difficulty);
 
         if (this.rows < 0 || this.columns < 0) { // Temp error catching if.
             System.out.println("Width: " + setColumns);
@@ -34,7 +35,6 @@ public class Board {
                     this.board[row][col] = '0';
                 }
             }
-            this.obstacleMap = new ObstacleMap(this.rows, this.columns, this.difficulty);
             for (int row = 0; row <= rows - 1; row++) {
                 for (int col = 0; col <= columns - 1; col++) {
                     if (this.obstacleMap.isObstacle(row, col)) {
