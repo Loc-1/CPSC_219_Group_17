@@ -27,22 +27,18 @@ public class UserInput {
 
     /**
      * :TODO: Method to be implemeted after text based demo
+     *
+     * public void keyPressed(KeyEvent e) { int key = e.getKeyCode();
+     * 
+     * if (key == KeyEvent.VK_RIGHT) {
+     * 
+     * } if (key == KeyEvent.VK_LEFT) {
+     * 
+     * } if (key == KeyEvent.VK_DOWN) {
+     * 
+     * } if (key == KeyEvent.VK_UP) {
+     * 
+     * } }
      */
-    public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_RIGHT) {
-
-        }
-        if (key == KeyEvent.VK_LEFT) {
-
-        }
-        if (key == KeyEvent.VK_DOWN) {
-
-        }
-        if (key == KeyEvent.VK_UP) {
-
-        }
-    }
 
 }
