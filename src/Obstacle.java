@@ -1,24 +1,26 @@
-/**
- * The trick to this will be ensuring a path is always available. The route can never be completely blocked as the
- * player will always need to get through. We could use something like:
- * <p>
- * A 200 * 200 board with 'pipes' (see: https://gamedev.stackexchange.com/questions/103054/how-to-randomly-spawn-obstacles-for-infinite-runner
- * (the first answer). There is always a 50px gap (we could scale this with with difficulty and i think a 1980 * 1060
- * game board would work well) and we just randomize the gap within * a range no larger than a player can fit through (i.e.
- * if the player is 25px, the gap must never shift more than 25px is either direction.). We could even use multiple
- * pipes all following the same rules.
- */
+import java.util.Random;
+
 public class Obstacle {
-    private int type;
-    private int width;
-    private int height;
+    private int numColumns;
+    private int numRows;
+    private boolean[][] obstacleMap = new boolean[numRows][numColumns];
     private double difficulty;
+    private double mapModifier = 0.45f; // :TODO: Remove this after testing.
     private int minGap; // This will set the minimum distance between obstacle objects. So many obstacles may be placed.
 
-    public Obstacle(double difficulty, int type) {
+    public Obstacle(Board board, double difficulty) {
         this.difficulty = difficulty;
-        this.type = type;
         this.minGap = calculateMinGap();
+        this.numColumns = board.getColumns();
+        this.numRows = board.getRows();
+
+        for (int row = 0; row <= numRows; row++) {
+            for (int col = 0; col <= numColumns; col++) {
+                if (generateRandomDouble() < mapModifier) {
+                    this.obstacleMap[row][col] = true;
+                }
+            }
+        }
     }
 
     private int calculateMinGap() {
@@ -26,24 +28,9 @@ public class Obstacle {
         return this.minGap;
     }
 
-    private void findPath(Board board) {
-
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public void setDifficulty(double difficulty) {
-        this.difficulty = difficulty;
+    private double generateRandomDouble() {
+        Random randomNum = new Random();
+        return randomNum.nextDouble();
     }
 
 }

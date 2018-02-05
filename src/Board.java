@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.util.Arrays;
 
 /**
@@ -6,44 +5,65 @@ import java.util.Arrays;
  * and height.
  */
 public class Board {
-    private int width;
-    private int height;
-    private char[][] board; // This could be an array of ints, chars, whatever.
+    private int rows;
+    private int columns;
+    private char[][] board;
 
     /**
-     * Constructor for new boards.
+     * Constructor builds a new board.
      *
-     * @param setWidth  the desired board width.
-     * @param setHeight the desired board height.
+     * @param setRows    desired number of rows.
+     * @param setColumns desired number of columns.
      */
-    public Board(int setWidth, int setHeight) {
-        this.width = setWidth;
-        this.height = setHeight;
-        if (this.width < 50 || this.height < 50) { // Temp error catching if.
-            System.out.println("Width: " + setWidth);
-            System.out.println("Height: " + setHeight);
-            System.out.println("Width and height arguments must be greater than 50."); // :TODO: not this.
+    public Board(int setRows, int setColumns) {
+        this.rows = setRows;
+        this.columns = setColumns;
+        this.board = new char[rows][columns];
+
+        if (this.rows < 10 || this.columns < 10) { // Temp error catching if.
+            System.out.println("Width: " + setColumns);
+            System.out.println("Height: " + setRows);
+            System.out.println("Width and height arguments must be greater than 10."); // :TODO: not this.
         } else {
-            generate(); // If board dimensions are correct the constructor will call the generator.
-        }
-    }
-
-    /**
-     * The generator is called via the Board constructor. :TODO: integrate obstacle generation into this constructor.
-     */
-    private void generate() {
-        int numRows = this.height / 50;
-        int numColumns = this.width / 50;
-
-        for (int row = 0; row <= numRows; row++) {
-            for (int col = 0; col <= numColumns; col++) {
-                this.board[row][col] = 'A';
+            for (int row = 0; row <= rows - 1; row++) {
+                for (int col = 0; col <= columns - 1; col++) {
+                    this.board[row][col] = '.';
+                }
             }
         }
     }
 
-    public char[][] getBoard() { // :NOTE: DON'T ADD JAVADOCS TO GETTER/SETTER METHODS.
+    public static void main(String[] args) {
+        Board newBoard = new Board(10, 10);
+        newBoard.setBoard(0, 0, 'a');
+        System.out.println(Arrays.deepToString(newBoard.getBoard()));
+    }
+
+    /**
+     * :TODO: This.
+     *
+     * @param xPlayer player's x-coord.
+     * @param yPlayer player's y-coord.
+     * @return True if move is valid.
+     */
+    public Boolean isValidMove(int xPlayer, int yPlayer) {
+        return false;
+    }
+
+    public char[][] getBoard() {
         return board;
+    }
+
+    public void setBoard(int x, int y, char setChar) {
+        this.board[x][y] = setChar;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
     }
 
 }
