@@ -44,19 +44,19 @@ public class Player {
     }
 
     public void moveUp() {
-        this.xLocation += 1;
+        this.yLocation -= 1;
     }
 
     public void moveDown() {
-        this.xLocation -= 1;
-    }
-
-    public void moveRight() {
         this.yLocation += 1;
     }
 
+    public void moveRight() {
+        this.xLocation += 1;
+    }
+
     public void moveLeft() {
-        this.yLocation -= 1;
+        this.xLocation -= 1;
     }
 
 }
