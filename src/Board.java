@@ -10,6 +10,7 @@ public class Board {
     private int difficulty;
     private char[][] board;
     private ObstacleMap obstacleMap;
+    private Player player1;
 
     /**
      * Constructor builds a new board.
@@ -24,6 +25,7 @@ public class Board {
         this.difficulty = setDifficulty;
         this.board = new char[rows][columns];
         this.obstacleMap = new ObstacleMap(this.rows, this.columns, this.difficulty);
+        this.player1 = new Player(setRows - 1, setColumns / 2, 0, 0, "test"); // Put player in middle of bottom row.
 
         if (this.rows < 0 || this.columns < 0) { // Temp error catching if.
             System.out.println("Width: " + setColumns);
@@ -42,6 +44,7 @@ public class Board {
                     }
                 }
             }
+            this.board[player1.getxLocation()][player1.getyLocation()] = 'P';
         }
     }
 

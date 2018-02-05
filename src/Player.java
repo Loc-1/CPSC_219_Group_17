@@ -35,6 +35,14 @@ public class Player {
         this.isAlive = false;
     }
 
+    public int getyLocation() {
+        return yLocation;
+    }
+
+    public int getxLocation() {
+        return xLocation;
+    }
+
     public int getScore() {
         return score;
     }
