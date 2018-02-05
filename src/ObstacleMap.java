@@ -1,21 +1,22 @@
 import java.util.Random;
 
-public class Obstacle {
+public class ObstacleMap {
     private int numColumns;
     private int numRows;
-    private boolean[][] obstacleMap = new boolean[numRows][numColumns];
-    private double difficulty;
+    private int difficulty;
+    private boolean[][] obstacleMap;
     private double mapModifier = 0.45f; // :TODO: Remove this after testing.
     private int minGap; // This will set the minimum distance between obstacle objects. So many obstacles may be placed.
 
-    public Obstacle(Board board, double difficulty) {
+    public ObstacleMap(int setRows, int setColumns, int difficulty) {
         this.difficulty = difficulty;
         this.minGap = calculateMinGap();
-        this.numColumns = board.getColumns();
-        this.numRows = board.getRows();
+        this.numColumns = setColumns;
+        this.numRows = setRows;
+        this.obstacleMap = new boolean[this.numRows][this.numColumns];
 
-        for (int row = 0; row <= numRows; row++) {
-            for (int col = 0; col <= numColumns; col++) {
+        for (int row = 0; row <= numRows - 1; row++) {
+            for (int col = 0; col <= numColumns - 1; col++) {
                 if (generateRandomDouble() < mapModifier) {
                     this.obstacleMap[row][col] = true;
                 }
@@ -33,4 +34,11 @@ public class Obstacle {
         return randomNum.nextDouble();
     }
 
+    public boolean isObstacle(int row, int col) {
+        return this.obstacleMap[row][col];
+    }
+
+    public boolean[][] getObstacleMap() {
+        return obstacleMap;
+    }
 }

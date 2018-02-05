@@ -7,36 +7,48 @@ import java.util.Arrays;
 public class Board {
     private int rows;
     private int columns;
+    private int difficulty;
     private char[][] board;
-
-    public static void main(String[] args) {
-        Board newBoard = new Board(10, 10);
-        newBoard.setBoard(0, 0, 'a');
-        System.out.println(Arrays.deepToString(newBoard.getBoard()));
-    }
+    private ObstacleMap obstacleMap;
 
     /**
      * Constructor builds a new board.
      *
-     * @param setRows    desired number of rows.
-     * @param setColumns desired number of columns.
+     * @param setRows       desired number of rows.
+     * @param setColumns    desired number of columns.
+     * @param setDifficulty desired difficulty (0 = easy; 1 = medium; 2 = hard)
      */
-    public Board(int setRows, int setColumns) {
+    public Board(int setRows, int setColumns, int setDifficulty) {
         this.rows = setRows;
         this.columns = setColumns;
+        this.difficulty = setDifficulty;
         this.board = new char[rows][columns];
 
-        if (this.rows < 10 || this.columns < 10) { // Temp error catching if.
+        if (this.rows < 0 || this.columns < 0) { // Temp error catching if.
             System.out.println("Width: " + setColumns);
             System.out.println("Height: " + setRows);
             System.out.println("Width and height arguments must be greater than 10."); // :TODO: not this.
         } else {
             for (int row = 0; row <= rows - 1; row++) {
                 for (int col = 0; col <= columns - 1; col++) {
-                    this.board[row][col] = '.';
+                    this.board[row][col] = '0';
+                }
+            }
+            this.obstacleMap = new ObstacleMap(this.rows, this.columns, this.difficulty);
+            for (int row = 0; row <= rows - 1; row++) {
+                for (int col = 0; col <= columns - 1; col++) {
+                    if (this.obstacleMap.isObstacle(row, col)) {
+                        this.board[row][col] = 'X';
+                    }
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        Board newBoard = new Board(5, 5, 1);
+        newBoard.setBoard(0, 0, 'a');
+        System.out.println(Arrays.deepToString(newBoard.getBoard()));
     }
 
     /**
@@ -56,6 +68,10 @@ public class Board {
 
     public void setBoard(int x, int y, char setChar) {
         this.board[x][y] = setChar;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
     }
 
     public int getRows() {
