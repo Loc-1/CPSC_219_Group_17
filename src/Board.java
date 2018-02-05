@@ -32,6 +32,15 @@ public class Board {
             }
         }
     }
+    
+    /**
+     * A default board with dimensions 500x500
+     */
+    public Board() {
+    	this.width = 500;
+    	this.height = 500;
+    	generate();
+    }
 
     public static void main(String[] args) {
         Board newBoard = new Board(10, 10);
