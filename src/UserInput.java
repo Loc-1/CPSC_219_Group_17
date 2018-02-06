@@ -26,6 +26,15 @@ public class UserInput {
     }
 
     /**
+     * This method gets the users handle from the users input
+     */
+    public String getUserHandle() {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
+        return input;
+    }
+
+    /**
      * :TODO: Method to be implemeted after text based demo
      *
      * public void keyPressed(KeyEvent e) { int key = e.getKeyCode();
