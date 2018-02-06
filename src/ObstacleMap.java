@@ -8,6 +8,8 @@ public class ObstacleMap {
     private double mapModifier = 0.45f; // :TODO: Remove this after testing.
     private int minGap; // This will set the minimum distance between obstacle objects. So many obstacles may be placed.
 
+    private final int startingSafeZone = 2; // :TODO: Once I change this up I will not need it anymore.
+
     public ObstacleMap(int setRows, int setColumns, int difficulty) {
         this.difficulty = difficulty;
         this.minGap = calculateMinGap();
@@ -15,7 +17,7 @@ public class ObstacleMap {
         this.numRows = setRows;
         this.obstacleMap = new boolean[this.numRows][this.numColumns];
 
-        for (int row = 0; row <= numRows - 1; row++) {
+        for (int row = 0; row <= numRows - (1 + startingSafeZone); row++) {
             for (int col = 0; col <= numColumns - 1; col++) {
                 if (generateRandomDouble() < mapModifier) {
                     this.obstacleMap[row][col] = true;
