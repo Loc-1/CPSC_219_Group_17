@@ -57,6 +57,15 @@ public class Board {
     }
 
     /**
+     * Prints the board to console in a nicely formatted fashion.
+     */
+    public void printBoard() {
+        for (char[] row : this.getBoard()) {
+            System.out.println(Arrays.toString(row).replace(", ", " "));
+        }
+    }
+
+    /**
      * @param xEnd destination x coord.
      * @param yEnd destination y coord.
      * @return true if move is valid.
