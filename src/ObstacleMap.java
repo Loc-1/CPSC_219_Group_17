@@ -16,8 +16,8 @@ public class ObstacleMap {
         this.minGap = calculateMinGap();
         this.obstacleMap = new boolean[setRows][setColumns];
 
-        for (int row = 0; row <= setRows - (1 + startingSafeZone); row++) {
-            for (int col = 0; col <= setColumns - 1; col++) {
+        for (int row = 0; row < setRows - startingSafeZone; row++) {
+            for (int col = 0; col < setColumns; col++) {
                 if (generateRandomDouble() < difficultyModifier) {
                     this.obstacleMap[row][col] = true;
                 }

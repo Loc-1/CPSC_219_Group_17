@@ -32,8 +32,8 @@ public class Board {
             System.out.println("Height: " + setRows);
             System.out.println("Width and height arguments must be greater than 10."); // :TODO: not this.
         } else {
-            for (int row = 0; row <= rows - 1; row++) { // Fill board with 0's
-                for (int col = 0; col <= columns - 1; col++) {
+            for (int row = 0; row < rows; row++) { // Fill board with 0's
+                for (int col = 0; col < columns; col++) {
                     this.board[row][col] = '.';
                     if (this.obstacleMap.isObstacle(row, col)) {
                         this.board[row][col] = 'X';
@@ -50,13 +50,13 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        final int rows = 50;
-        final int cols = 51;
+        final int rows = 10;
+        final int cols = 9;
 
         Player testPlayer = new Player(rows - 1, cols / 2, 1, 1, "test");
-        Board newBoard = new Board(rows, cols, 1, testPlayer);
+        Board testBoard = new Board(rows, cols, 1, testPlayer);
 
-        for (char[] row : newBoard.getBoard()) {
+        for (char[] row : testBoard.getBoard()) {
             System.out.println(Arrays.toString(row).replace(", ", " "));
         }
     }
