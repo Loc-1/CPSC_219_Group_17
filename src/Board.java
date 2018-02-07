@@ -41,8 +41,9 @@ public class Board {
                 }
 
                 // This is only temporary.
-                this.board[setPlayer.getxLocation()][setPlayer.getyLocation()] = 'P';
+
             }
+            this.board[setPlayer.getxLocation()][setPlayer.getyLocation()] = 'P';
 
         }
 
