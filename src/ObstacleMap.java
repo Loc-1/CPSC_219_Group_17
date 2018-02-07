@@ -71,7 +71,7 @@ public class ObstacleMap {
      * @param map the map to count.
      * @param x   the center x coord.
      * @param y   the center y coord.
-     * @return a traversable map.
+     * @return a count of adjacent obstacles.
      */
     private int countAdjacentObstacles(boolean[][] map, int x, int y) {
         int count = 0;
