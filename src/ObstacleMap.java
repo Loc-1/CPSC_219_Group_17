@@ -11,7 +11,7 @@ public class ObstacleMap {
     public ObstacleMap(int setRows, int setColumns, int difficulty) {
         this.difficulty = difficulty;
         this.obstacleMap = new boolean[setRows][setColumns];
-        int safeZone = 2;
+        int safeZone = 2; // The number of rows without obstacles in the starting zone.
 
         int numberOfSteps = 20;
         double difficultyModifier = 0.47f;
@@ -23,6 +23,8 @@ public class ObstacleMap {
                 }
             }
         }
+
+        // This recursively runs the cellular simulation per the int in numberOfSteps.
         for (int i = 0; i < numberOfSteps; i++) {
             this.obstacleMap = doSimulationStep(this.obstacleMap);
         }
