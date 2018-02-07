@@ -14,11 +14,12 @@ public class Board {
     private Player player1;
 
     /**
-     * Constructor builds a new board.
+     * Constructor creates a single player board.
      *
      * @param setRows       desired number of rows.
      * @param setColumns    desired number of columns.
      * @param setDifficulty desired difficulty (0 = easy; 1 = medium; 2 = hard)
+     * @param setPlayer     the player.
      */
     public Board(int setRows, int setColumns, int setDifficulty, Player setPlayer) {
         this.rows = setRows;
@@ -47,6 +48,19 @@ public class Board {
 
         }
 
+    }
+
+    /**
+     * Constructor creates a two-player board.
+     *
+     * @param setRows       desired number of rows.
+     * @param setColumns    desired number of columns.
+     * @param setDifficulty desired difficulty.
+     * @param setPlayerOne  player one.
+     * @param setPlayerTwo  player two.
+     */
+    public Board(int setRows, int setColumns, int setDifficulty, Player setPlayerOne, Player setPlayerTwo) {
+        // :TODO: write code.
     }
 
     public static void main(String[] args) {
