@@ -35,7 +35,7 @@ public class Board {
         } else {
             for (int row = 0; row <= rows - 1; row++) { // Fill board with 0's
                 for (int col = 0; col <= columns - 1; col++) {
-                    this.board[row][col] = '0';
+                    this.board[row][col] = '.';
                     if (this.obstacleMap.isObstacle(row, col)) {
                         this.board[row][col] = 'X';
                     }
@@ -50,9 +50,10 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        Board newBoard = new Board(5, 10, 1);
-        newBoard.setBoard(0, 0, 'a');
-        System.out.println(Arrays.deepToString(newBoard.getBoard()));
+        Board newBoard = new Board(20, 50, 1);
+        for (char[] row : newBoard.getBoard()) {
+            System.out.println(Arrays.toString(row).replace(", ", " "));
+        }
     }
 
     /**
