@@ -20,13 +20,12 @@ public class Board {
      * @param setColumns    desired number of columns.
      * @param setDifficulty desired difficulty (0 = easy; 1 = medium; 2 = hard)
      */
-    public Board(int setRows, int setColumns, int setDifficulty) {
+    public Board(int setRows, int setColumns, int setDifficulty, Player setPlayer) {
         this.rows = setRows;
         this.columns = setColumns;
         this.difficulty = setDifficulty;
         this.board = new char[rows][columns];
         this.obstacleMap = new ObstacleMap(this.rows, this.columns, this.difficulty);
-        this.player1 = new Player(setRows - 1, setColumns / 2, 0, 0, "test"); // Put player in middle of bottom row.
 
         if (this.rows < 0 || this.columns < 0) { // Temp error catching if.
             System.out.println("Width: " + setColumns);
@@ -42,7 +41,7 @@ public class Board {
                 }
 
                 // This is only temporary.
-                this.board[player1.getxLocation()][player1.getyLocation()] = 'P';
+                this.board[setPlayer.getxLocation()][setPlayer.getyLocation()] = 'P';
             }
 
         }
@@ -50,7 +49,12 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        Board newBoard = new Board(50, 55, 1);
+        final int rows = 50;
+        final int cols = 51;
+
+        Player testPlayer = new Player(rows - 1, cols / 2, 1, 1, "test");
+        Board newBoard = new Board(rows, cols, 1, testPlayer);
+
         for (char[] row : newBoard.getBoard()) {
             System.out.println(Arrays.toString(row).replace(", ", " "));
         }
