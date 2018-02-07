@@ -12,7 +12,7 @@ public class ObstacleMap {
         this.difficulty = difficulty;
         this.obstacleMap = new boolean[setRows][setColumns];
 
-        int numberOfSteps = 5;
+        int numberOfSteps = 20;
         double difficultyModifier = 0.45f;
 
         for (int row = 0; row < setRows - 2; row++) {
@@ -25,6 +25,7 @@ public class ObstacleMap {
         for (int i = 0; i < numberOfSteps; i++) {
             this.obstacleMap = doSimulationStep(this.obstacleMap);
         }
+
     }
 
     /**
@@ -38,6 +39,7 @@ public class ObstacleMap {
         double deathLimit = 3f;
         double birthLimit = 5f;
         boolean[][] newMap = new boolean[oldMap.length][oldMap[0].length];
+
         for (int x = 0; x < oldMap.length - 1; x++) {
             for (int y = 0; y < oldMap[0].length; y++) {
                 int nbs = countAdjacentObstacles(oldMap, x, y);
@@ -59,9 +61,9 @@ public class ObstacleMap {
                 }
             }
         }
+
         return newMap;
     }
-
 
     /**
      * Counts the number of adjacent obstacles.
@@ -80,7 +82,6 @@ public class ObstacleMap {
                 int yAdjacent = y + j;
 
                 if (i == 0 && j == 0) {
-
                 } else if (xAdjacent < 0 || yAdjacent < 0 || xAdjacent >= map.length || yAdjacent >= map[0].length) {
                     count += 1;
                 } else if (map[xAdjacent][yAdjacent]) {
