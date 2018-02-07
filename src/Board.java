@@ -1,8 +1,9 @@
 import java.util.Arrays;
 
 /**
- * This class is used to generate and store the board object. Calls to this class must include a valid frame width
- * and height.
+ * This class is used to generate and store the board object. An obstacle map is automatically generated upon
+ * instantiating a member of this class. Calls must include a valid frame width and height in units of 25x25 pixel
+ * blocks.
  */
 public class Board {
     private int rows;
@@ -64,6 +65,7 @@ public class Board {
         if (!this.obstacleMap.isObstacle(xEnd, yEnd)) {
             isValid = true;
         }
+
         return isValid;
     }
 

@@ -1,24 +1,23 @@
 import java.util.Random;
 
+/**
+ * Class is a procedurally generated map of interesting and traversable 'obstacles' represented as a 2d array of
+ * primitive booleans.
+ */
 public class ObstacleMap {
-    private int numColumns;
-    private int numRows;
     private int difficulty;
     private boolean[][] obstacleMap;
-    private double difficultyModifier = 0.45f; // :TODO: Remove this after testing.
+    private final int startingSafeZone = 2; // :TODO: Once I change this up I will not need it anymore. DEBUG
     private int minGap; // This will set the minimum distance between obstacle objects. So many obstacles may be placed.
-
-    private final int startingSafeZone = 2; // :TODO: Once I change this up I will not need it anymore.
+    private double difficultyModifier = 0.45f; // :TODO: Remove this after testing. DEBUG
 
     public ObstacleMap(int setRows, int setColumns, int difficulty) {
         this.difficulty = difficulty;
         this.minGap = calculateMinGap();
-        this.numColumns = setColumns;
-        this.numRows = setRows;
-        this.obstacleMap = new boolean[this.numRows][this.numColumns];
+        this.obstacleMap = new boolean[setRows][setColumns];
 
-        for (int row = 0; row <= numRows - (1 + startingSafeZone); row++) {
-            for (int col = 0; col <= numColumns - 1; col++) {
+        for (int row = 0; row <= setRows - (1 + startingSafeZone); row++) {
+            for (int col = 0; col <= setColumns - 1; col++) {
                 if (generateRandomDouble() < difficultyModifier) {
                     this.obstacleMap[row][col] = true;
                 }
@@ -26,8 +25,13 @@ public class ObstacleMap {
         }
     }
 
+    /**
+     * This is only temporary...
+     *
+     * @return an integer defining the minimum spacing between obstacles.
+     */
     private int calculateMinGap() {
-        this.minGap = (int) this.difficulty * 3; // (int) is used to round to even numbers.
+        this.minGap = this.difficulty * 3;
         return this.minGap;
     }
 
@@ -43,4 +47,5 @@ public class ObstacleMap {
     public boolean[][] getObstacleMap() {
         return obstacleMap;
     }
+
 }
