@@ -11,11 +11,12 @@ public class ObstacleMap {
     public ObstacleMap(int setRows, int setColumns, int difficulty) {
         this.difficulty = difficulty;
         this.obstacleMap = new boolean[setRows][setColumns];
+        int safeZone = 2;
 
         int numberOfSteps = 20;
-        double difficultyModifier = 0.45f;
+        double difficultyModifier = 0.47f;
 
-        for (int row = 0; row < setRows - 2; row++) {
+        for (int row = 0; row < setRows - safeZone; row++) {
             for (int col = 0; col < setColumns; col++) {
                 if (generateRandomDouble() < difficultyModifier) {
                     this.obstacleMap[row][col] = true;
@@ -24,6 +25,12 @@ public class ObstacleMap {
         }
         for (int i = 0; i < numberOfSteps; i++) {
             this.obstacleMap = doSimulationStep(this.obstacleMap);
+        }
+
+        // Ensures the edges of the board are always an obstacle.
+        for (int i = 0; i < setRows; i++) {
+            this.obstacleMap[i][0] = true;
+            this.obstacleMap[i][setColumns - 1] = true;
         }
 
     }
