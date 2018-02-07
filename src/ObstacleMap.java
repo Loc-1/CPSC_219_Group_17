@@ -9,7 +9,7 @@ public class ObstacleMap {
     private boolean[][] obstacleMap;
     private final int startingSafeZone = 2; // :TODO: Once I change this up I will not need it anymore. DEBUG
     private int minGap; // This will set the minimum distance between obstacle objects. So many obstacles may be placed.
-    private double difficultyModifier = 0.45f; // :TODO: Remove this after testing. DEBUG
+    private double difficultyModifier = 0.35f; // :TODO: Remove this after testing. DEBUG
 
     public ObstacleMap(int setRows, int setColumns, int difficulty) {
         this.difficulty = difficulty;

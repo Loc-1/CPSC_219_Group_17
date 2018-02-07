@@ -50,7 +50,7 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        Board newBoard = new Board(20, 50, 1);
+        Board newBoard = new Board(50, 55, 1);
         for (char[] row : newBoard.getBoard()) {
             System.out.println(Arrays.toString(row).replace(", ", " "));
         }
