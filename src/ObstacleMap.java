@@ -7,32 +7,89 @@ import java.util.Random;
 public class ObstacleMap {
     private int difficulty;
     private boolean[][] obstacleMap;
-    private final int startingSafeZone = 2; // :TODO: Once I change this up I will not need it anymore. DEBUG
-    private int minGap; // This will set the minimum distance between obstacle objects. So many obstacles may be placed.
-    private double difficultyModifier = 0.35f; // :TODO: Remove this after testing. DEBUG
 
     public ObstacleMap(int setRows, int setColumns, int difficulty) {
         this.difficulty = difficulty;
-        this.minGap = calculateMinGap();
         this.obstacleMap = new boolean[setRows][setColumns];
 
-        for (int row = 0; row < setRows - startingSafeZone; row++) {
+        int numberOfSteps = 5;
+        double difficultyModifier = 0.45f;
+
+        for (int row = 0; row < setRows - 2; row++) {
             for (int col = 0; col < setColumns; col++) {
                 if (generateRandomDouble() < difficultyModifier) {
                     this.obstacleMap[row][col] = true;
                 }
             }
         }
+        for (int i = 0; i < numberOfSteps; i++) {
+            this.obstacleMap = doSimulationStep(this.obstacleMap);
+        }
     }
 
     /**
-     * This is only temporary...
+     * Taken from https://gamedevelopment.tutsplus.com/tutorials/generate-random-cave-levels-using-cellular-automata--gamedev-9664
+     * needs a lot more work.
      *
-     * @return an integer defining the minimum spacing between obstacles.
+     * @param oldMap the map to run simulations on.
+     * @return a nice map with traversable obstacles.
      */
-    private int calculateMinGap() {
-        this.minGap = this.difficulty * 3;
-        return this.minGap;
+    public boolean[][] doSimulationStep(boolean[][] oldMap) {
+        double deathLimit = 3f;
+        double birthLimit = 5f;
+        boolean[][] newMap = new boolean[oldMap.length][oldMap[0].length];
+        for (int x = 0; x < oldMap.length - 1; x++) {
+            for (int y = 0; y < oldMap[0].length; y++) {
+                int nbs = countAdjacentObstacles(oldMap, x, y);
+                //The new value is based on our simulation rules
+                //First, if a cell is alive but has too few neighbours, kill it.
+                if (oldMap[x][y]) {
+                    if (nbs < deathLimit) {
+                        newMap[x][y] = false;
+                    } else {
+                        newMap[x][y] = true;
+                    }
+                } //Otherwise, if the cell is dead now, check if it has the right number of neighbours to be 'born'
+                else {
+                    if (nbs > birthLimit) {
+                        newMap[x][y] = true;
+                    } else {
+                        newMap[x][y] = false;
+                    }
+                }
+            }
+        }
+        return newMap;
+    }
+
+
+    /**
+     * Counts the number of adjacent obstacles.
+     *
+     * @param map the map to count.
+     * @param x   the center x coord.
+     * @param y   the center y coord.
+     * @return a traversable map.
+     */
+    private int countAdjacentObstacles(boolean[][] map, int x, int y) {
+        int count = 0;
+
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                int xAdjacent = x + i;
+                int yAdjacent = y + j;
+
+                if (i == 0 && j == 0) {
+
+                } else if (xAdjacent < 0 || yAdjacent < 0 || xAdjacent >= map.length || yAdjacent >= map[0].length) {
+                    count += 1;
+                } else if (map[xAdjacent][yAdjacent]) {
+                    count += 1;
+                }
+            }
+        }
+
+        return count;
     }
 
     private double generateRandomDouble() {

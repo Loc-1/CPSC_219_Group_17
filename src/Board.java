@@ -3,7 +3,7 @@ import java.util.Arrays;
 /**
  * This class is used to generate and store the board object. An obstacle map is automatically generated upon
  * instantiating a member of this class. Calls must include a valid frame width and height in units of 25x25 pixel
- * blocks.
+ * blocks, a valid difficulty, and at least one valid player object.
  */
 public class Board {
     private int rows;
@@ -11,7 +11,6 @@ public class Board {
     private int difficulty;
     private char[][] board;
     private ObstacleMap obstacleMap;
-    private Player player1;
 
     /**
      * Constructor creates a single player board.
@@ -64,8 +63,8 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        final int rows = 10;
-        final int cols = 9;
+        final int rows = 50;
+        final int cols = 75;
 
         Player testPlayer = new Player(rows - 1, cols / 2, 1, 1, "test");
         Board testBoard = new Board(rows, cols, 1, testPlayer);
