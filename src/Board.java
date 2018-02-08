@@ -83,7 +83,8 @@ public class Board {
         testBoard.refresh();
         System.out.println("");
         testBoard.printBoard();
-        System.out.println(testPlayer.getAlive());
+        System.out.println("");
+        System.out.println("Is the player still alive? " + testPlayer.getAlive());
 
     }
 
@@ -111,7 +112,8 @@ public class Board {
     }
 
     /**
-     * Calling this method updates the player's location on the board.
+     * Calling this method updates the player's location on the board. If the player moves into an obstacle, this
+     * method sets the players status to isAlive = false.
      */
     public void refresh() {
         for (int row = 0; row < rows; row++) { // Fill board with 0's
