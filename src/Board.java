@@ -78,7 +78,7 @@ public class Board {
         testBoard.refresh();
         System.out.println("");
         testBoard.printBoard();
-        testBoard.setBoard(12, 11, 'X');
+        testBoard.obstacleMap.setObstacle(12, 11, true);
         testPlayer.moveUp();
         testBoard.refresh();
         System.out.println("");
@@ -123,7 +123,7 @@ public class Board {
                 }
             }
         }
-        if (!this.isValidMove(this.playerOne.getxLocation(), this.playerOne.getyLocation())) {
+        if (this.obstacleMap.isObstacle(this.playerOne.getxLocation(), this.playerOne.getyLocation())) {
             this.playerOne.kill();
         } else {
             this.board[this.playerOne.getxLocation()][this.playerOne.getyLocation()] = 'P';
