@@ -14,19 +14,19 @@ public class RunGame {
             System.out.println("Move Up, Down, Left or Right.");
             userPrompt = UserInput.getUserInput();
 
-            if (userPrompt.equals("up") && gameBoard.isValidMove(xLoc, yLoc + 1)) {
+            if (userPrompt.equals("up")) {
                 p1.moveUp();
                 gameBoard.refresh();
             }
-            if (userPrompt.equals("down") && gameBoard.isValidMove(xLoc, yLoc - 1)) {
+            if (userPrompt.equals("down")) {
                 p1.moveDown();
                 gameBoard.refresh();
             }
-            if (userPrompt.equals("left") && gameBoard.isValidMove(xLoc - 1, yLoc)) {
+            if (userPrompt.equals("left")) {
                 p1.moveLeft();
                 gameBoard.refresh();
             }
-            if (userPrompt.equals("right") && gameBoard.isValidMove(xLoc + 1, yLoc)) {
+            if (userPrompt.equals("right")) {
                 p1.moveRight();
                 gameBoard.refresh();
             }
