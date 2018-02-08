@@ -1,44 +1,20 @@
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
-@RunWith(Arquillian.class)
 public class BoardTest {
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(Board.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-    }
-
     @Test
     public void isValidMove() throws Exception {
-    }
+        Player testPlayer = new Player(0, 0, 1, 1, "");
+        Board testBoard = new Board(5, 5, 1, testPlayer);
 
-    @Test
-    public void getBoard() throws Exception {
-    }
+        // Set an arbitrary tile to X.
+        testBoard.setBoard(0, 1, 'X');
 
-    @Test
-    public void setBoard() throws Exception {
-    }
+        // Ensure the previous tile is now marked as a bad move.
+        boolean isValid = testBoard.isValidMove(0, 1);
 
-    @Test
-    public void setDifficulty() throws Exception {
-    }
-
-    @Test
-    public void getRows() throws Exception {
-    }
-
-    @Test
-    public void getColumns() throws Exception {
+        assertFalse("Move is not valid", isValid);
     }
 
 }

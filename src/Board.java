@@ -67,24 +67,19 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        final int rows = 10;
-        final int cols = 15;
+        final int rows = 15;
+        final int cols = 25;
 
         Player testPlayer = new Player(rows - 1, cols / 2, 1, 1, "test");
         Board testBoard = new Board(rows, cols, 1, testPlayer);
 
-        for (char[] row : testBoard.getBoard()) {
-            System.out.println(Arrays.toString(row).replace(", ", " "));
-        }
-
+        // This tests if the player can be moved.
+        testBoard.printBoard();
         testPlayer.moveUp();
         testPlayer.moveLeft();
         testBoard.refresh();
         System.out.println("");
-
-        for (char[] row : testBoard.getBoard()) {
-            System.out.println(Arrays.toString(row).replace(", ", " "));
-        }
+        testBoard.printBoard();
 
     }
 
