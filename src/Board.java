@@ -34,7 +34,7 @@ public class Board {
         if (this.rows < 0 || this.columns < 0) { // Temp error catching if.
             System.out.println("Width: " + setColumns);
             System.out.println("Height: " + setRows);
-            System.out.println("Width and height arguments must be greater than 10."); // :TODO: not this.
+            System.out.println("Width and height arguments must be greater than 0."); // :TODO: not this.
         } else {
             for (int row = 0; row < rows; row++) { // Fill board with 0's
                 for (int col = 0; col < columns; col++) {

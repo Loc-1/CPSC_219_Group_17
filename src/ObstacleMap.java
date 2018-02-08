@@ -13,8 +13,8 @@ public class ObstacleMap {
         this.obstacleMap = new boolean[setRows][setColumns];
         int safeZone = 2; // The number of rows without obstacles in the starting zone.
 
-        int numberOfSteps = 20;
-        double difficultyModifier = 0.47f;
+        int numberOfSteps = 100;
+        double difficultyModifier = 0.45f;
 
         for (int row = 0; row < setRows - safeZone; row++) {
             for (int col = 0; col < setColumns; col++) {
