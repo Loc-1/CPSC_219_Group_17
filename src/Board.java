@@ -63,8 +63,8 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        final int rows = 15;
-        final int cols = 25;
+        final int rows = 50;
+        final int cols = 75;
 
         Player testPlayer = new Player(rows - 1, cols / 2, 1, 1, "test");
         Board testBoard = new Board(rows, cols, 1, testPlayer);
@@ -76,13 +76,6 @@ public class Board {
         testBoard.refresh();
         System.out.println("");
         testBoard.printBoard();
-        testBoard.obstacleMap.setObstacle(12, 11, true);
-        testPlayer.moveUp();
-        testBoard.refresh();
-        System.out.println("");
-        testBoard.printBoard();
-        System.out.println("");
-        System.out.println("Is the player still alive? " + testPlayer.getAlive());
 
     }
 
@@ -141,26 +134,48 @@ public class Board {
         return this.board[row][col];
     }
 
+    /**
+     * @return the board as an char[][].
+     */
     public char[][] getBoard() {
         return board;
     }
 
-    public void setBoard(int x, int y, char setChar) {
-        this.board[x][y] = setChar;
+    /**
+     * @param row     the row to set.
+     * @param col     the col to set.
+     * @param setChar the char to set.
+     */
+    public void setBoard(int row, int col, char setChar) {
+        this.board[row][col] = setChar;
     }
 
+    /**
+     * @param row         the row to set.
+     * @param col         the col to set.
+     * @param setObstacle true/false.
+     */
     public void setObstacleMap(int row, int col, boolean setObstacle) {
         this.obstacleMap.setObstacle(row, col, setObstacle);
     }
 
+    /**
+     * @param difficulty the desired difficulty as an int.
+     */
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
 
+    /**
+     * @return the number of rows as an int.
+     */
     public int getRows() {
         return rows;
     }
 
+    /**
+     * @return the number of cols as an it.
+     */
     public int getColumns() {
         return columns;
     }
