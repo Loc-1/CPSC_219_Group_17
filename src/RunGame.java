@@ -3,10 +3,10 @@ public class RunGame {
     public static void main(String[] args) {
         System.out.println("Please enter your name.");
         String userHandle = UserInput.getUserHandle();
-        int xLoc = 9;
-        int yLoc = 5;
+        int xLoc = 14;
+        int yLoc = 25 / 2;
         Player p1 = new Player(xLoc, yLoc, 1, 001, userHandle);
-        Board gameBoard = new Board(10, 10, 1, p1);
+        Board gameBoard = new Board(15, 25, 1, p1);
 
         String userPrompt = "";
         while (p1.getAlive()) {
