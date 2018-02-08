@@ -43,6 +43,10 @@ public class Player {
         return xLocation;
     }
 
+    public Boolean getAlive() {
+        return isAlive;
+    }
+
     public int getScore() {
         return score;
     }
