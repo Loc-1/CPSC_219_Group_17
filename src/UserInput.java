@@ -12,7 +12,7 @@ public class UserInput {
      * This method will get the users input and return "up","down","left","right" or
      * "invaild"
      */
-    public String getUserInput() {
+    public static String getUserInput() {
         Scanner sc = new Scanner(System.in);
         String input = sc.next();
         input = input.toLowerCase();
@@ -28,7 +28,7 @@ public class UserInput {
     /**
      * This method gets the users handle from the users input
      */
-    public String getUserHandle() {
+    public static String getUserHandle() {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         return input;
