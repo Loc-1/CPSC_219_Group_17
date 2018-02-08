@@ -47,8 +47,6 @@ public class Board {
                 // This is only temporary.
 
             }
-            this.board[setPlayer.getxLocation()][setPlayer.getyLocation()] = 'P';
-
         }
 
     }
@@ -80,6 +78,12 @@ public class Board {
         testBoard.refresh();
         System.out.println("");
         testBoard.printBoard();
+        testBoard.setBoard(12, 11, 'X');
+        testPlayer.moveUp();
+        testBoard.refresh();
+        System.out.println("");
+        testBoard.printBoard();
+        System.out.println(testPlayer.getAlive());
 
     }
 
@@ -119,7 +123,12 @@ public class Board {
                 }
             }
         }
-        this.board[this.playerOne.getxLocation()][this.playerOne.getyLocation()] = 'P';
+        if (!this.isValidMove(this.playerOne.getxLocation(), this.playerOne.getyLocation())) {
+            this.playerOne.kill();
+        } else {
+            this.board[this.playerOne.getxLocation()][this.playerOne.getyLocation()] = 'P';
+
+        }
 
     }
 
