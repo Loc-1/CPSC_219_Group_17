@@ -1,5 +1,9 @@
 public class RunGame {
 
+    /**
+     * The RunGame class creates and runs the game
+     */
+
     public static void main(String[] args) {
         System.out.println("Please enter your name.");
         String userHandle = UserInput.getUserHandle();
