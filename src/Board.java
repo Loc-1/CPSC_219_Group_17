@@ -132,6 +132,15 @@ public class Board {
 
     }
 
+    /**
+     * @param row the row to check.
+     * @param col the col to check.
+     * @return the symbol at (row, col).
+     */
+    public char getTile(int row, int col) {
+        return this.board[row][col];
+    }
+
     public char[][] getBoard() {
         return board;
     }

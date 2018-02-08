@@ -22,8 +22,6 @@ public class BoardTest {
         assertTrue("Move is valid.", isValid);
         assertFalse("Player is alive, player should be dead.", testPlayer.getAlive());
 
-        testBoard.printBoard();
-
     }
 
     @Test
@@ -39,4 +37,37 @@ public class BoardTest {
 
     }
 
+    @Test
+    public void movePlayer() throws Exception {
+        Player testPlayer = new Player(5, 3, 1, 1, "");
+        Board testBoard = new Board(6, 6, 1, testPlayer);
+
+        // Clear all obstacles from the board.
+        for (int i = 0; i <= 5; i++) {
+            for (int j = 0; j <= 5; j++) {
+                testBoard.setObstacleMap(i, j, false);
+            }
+        }
+
+        // Test moving Player Up.
+        testPlayer.moveUp();
+        testBoard.refresh();
+        assertEquals("Player did not move Up.", 'P', testBoard.getTile(4, 3));
+
+        // Test moving Player Right.
+        testPlayer.moveRight();
+        testBoard.refresh();
+        assertEquals("Player did not move Right.", 'P', testBoard.getTile(4, 4));
+
+        // Test moving Player Down.
+        testPlayer.moveDown();
+        testBoard.refresh();
+        assertEquals("Player did not move Down.", 'P', testBoard.getTile(5, 4));
+
+        // Test moving Player Left.
+        testPlayer.moveLeft();
+        testBoard.refresh();
+        assertEquals("Player did not move Left.", 'P', testBoard.getTile(5, 3));
+
+    }
 }
