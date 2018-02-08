@@ -30,10 +30,10 @@ public class BoardTest {
         Board testBoard = new Board(5, 5, 1, testPlayer);
 
         testBoard.setBoard(0, 0, '.');
+        testBoard.setBoard(1, 1, 'X');
 
-        char[][] boardArr = testBoard.getBoard();
-
-        assertEquals("Character doesn't equal '.' ", '.', boardArr[0][0]);
+        assertEquals("Character doesn't equal '.' ", '.', testBoard.getTile(0, 0));
+        assertEquals("Character doesn't equal 'X' ", 'X', testBoard.getTile(1, 1));
 
     }
 
@@ -70,4 +70,5 @@ public class BoardTest {
         assertEquals("Player did not move Left.", 'P', testBoard.getTile(5, 3));
 
     }
+
 }
