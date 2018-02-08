@@ -33,7 +33,7 @@ public class RunGame {
 
         }
 
-        System.out.println("Sorry " + p1.getUserHandle() + " you died. Please try again.");
+        System.out.println("Sorry " + p1.getUserHandle() + ", you died. Please try again.");
 
     }
 
