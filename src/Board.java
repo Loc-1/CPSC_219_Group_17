@@ -43,10 +43,8 @@ public class Board {
                         this.board[row][col] = 'X';
                     }
                 }
-
-                // This is only temporary.
-
             }
+            this.board[playerOne.getxLocation()][playerOne.getyLocation()] = 'P';
         }
 
     }

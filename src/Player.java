@@ -71,4 +71,7 @@ public class Player {
         this.yLocation -= 1;
     }
 
+    public String getUserHandle() {
+        return userHandle;
+    }
 }

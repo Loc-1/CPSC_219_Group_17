@@ -8,27 +8,32 @@ public class RunGame {
         Player p1 = new Player(xLoc, yLoc, 1, 001, userHandle);
         Board gameBoard = new Board(10, 10, 1, p1);
 
-        String userPromt = "";
-        boolean gameRunning = true;
-        while (gameRunning == true) {
+        String userPrompt = "";
+        while (p1.getAlive()) {
             gameBoard.printBoard();
             System.out.println("Move Up, Down, Left or Right.");
-            userPromt = UserInput.getUserInput();
+            userPrompt = UserInput.getUserInput();
 
-            if (userPromt.equals("up") && gameBoard.isValidMove(xLoc, yLoc + 1)) {
+            if (userPrompt.equals("up") && gameBoard.isValidMove(xLoc, yLoc + 1)) {
                 p1.moveUp();
+                gameBoard.refresh();
             }
-            if (userPromt.equals("down") && gameBoard.isValidMove(xLoc, yLoc - 1)) {
+            if (userPrompt.equals("down") && gameBoard.isValidMove(xLoc, yLoc - 1)) {
                 p1.moveDown();
+                gameBoard.refresh();
             }
-            if (userPromt.equals("left") && gameBoard.isValidMove(xLoc - 1, yLoc)) {
+            if (userPrompt.equals("left") && gameBoard.isValidMove(xLoc - 1, yLoc)) {
                 p1.moveLeft();
+                gameBoard.refresh();
             }
-            if (userPromt.equals("right") && gameBoard.isValidMove(xLoc + 1, yLoc)) {
+            if (userPrompt.equals("right") && gameBoard.isValidMove(xLoc + 1, yLoc)) {
                 p1.moveRight();
+                gameBoard.refresh();
             }
 
         }
+
+        System.out.println("Sorry " + p1.getUserHandle() + " you died. Please try again.");
 
     }
 
