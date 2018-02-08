@@ -8,6 +8,13 @@ public class ObstacleMap {
     private int difficulty;
     private boolean[][] obstacleMap;
 
+    /**
+     * Creates a new obstacle map.
+     *
+     * @param setRows    the desired number of rows.
+     * @param setColumns the desired number of columns
+     * @param difficulty the desired difficulty.
+     */
     public ObstacleMap(int setRows, int setColumns, int difficulty) {
         this.difficulty = difficulty;
         this.obstacleMap = new boolean[setRows][setColumns];
@@ -102,19 +109,35 @@ public class ObstacleMap {
         return count;
     }
 
+    /**
+     * @return a random double.
+     */
     private double generateRandomDouble() {
         Random randomNum = new Random();
         return randomNum.nextDouble();
     }
 
+    /**
+     * @param row the row to set.
+     * @param col the col to set.
+     * @param setObstacle true/false.
+     */
     public void setObstacle(int row, int col, boolean setObstacle) {
         this.obstacleMap[row][col] = setObstacle;
     }
 
+    /**
+     * @param row the row to check.
+     * @param col the col to check.
+     * @return true if the (row, col) is an obstacle.
+     */
     public boolean isObstacle(int row, int col) {
         return this.obstacleMap[row][col];
     }
 
+    /**
+     * @return the obstacle map as an boolean[][].
+     */
     public boolean[][] getObstacleMap() {
         return obstacleMap;
     }
