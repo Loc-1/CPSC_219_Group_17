@@ -135,7 +135,6 @@ public class Board {
         this.difficulty = difficulty;
     }
 
-
     public int getRows() {
         return rows;
     }
