@@ -67,8 +67,8 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        final int rows = 50;
-        final int cols = 75;
+        final int rows = 10;
+        final int cols = 15;
 
         Player testPlayer = new Player(rows - 1, cols / 2, 1, 1, "test");
         Board testBoard = new Board(rows, cols, 1, testPlayer);
@@ -76,6 +76,16 @@ public class Board {
         for (char[] row : testBoard.getBoard()) {
             System.out.println(Arrays.toString(row).replace(", ", " "));
         }
+
+        testPlayer.moveUp();
+        testPlayer.moveLeft();
+        testBoard.refresh();
+        System.out.println("");
+
+        for (char[] row : testBoard.getBoard()) {
+            System.out.println(Arrays.toString(row).replace(", ", " "));
+        }
+
     }
 
     /**
@@ -105,14 +115,17 @@ public class Board {
      * Calling this method updates the player's location on the board.
      */
     public void refresh() {
-        this.board[this.playerOne.getxLocation()][this.playerOne.getyLocation()] = 'P';
         for (int row = 0; row < rows; row++) { // Fill board with 0's
             for (int col = 0; col < columns; col++) {
                 if (this.obstacleMap.isObstacle(row, col)) {
                     this.board[row][col] = 'X';
+                } else {
+                    this.board[row][col] = '.';
                 }
             }
         }
+        this.board[this.playerOne.getxLocation()][this.playerOne.getyLocation()] = 'P';
+
     }
 
     public char[][] getBoard() {
