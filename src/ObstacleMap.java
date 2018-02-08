@@ -44,7 +44,7 @@ public class ObstacleMap {
      * @param oldMap the map to run simulations on.
      * @return a nice map with traversable obstacles.
      */
-    public boolean[][] doSimulationStep(boolean[][] oldMap) {
+    private boolean[][] doSimulationStep(boolean[][] oldMap) {
         double deathLimit = 3f;
         double birthLimit = 5f;
         boolean[][] newMap = new boolean[oldMap.length][oldMap[0].length];
@@ -105,6 +105,10 @@ public class ObstacleMap {
     private double generateRandomDouble() {
         Random randomNum = new Random();
         return randomNum.nextDouble();
+    }
+
+    public void setObstacle(int row, int col, boolean setObstacle) {
+        this.obstacleMap[row][col] = setObstacle;
     }
 
     public boolean isObstacle(int row, int col) {

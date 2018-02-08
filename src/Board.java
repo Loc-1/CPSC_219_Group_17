@@ -98,9 +98,9 @@ public class Board {
      * @return true if move is valid.
      */
     public Boolean isValidMove(int xEnd, int yEnd) {
-        Boolean isValid = false;
-        if (!this.obstacleMap.isObstacle(xEnd, yEnd)) {
-            isValid = true;
+        Boolean isValid = true;
+        if (this.obstacleMap.isObstacle(xEnd, yEnd)) {
+            isValid = false;
         }
 
         return isValid;
@@ -129,6 +129,10 @@ public class Board {
 
     public void setBoard(int x, int y, char setChar) {
         this.board[x][y] = setChar;
+    }
+
+    public void setObstacleMap(int row, int col, boolean setObstacle) {
+        this.obstacleMap.setObstacle(row, col, setObstacle);
     }
 
     public void setDifficulty(int difficulty) {

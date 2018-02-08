@@ -9,12 +9,17 @@ public class BoardTest {
         Board testBoard = new Board(5, 5, 1, testPlayer);
 
         // Set an arbitrary tile to X.
-        testBoard.setBoard(0, 1, 'X');
+        testBoard.setObstacleMap(0, 1, true);
+        testBoard.setObstacleMap(4, 4, false);
+        testBoard.refresh();
 
         // Ensure the previous tile is now marked as a bad move.
-        boolean isValid = testBoard.isValidMove(0, 1);
+        boolean isNotValid = testBoard.isValidMove(0, 1);
+        boolean isValid = testBoard.isValidMove(4, 4);
 
-        assertFalse("Move is not valid", isValid);
+        assertFalse("Move is not valid", isNotValid);
+        assertTrue("Move is valid", isValid);
+
     }
 
     @Test
