@@ -11,6 +11,8 @@ public class Board {
     private int difficulty;
     private char[][] board;
     private ObstacleMap obstacleMap;
+    private Player playerOne;
+    private Player playerTwo;
 
     /**
      * Constructor creates a single player board.
@@ -26,6 +28,8 @@ public class Board {
         this.difficulty = setDifficulty;
         this.board = new char[rows][columns];
         this.obstacleMap = new ObstacleMap(this.rows, this.columns, this.difficulty);
+        this.playerOne = setPlayer;
+
 
         if (this.rows < 0 || this.columns < 0) { // Temp error catching if.
             System.out.println("Width: " + setColumns);
@@ -97,6 +101,20 @@ public class Board {
         return isValid;
     }
 
+    /**
+     * Calling this method updates the player's location on the board.
+     */
+    public void refresh() {
+        this.board[this.playerOne.getxLocation()][this.playerOne.getyLocation()] = 'P';
+        for (int row = 0; row < rows; row++) { // Fill board with 0's
+            for (int col = 0; col < columns; col++) {
+                if (this.obstacleMap.isObstacle(row, col)) {
+                    this.board[row][col] = 'X';
+                }
+            }
+        }
+    }
+
     public char[][] getBoard() {
         return board;
     }
@@ -108,6 +126,7 @@ public class Board {
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
+
 
     public int getRows() {
         return rows;
