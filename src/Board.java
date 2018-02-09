@@ -67,7 +67,7 @@ public class Board {
         final int cols = 75;
 
         Player testPlayer = new Player(rows - 1, cols / 2, 1, 1, "test");
-        Board testBoard = new Board(rows, cols, 1, testPlayer);
+        Board testBoard = new Board(rows, cols, 3, testPlayer);
 
         // This tests if the player can be moved.
         testBoard.printBoard();
