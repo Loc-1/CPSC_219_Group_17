@@ -42,8 +42,6 @@ public class ObstacleMap {
             this.obstacleMap[i][setColumns - 1] = true;
         }
 
-        System.out.println(checkObstacleMap(this.obstacleMap));
-
     }
 
     /**
@@ -130,6 +128,16 @@ public class ObstacleMap {
         }
 
         return openTiles / totalTiles;
+    }
+
+    /**
+     * :TODO: Code this.
+     *
+     * @param setDifficulty the difficulty int.
+     * @return a difficulty modifier for the simulation step / seed generation.
+     */
+    private double calcDifficultyModifier(int setDifficulty) {
+        return 0.00;
     }
 
     /**
