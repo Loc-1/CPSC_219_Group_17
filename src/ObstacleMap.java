@@ -54,8 +54,9 @@ public class ObstacleMap {
      * @return a nice map with traversable obstacles.
      */
     private boolean[][] doSimulationStep(boolean[][] oldMap) {
-        double deathLimit = 3f;
-        double birthLimit = 5f;
+        final double deathLimit = 3f; // These numbers are entirely arbitrary.
+        final double birthLimit = 5f;
+
         boolean[][] newMap = new boolean[oldMap.length][oldMap[0].length];
 
         for (int x = 0; x < oldMap.length - 1; x++) {
