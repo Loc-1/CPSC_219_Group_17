@@ -5,7 +5,6 @@ import java.util.Random;
  * primitive booleans.
  */
 public class ObstacleMap {
-    private int difficulty;
     private boolean[][] obstacleMap;
 
     /**
@@ -16,12 +15,13 @@ public class ObstacleMap {
      * @param difficulty the desired difficulty.
      */
     public ObstacleMap(int setRows, int setColumns, int difficulty) {
-        this.difficulty = difficulty;
         this.obstacleMap = new boolean[setRows][setColumns];
-        int safeZone = 2; // The number of rows without obstacles in the starting zone.
 
-        int numberOfSteps = 100;
-        double difficultyModifier = 0.45f;
+        final int safeZone = 2; // The number of rows without obstacles in the starting zone.
+        final int numberOfSteps = 100; // The number of times to run the simulation step.
+        final double difficultyModifier = calcDifficultyModifier(difficulty);
+
+        System.out.println(difficultyModifier);
 
         for (int row = 0; row < setRows - safeZone; row++) {
             for (int col = 0; col < setColumns; col++) {
@@ -41,6 +41,8 @@ public class ObstacleMap {
             this.obstacleMap[i][0] = true;
             this.obstacleMap[i][setColumns - 1] = true;
         }
+
+        System.out.println(checkObstacleMap(this.obstacleMap));
 
     }
 
@@ -131,13 +133,22 @@ public class ObstacleMap {
     }
 
     /**
-     * :TODO: Code this.
+     * Changes to these modifiers will set the seed chance in the obstacleMap generation.
      *
      * @param setDifficulty the difficulty int.
      * @return a difficulty modifier for the simulation step / seed generation.
      */
     private double calcDifficultyModifier(int setDifficulty) {
-        return 0.00;
+        double difficultyModifier = 0.00;
+        if (setDifficulty == 1) {
+            difficultyModifier = 0.45;
+        } else if (setDifficulty == 2) {
+            difficultyModifier = 0.47;
+        } else if (setDifficulty == 3) {
+            difficultyModifier = 0.50;
+        }
+
+        return difficultyModifier;
     }
 
     /**
