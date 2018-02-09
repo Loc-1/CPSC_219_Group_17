@@ -42,6 +42,8 @@ public class ObstacleMap {
             this.obstacleMap[i][setColumns - 1] = true;
         }
 
+        System.out.println(checkObstacleMap(this.obstacleMap));
+
     }
 
     /**
@@ -110,6 +112,27 @@ public class ObstacleMap {
     }
 
     /**
+     * First pass at the flood fill map checker.
+     *
+     * @param checkMap the map to analyze for open tiles.
+     * @return a double representing the number of open tiles divided by the total tiles.
+     */
+    private double checkObstacleMap(boolean[][] checkMap) {
+        double openTiles = 0.00;
+        double totalTiles = checkMap[0].length * checkMap.length;
+
+        for (int i = 0; i < checkMap.length; i++) {
+            for (int j = 0; j < checkMap[0].length; j++) {
+                if (!checkMap[i][j]) {
+                    openTiles += 1;
+                }
+            }
+        }
+
+        return openTiles / totalTiles;
+    }
+
+    /**
      * @return a random double.
      */
     private double generateRandomDouble() {
@@ -118,8 +141,8 @@ public class ObstacleMap {
     }
 
     /**
-     * @param row the row to set.
-     * @param col the col to set.
+     * @param row         the row to set.
+     * @param col         the col to set.
      * @param setObstacle true/false.
      */
     public void setObstacle(int row, int col, boolean setObstacle) {
