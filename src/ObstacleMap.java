@@ -21,8 +21,6 @@ public class ObstacleMap {
         final int numberOfSteps = 100; // The number of times to run the simulation step.
         final double difficultyModifier = calcDifficultyModifier(difficulty);
 
-        System.out.println(difficultyModifier);
-
         for (int row = 0; row < setRows - safeZone; row++) {
             for (int col = 0; col < setColumns; col++) {
                 if (generateRandomDouble() < difficultyModifier) {
@@ -41,8 +39,6 @@ public class ObstacleMap {
             this.obstacleMap[i][0] = true;
             this.obstacleMap[i][setColumns - 1] = true;
         }
-
-        System.out.println(checkObstacleMap(this.obstacleMap));
 
     }
 
@@ -141,6 +137,7 @@ public class ObstacleMap {
      */
     private double calcDifficultyModifier(int setDifficulty) {
         double difficultyModifier = 0.00;
+
         if (setDifficulty == 1) {
             difficultyModifier = 0.45;
         } else if (setDifficulty == 2) {
