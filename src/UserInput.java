@@ -34,6 +34,7 @@ public class UserInput {
         return input;
     }
 
+
     /**
      * :TODO: Method to be implemeted after text based demo
      *
