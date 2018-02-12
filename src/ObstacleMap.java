@@ -1,6 +1,8 @@
 import java.util.Random;
 
 /**
+ * Class Owner: Josh
+ *
  * Class is a procedurally generated map of interesting and traversable 'obstacles' represented as a 2d array of
  * primitive booleans.
  */
@@ -114,7 +116,7 @@ public class ObstacleMap {
      * @param checkMap the map to analyze for open tiles.
      * @return a double representing the number of open tiles divided by the total tiles.
      */
-    private double checkObstacleMap(boolean[][] checkMap) {
+    private static double checkObstacleMap(boolean[][] checkMap) {
         double openTiles = 0.00;
         double totalTiles = checkMap[0].length * checkMap.length;
 
