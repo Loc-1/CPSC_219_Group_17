@@ -2,7 +2,7 @@ import java.util.Random;
 
 /**
  * Class Owner: Josh
- *
+ * <p>
  * Class is a procedurally generated map of interesting and traversable 'obstacles' represented as a 2d array of
  * primitive booleans.
  */
@@ -51,7 +51,7 @@ public class ObstacleMap {
      * @param oldMap the map to run simulations on.
      * @return a nice map with traversable obstacles.
      */
-    private boolean[][] doSimulationStep(boolean[][] oldMap) {
+    private static boolean[][] doSimulationStep(boolean[][] oldMap) {
         final double deathLimit = 3f; // These numbers are entirely arbitrary.
         final double birthLimit = 5f;
 
@@ -90,7 +90,7 @@ public class ObstacleMap {
      * @param y   the center y coord.
      * @return a count of adjacent obstacles.
      */
-    private int countAdjacentObstacles(boolean[][] map, int x, int y) {
+    private static int countAdjacentObstacles(boolean[][] map, int x, int y) {
         int count = 0;
 
         for (int i = -1; i < 2; i++) {
@@ -137,7 +137,7 @@ public class ObstacleMap {
      * @param setDifficulty the difficulty int.
      * @return a difficulty modifier for the simulation step / seed generation.
      */
-    private double calcDifficultyModifier(int setDifficulty) {
+    private static double calcDifficultyModifier(int setDifficulty) {
         double difficultyModifier = 0.00;
 
         if (setDifficulty == 1) {
