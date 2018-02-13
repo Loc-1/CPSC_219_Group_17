@@ -7,6 +7,7 @@ import java.awt.*;
  * Renders the board into an awt GridBagLayout. Class must be instantiated with a board object.
  */
 public class BoardWindow {
+    JFrame frame;
     /**
      * Constructor builds out a new render from the board passed.
      *
@@ -16,7 +17,7 @@ public class BoardWindow {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                JFrame frame = new JFrame("Group 17");
+                frame = new JFrame("Group 17");
                 frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 frame.add(new Tile(setBoard));
                 frame.pack();
@@ -30,6 +31,11 @@ public class BoardWindow {
         Player testPlayer = new Player(39, 75 / 2, 1, 1, "");
         Board testBoard = new Board(40, 75, 1, testPlayer);
         new BoardWindow(testBoard);
+    }
+
+    public void refresh(Board setBoard) {
+        setBoard.refresh();
+        frame.repaint();
     }
 
     /**
