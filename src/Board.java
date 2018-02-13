@@ -71,13 +71,7 @@ public class Board {
         Player testPlayer = new Player(rows - 1, cols / 2, 1, 1, "test");
         Board testBoard = new Board(rows, cols, 3, testPlayer);
 
-        // This tests if the player can be moved.
-        testBoard.printBoard();
-        testPlayer.moveUp();
-        testPlayer.moveLeft();
-        testBoard.refresh();
-        System.out.println("");
-        testBoard.printBoard();
+        BoardRenderWindow gameWindow = new BoardRenderWindow(testBoard);
 
     }
 
