@@ -6,8 +6,7 @@ import java.awt.*;
  *
  * Renders the board into an awt GridBagLayout. Class must be instantiated with a board object.
  */
-class BoardWindow {
-
+public class BoardWindow {
     /**
      * Constructor builds out a new render from the board passed.
      *
@@ -28,8 +27,8 @@ class BoardWindow {
     }
 
     public static void main(String[] args) {
-        Player testPlayer = new Player(29, 75 / 2, 1, 1, "");
-        Board testBoard = new Board(30, 75, 1, testPlayer);
+        Player testPlayer = new Player(39, 75 / 2, 1, 1, "");
+        Board testBoard = new Board(40, 75, 1, testPlayer);
         new BoardWindow(testBoard);
     }
 
@@ -37,7 +36,8 @@ class BoardWindow {
      * Class sets the tile params by creating a bunch of JPanel objects with different colours. When this is improved
      * to use tiles / sprites, this class can be updated to handle them.
      */
-    class Tile extends JPanel {
+    private class Tile extends JPanel {
+        private final int tileSize = 25; // In pixels.
 
         private Tile(Board board) {
             setLayout(new GridBagLayout());
@@ -50,7 +50,7 @@ class BoardWindow {
                     JPanel cell = new JPanel() {
                         @Override
                         public Dimension getPreferredSize() {
-                            return new Dimension(25, 25);
+                            return new Dimension(tileSize, tileSize);
                         }
                     };
                     cell.setBackground(setColour(board, row, col));
