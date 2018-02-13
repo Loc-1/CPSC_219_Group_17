@@ -64,17 +64,6 @@ public class Board {
         // :TODO: write code.
     }
 
-    public static void main(String[] args) {
-        final int rows = 50;
-        final int cols = 75;
-
-        Player testPlayer = new Player(rows - 1, cols / 2, 1, 1, "test");
-        Board testBoard = new Board(rows, cols, 3, testPlayer);
-
-        BoardRenderWindow gameWindow = new BoardRenderWindow(testBoard);
-
-    }
-
     /**
      * Prints the board to console in a nicely formatted fashion.
      */

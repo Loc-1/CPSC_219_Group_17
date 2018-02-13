@@ -1,21 +1,17 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Renders the board into an awt GridBagLayout. Class must be instantiated with a board object.
  */
-class BoardRenderWindow extends JPanel {
+class BoardWindow extends JPanel {
 
     /**
      * Constructor builds out a new render from the board passed.
      *
      * @param setBoard the board to render.
      */
-    public BoardRenderWindow(Board setBoard) {
+    public BoardWindow(Board setBoard) {
 
         EventQueue.invokeLater(new Runnable() {
             @Override
@@ -33,16 +29,16 @@ class BoardRenderWindow extends JPanel {
     public static void main(String[] args) {
         Player testPlayer = new Player(31, 26 / 2, 1, 1, "");
         Board testBoard = new Board(32, 26, 1, testPlayer);
-        new BoardRenderWindow(testBoard);
+        new BoardWindow(testBoard);
     }
 
     /**
      * Class sets the tile params by creating a bunch of JPanel objects with different colours. When this is improved
      * to use tiles / sprites, this class can be updated to handle them.
      */
-    public class Tile extends JPanel {
+    class Tile extends JPanel {
 
-        public Tile(Board board) {
+        private Tile(Board board) {
             setLayout(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.gridy = 0;
