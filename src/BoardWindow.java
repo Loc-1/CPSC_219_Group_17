@@ -7,7 +7,8 @@ import java.awt.*;
  * Renders the board into an awt GridBagLayout. Class must be instantiated with a board object.
  */
 public class BoardWindow {
-    JFrame frame;
+    private JFrame frame;
+
     /**
      * Constructor builds out a new render from the board passed.
      *
