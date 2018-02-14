@@ -19,7 +19,6 @@ public class BoardWindowDebug extends JPanel {
             up.addActionListener(e -> {
                 setPlayer.moveUp();
                 if (setPlayer.getAlive()) {
-                    setBoard.refresh();
                     setWindow.refresh(setBoard);
                 } else {
                     System.out.println("You Died.");
@@ -32,7 +31,6 @@ public class BoardWindowDebug extends JPanel {
             down.addActionListener(e -> {
                 setPlayer.moveDown();
                 if (setPlayer.getAlive()) {
-                    setBoard.refresh();
                     setWindow.refresh(setBoard);
                 } else {
                     System.out.println("You Died.");
@@ -45,7 +43,6 @@ public class BoardWindowDebug extends JPanel {
             left.addActionListener(e -> {
                 setPlayer.moveLeft();
                 if (setPlayer.getAlive()) {
-                    setBoard.refresh();
                     setWindow.refresh(setBoard);
                 } else {
                     System.out.println("You Died.");
@@ -58,7 +55,6 @@ public class BoardWindowDebug extends JPanel {
             right.addActionListener(e -> {
                 setPlayer.moveRight();
                 if (setPlayer.getAlive()) {
-                    setBoard.refresh();
                     setWindow.refresh(setBoard);
                 } else {
                     System.out.println("You Died.");
