@@ -48,7 +48,8 @@ class BoardWindow {
      */
     void endGame() {
         frame.remove(tile);
-        JOptionPane.showConfirmDialog(null, "You Died", "Close", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        JOptionPane.showConfirmDialog(null, "You Died", "Close",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         frame.dispose();
     }
 

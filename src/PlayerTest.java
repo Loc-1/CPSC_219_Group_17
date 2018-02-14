@@ -1,5 +1,6 @@
-import static org.junit.Assert.*;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 
 
@@ -95,9 +96,9 @@ public class PlayerTest{
 	@Test
 	public void test_alive_kill_actions(){
 		Player tester = new Player(10,15,0,0,"null");
-		assertEquals("failed to initialize life status",true,tester.getAlive());
+		assertEquals("failed to initialize life status", true, tester.isAlive());
 		tester.kill();
-		assertEquals("failed to kill player",false,tester.getAlive());
+		assertEquals("failed to kill player", false, tester.isAlive());
 	
 	}
 

@@ -18,10 +18,9 @@ public class BoardWindowDebug extends JPanel {
             JButton up = new JButton("UP");
             up.addActionListener(e -> {
                 setPlayer.moveUp();
-                if (setPlayer.getAlive()) {
+                if (setPlayer.isAlive()) {
                     setWindow.refresh(setBoard);
                 } else {
-                    System.out.println("You Died.");
                     frame.dispose();
                     setWindow.endGame();
                 }
@@ -30,10 +29,9 @@ public class BoardWindowDebug extends JPanel {
             JButton down = new JButton("DOWN");
             down.addActionListener(e -> {
                 setPlayer.moveDown();
-                if (setPlayer.getAlive()) {
+                if (setPlayer.isAlive()) {
                     setWindow.refresh(setBoard);
                 } else {
-                    System.out.println("You Died.");
                     frame.dispose();
                     setWindow.endGame();
                 }
@@ -42,10 +40,9 @@ public class BoardWindowDebug extends JPanel {
             JButton left = new JButton("LEFT");
             left.addActionListener(e -> {
                 setPlayer.moveLeft();
-                if (setPlayer.getAlive()) {
+                if (setPlayer.isAlive()) {
                     setWindow.refresh(setBoard);
                 } else {
-                    System.out.println("You Died.");
                     frame.dispose();
                     setWindow.endGame();
                 }
@@ -54,10 +51,9 @@ public class BoardWindowDebug extends JPanel {
             JButton right = new JButton("RIGHT");
             right.addActionListener(e -> {
                 setPlayer.moveRight();
-                if (setPlayer.getAlive()) {
+                if (setPlayer.isAlive()) {
                     setWindow.refresh(setBoard);
                 } else {
-                    System.out.println("You Died.");
                     frame.dispose();
                     setWindow.endGame();
                 }
@@ -67,7 +63,6 @@ public class BoardWindowDebug extends JPanel {
             frame.add(down);
             frame.add(left);
             frame.add(right);
-
 
             frame.pack();
             frame.setLocationRelativeTo(null);

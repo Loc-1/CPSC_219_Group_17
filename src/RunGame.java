@@ -13,7 +13,7 @@ public class RunGame {
         Board gameBoard = new Board(24, 32, 1, p1);
 
         String userPrompt = "";
-        while (p1.getAlive()) {
+        while (p1.isAlive()) {
             gameBoard.printBoard();
             System.out.println("Move Up, Down, Left or Right.");
             userPrompt = UserInput.getUserInput();

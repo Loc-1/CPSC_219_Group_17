@@ -20,7 +20,7 @@ public class BoardTest {
 
         assertFalse("Move is not valid.", isNotValid);
         assertTrue("Move is valid.", isValid);
-        assertFalse("Player is alive, player should be dead.", testPlayer.getAlive());
+        assertFalse("Player is alive, player should be dead.", testPlayer.isAlive());
 
     }
 

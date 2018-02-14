@@ -43,7 +43,7 @@ public class Player {
         return xLocation;
     }
 
-    public Boolean getAlive() {
+    public Boolean isAlive() {
         return isAlive;
     }
 
