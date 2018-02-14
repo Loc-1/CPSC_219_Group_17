@@ -40,7 +40,7 @@ public class BoardWindow {
      * @param setBoard the board to re-render.
      */
     public void refresh(Board setBoard) {
-        frame.setVisible(false);
+        //frame.setVisible(false);
         frame.remove(tile);
         this.tile = new Tile(setBoard);
         frame.add(tile);

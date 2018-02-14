@@ -27,7 +27,7 @@ public class BoardWindowDebug extends JPanel {
                             setWindow.refresh(setBoard);
                         } else {
                             System.out.println("You Died.");
-                            frame.setVisible(false);
+                            frame.dispose();
                             setWindow.endGame();
                         }
                     }
@@ -43,7 +43,7 @@ public class BoardWindowDebug extends JPanel {
                             setWindow.refresh(setBoard);
                         } else {
                             System.out.println("You Died.");
-                            frame.setVisible(false);
+                            frame.dispose();
                             setWindow.endGame();
                         }
                     }
@@ -59,7 +59,7 @@ public class BoardWindowDebug extends JPanel {
                             setWindow.refresh(setBoard);
                         } else {
                             System.out.println("You Died.");
-                            frame.setVisible(false);
+                            frame.dispose();
                             setWindow.endGame();
                         }
                     }
@@ -75,7 +75,7 @@ public class BoardWindowDebug extends JPanel {
                             setWindow.refresh(setBoard);
                         } else {
                             System.out.println("You Died.");
-                            frame.setVisible(false);
+                            frame.dispose();
                             setWindow.endGame();
                         }
                     }
