@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JLabel;
 
 /**
  * Class Owner: Lachlan
@@ -59,17 +60,35 @@ public class GameWindow {
         JButton startButton = new JButton("Start Game");
         JButton tutorialButton = new JButton("Tutorial");
         
+        JLabel logoLable = new JLabel("Game Logo");
+        
         GroupLayout gl_panel = new GroupLayout(panel);
-        gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+        gl_panel.setHorizontalGroup(
+            gl_panel.createParallelGroup(Alignment.LEADING)
                 .addGroup(gl_panel.createSequentialGroup()
-                        .addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-                                .addGroup(gl_panel.createSequentialGroup().addGap(197).addComponent(startButton))
-                                .addGroup(gl_panel.createSequentialGroup().addGap(26).addComponent(tutorialButton)))
-                        .addContainerGap(210, Short.MAX_VALUE)));
-        gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-                .addGroup(gl_panel.createSequentialGroup().addGap(225).addComponent(startButton)
-                        .addPreferredGap(ComponentPlacement.RELATED, 196, Short.MAX_VALUE).addComponent(tutorialButton)
-                        .addGap(39)));
+                    .addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+                        .addGroup(gl_panel.createSequentialGroup()
+                            .addGap(197)
+                            .addComponent(startButton))
+                        .addGroup(gl_panel.createSequentialGroup()
+                            .addGap(26)
+                            .addComponent(tutorialButton))
+                        .addGroup(gl_panel.createSequentialGroup()
+                            .addGap(216)
+                            .addComponent(logoLable)))
+                    .addContainerGap(210, Short.MAX_VALUE))
+        );
+        gl_panel.setVerticalGroup(
+            gl_panel.createParallelGroup(Alignment.LEADING)
+                .addGroup(gl_panel.createSequentialGroup()
+                    .addGap(99)
+                    .addComponent(logoLable)
+                    .addGap(110)
+                    .addComponent(startButton)
+                    .addPreferredGap(ComponentPlacement.RELATED, 196, Short.MAX_VALUE)
+                    .addComponent(tutorialButton)
+                    .addGap(39))
+        );
         panel.setLayout(gl_panel);
     }
 }
