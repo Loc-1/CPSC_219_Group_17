@@ -64,20 +64,20 @@ class BoardWindow {
         private final int tileSize = 25; // In pixels.
         final GridBagConstraints gbc = new GridBagConstraints();
 
-        private TimeMap(Board board) {
+        private TimeMap(Board setBoard) {
             setLayout(new GridBagLayout());
             gbc.gridy = 0;
 
-            for (int row = 0; row < board.getRows(); row++) {
+            for (int row = 0; row < setBoard.getRows(); row++) {
                 gbc.gridx = 0;
-                for (int col = 0; col < board.getColumns(); col++) {
+                for (int col = 0; col < setBoard.getColumns(); col++) {
                     JPanel cell = new JPanel() {
                         @Override
                         public Dimension getPreferredSize() {
                             return new Dimension(tileSize, tileSize);
                         }
                     };
-                    cell.setBackground(setColour(board, row, col));
+                    cell.setBackground(setColour(setBoard, row, col));
                     add(cell, gbc);
                     gbc.gridx++;
                 }
