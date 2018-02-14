@@ -91,14 +91,14 @@ class BoardWindow {
          * @param col col to check.
          * @return a color object based on the char located at the row, col on the Board.
          */
-        private Color setColour(Board board, int row, int col) {
+        private Color setColour(Board setBoard, int row, int col) {
             Color color = Color.BLUE;
 
-            if (board.getTile(row, col) == 'P') {
+            if (setBoard.getTile(row, col) == 'P') {
                 color = Color.RED;
-            } else if (board.getTile(row, col) == 'X') {
+            } else if (setBoard.getTile(row, col) == 'X') {
                 color = Color.BLACK;
-            } else if (board.getTile(row, col) == '.') {
+            } else if (setBoard.getTile(row, col) == '.') {
                 color = Color.WHITE;
             }
 
