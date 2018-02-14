@@ -2,6 +2,8 @@ import java.awt.event.KeyEvent;
 import java.util.Scanner;
 
 /**
+ * Class Owner: Lachlan
+ * 
  * The UserInput class gets the users input and returns edited values so those
  * commands can be issued.
  */
@@ -34,21 +36,27 @@ public class UserInput {
         return input;
     }
 
-
     /**
-     * :TODO: Method to be implemeted after text based demo
-     *
-     * public void keyPressed(KeyEvent e) { int key = e.getKeyCode();
+     * This method gets the constant movement commands from the user ie. arrow keys
+     * or wasd
      * 
-     * if (key == KeyEvent.VK_RIGHT) {
-     * 
-     * } if (key == KeyEvent.VK_LEFT) {
-     * 
-     * } if (key == KeyEvent.VK_DOWN) {
-     * 
-     * } if (key == KeyEvent.VK_UP) {
-     * 
-     * } }
+     * @param e
      */
+    public void keyPressed(KeyEvent e) {
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_RIGHT || key == 68) {
+
+        }
+        if (key == KeyEvent.VK_LEFT || key == 65) {
+
+        }
+        if (key == KeyEvent.VK_DOWN || key == 83) {
+
+        }
+        if (key == KeyEvent.VK_UP || key == 87) {
+
+        }
+    }
 
 }
