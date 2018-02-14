@@ -4,4 +4,4 @@ See the Wiki for class documents and whatnot.
 
 Coded for CPSC 219 Winter 2018
 
-Copyright - Josh Harkema, Lachlan Moore, Lincoln Phung, Ashton Rice, Jeffrey Mills
+Copyright - Josh Harkema, Lachlan Moore, Lincoln Phung, Ashton Rice.
