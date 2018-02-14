@@ -66,8 +66,8 @@ class BoardWindow {
 
         private TileMap(Board setBoard) {
             setLayout(new GridBagLayout());
-            gbc.gridy = 0;
 
+            gbc.gridy = 0;
             for (int row = 0; row < setBoard.getRows(); row++) {
                 gbc.gridx = 0;
                 for (int col = 0; col < setBoard.getColumns(); col++) {
