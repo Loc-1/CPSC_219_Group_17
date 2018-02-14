@@ -7,7 +7,7 @@ import java.awt.*;
  * Renders the board into an awt GridBagLayout. Class must be instantiated with a board object.
  */
 class BoardWindow {
-    private TimeMap timeMap;
+    private TileMap tileMap;
     private final JFrame frame;
 
     /**
@@ -16,12 +16,12 @@ class BoardWindow {
      * @param setBoard the board to render.
      */
     BoardWindow(Board setBoard) {
-        this.timeMap = new TimeMap(setBoard);
+        this.tileMap = new TileMap(setBoard);
         this.frame = new JFrame("Group 17 Game");
 
         EventQueue.invokeLater(() -> {
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            frame.add(timeMap);
+            frame.add(tileMap);
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
@@ -37,9 +37,9 @@ class BoardWindow {
     void refresh(Board setBoard) {
         EventQueue.invokeLater(() -> {
             setBoard.refresh();
-            frame.remove(timeMap);
-            this.timeMap = new TimeMap(setBoard);
-            frame.add(timeMap);
+            frame.remove(tileMap);
+            this.tileMap = new TileMap(setBoard);
+            frame.add(tileMap);
             frame.pack();
             frame.setVisible(true);
         });
@@ -50,7 +50,7 @@ class BoardWindow {
      * Ends the game. :TODO: Make this nice.
      */
     void endGame() {
-        frame.remove(timeMap);
+        frame.remove(tileMap);
         JOptionPane.showConfirmDialog(null, "You Died", "Close",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         frame.dispose();
@@ -60,11 +60,11 @@ class BoardWindow {
      * Class sets the TileMap params by creating a bunch of JPanel objects with different colours. When this is improved
      * to use tiles / sprites, this class can be updated to handle them.
      */
-    private class TimeMap extends JPanel {
+    private class TileMap extends JPanel {
         private final int tileSize = 25; // In pixels.
         final GridBagConstraints gbc = new GridBagConstraints();
 
-        private TimeMap(Board setBoard) {
+        private TileMap(Board setBoard) {
             setLayout(new GridBagLayout());
             gbc.gridy = 0;
 
