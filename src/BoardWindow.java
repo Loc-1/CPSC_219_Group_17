@@ -6,9 +6,8 @@ import java.awt.*;
  * <p>
  * Renders the board into an awt GridBagLayout. Class must be instantiated with a board object.
  */
-public class BoardWindow {
-    private JFrame frame;
-    private Board board;
+class BoardWindow {
+    private final JFrame frame;
     private Tile tile;
 
     /**
@@ -16,20 +15,16 @@ public class BoardWindow {
      *
      * @param setBoard the board to render.
      */
-    public BoardWindow(Board setBoard) {
-        this.board = setBoard;
+    BoardWindow(Board setBoard) {
         this.tile = new Tile(setBoard);
         this.frame = new JFrame("Group 17 Game");
 
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                frame.add(tile);
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-            }
+        EventQueue.invokeLater(() -> {
+            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            frame.add(tile);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
         });
 
     }
@@ -39,8 +34,7 @@ public class BoardWindow {
      *
      * @param setBoard the board to re-render.
      */
-    public void refresh(Board setBoard) {
-        //frame.setVisible(false);
+    void refresh(Board setBoard) {
         frame.remove(tile);
         this.tile = new Tile(setBoard);
         frame.add(tile);
@@ -51,7 +45,7 @@ public class BoardWindow {
     /**
      * Ends the game. :TODO: Make this nice.
      */
-    public void endGame() {
+    void endGame() {
         frame.remove(tile);
         JOptionPane.showConfirmDialog(null, "You Died", "Close", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         frame.dispose();
@@ -63,31 +57,9 @@ public class BoardWindow {
      */
     private class Tile extends JPanel {
         private final int tileSize = 25; // In pixels.
-        GridBagConstraints gbc = new GridBagConstraints();
+        final GridBagConstraints gbc = new GridBagConstraints();
 
         private Tile(Board board) {
-            setLayout(new GridBagLayout());
-            gbc.gridy = 0;
-
-            for (int row = 0; row < board.getRows(); row++) {
-                gbc.gridx = 0;
-                for (int col = 0; col < board.getColumns(); col++) {
-                    JPanel cell = new JPanel() {
-                        @Override
-                        public Dimension getPreferredSize() {
-                            return new Dimension(tileSize, tileSize);
-                        }
-                    };
-                    cell.setBackground(setColour(board, row, col));
-                    add(cell, gbc);
-                    gbc.gridx++;
-                }
-                gbc.gridy++;
-            }
-
-        }
-
-        public void refresh(Board board) {
             setLayout(new GridBagLayout());
             gbc.gridy = 0;
 

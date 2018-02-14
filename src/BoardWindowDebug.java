@@ -1,97 +1,80 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Debug tool class for debugging the board window headlessly.
  */
 public class BoardWindowDebug extends JPanel {
 
-    public BoardWindowDebug(Board setBoard, Player setPlayer, BoardWindow setWindow) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JFrame.setDefaultLookAndFeelDecorated(true);
-                JFrame frame = new JFrame("Debug Tools");
-                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                frame.setLayout(new GridLayout(1, 4));
+    private BoardWindowDebug(Board setBoard, Player setPlayer, BoardWindow setWindow) {
+        EventQueue.invokeLater(() -> {
+            JFrame.setDefaultLookAndFeelDecorated(true);
+            JFrame frame = new JFrame("Debug Tools");
+            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            frame.setLayout(new GridLayout(1, 4));
 
-                JButton up = new JButton("UP");
-                up.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        setPlayer.moveUp();
-                        if (setPlayer.getAlive()) {
-                            setBoard.refresh();
-                            setWindow.refresh(setBoard);
-                        } else {
-                            System.out.println("You Died.");
-                            frame.dispose();
-                            setWindow.endGame();
-                        }
-                    }
-                });
+            JButton up = new JButton("UP");
+            up.addActionListener(e -> {
+                setPlayer.moveUp();
+                if (setPlayer.getAlive()) {
+                    setBoard.refresh();
+                    setWindow.refresh(setBoard);
+                } else {
+                    System.out.println("You Died.");
+                    frame.dispose();
+                    setWindow.endGame();
+                }
+            });
 
-                JButton down = new JButton("DOWN");
-                down.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        setPlayer.moveDown();
-                        if (setPlayer.getAlive()) {
-                            setBoard.refresh();
-                            setWindow.refresh(setBoard);
-                        } else {
-                            System.out.println("You Died.");
-                            frame.dispose();
-                            setWindow.endGame();
-                        }
-                    }
-                });
+            JButton down = new JButton("DOWN");
+            down.addActionListener(e -> {
+                setPlayer.moveDown();
+                if (setPlayer.getAlive()) {
+                    setBoard.refresh();
+                    setWindow.refresh(setBoard);
+                } else {
+                    System.out.println("You Died.");
+                    frame.dispose();
+                    setWindow.endGame();
+                }
+            });
 
-                JButton left = new JButton("LEFT");
-                left.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        setPlayer.moveLeft();
-                        if (setPlayer.getAlive()) {
-                            setBoard.refresh();
-                            setWindow.refresh(setBoard);
-                        } else {
-                            System.out.println("You Died.");
-                            frame.dispose();
-                            setWindow.endGame();
-                        }
-                    }
-                });
+            JButton left = new JButton("LEFT");
+            left.addActionListener(e -> {
+                setPlayer.moveLeft();
+                if (setPlayer.getAlive()) {
+                    setBoard.refresh();
+                    setWindow.refresh(setBoard);
+                } else {
+                    System.out.println("You Died.");
+                    frame.dispose();
+                    setWindow.endGame();
+                }
+            });
 
-                JButton right = new JButton("RIGHT");
-                right.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        setPlayer.moveRight();
-                        if (setPlayer.getAlive()) {
-                            setBoard.refresh();
-                            setWindow.refresh(setBoard);
-                        } else {
-                            System.out.println("You Died.");
-                            frame.dispose();
-                            setWindow.endGame();
-                        }
-                    }
-                });
+            JButton right = new JButton("RIGHT");
+            right.addActionListener(e -> {
+                setPlayer.moveRight();
+                if (setPlayer.getAlive()) {
+                    setBoard.refresh();
+                    setWindow.refresh(setBoard);
+                } else {
+                    System.out.println("You Died.");
+                    frame.dispose();
+                    setWindow.endGame();
+                }
+            });
 
-                frame.add(up);
-                frame.add(down);
-                frame.add(left);
-                frame.add(right);
+            frame.add(up);
+            frame.add(down);
+            frame.add(left);
+            frame.add(right);
 
 
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setAlwaysOnTop(true);
-                frame.setVisible(true);
-            }
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setAlwaysOnTop(true);
+            frame.setVisible(true);
         });
 
     }
