@@ -7,7 +7,7 @@ import java.awt.*;
  * Renders the board into an awt GridBagLayout. Class must be instantiated with a board object.
  */
 class BoardWindow {
-    private Tile tile;
+    private TimeMap timeMapMap;
     private final JFrame frame;
 
     /**
@@ -16,12 +16,12 @@ class BoardWindow {
      * @param setBoard the board to render.
      */
     BoardWindow(Board setBoard) {
-        this.tile = new Tile(setBoard);
+        this.timeMapMap = new TimeMap(setBoard);
         this.frame = new JFrame("Group 17 Game");
 
         EventQueue.invokeLater(() -> {
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            frame.add(tile);
+            frame.add(timeMapMap);
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
@@ -30,38 +30,41 @@ class BoardWindow {
     }
 
     /**
-     * Refresh the Window after something moves. :TODO: turn this into a background task.
+     * Refresh the Window after something moves. Runs in the EventQueue to keep everything moving along nicely.
      *
      * @param setBoard the board to re-render.
      */
     void refresh(Board setBoard) {
-        setBoard.refresh();
-        frame.remove(tile);
-        this.tile = new Tile(setBoard);
-        frame.add(tile);
-        frame.pack();
-        frame.setVisible(true);
+        EventQueue.invokeLater(() -> {
+            setBoard.refresh();
+            frame.remove(timeMapMap);
+            this.timeMapMap = new TimeMap(setBoard);
+            frame.add(timeMapMap);
+            frame.pack();
+            frame.setVisible(true);
+        });
+
     }
 
     /**
      * Ends the game. :TODO: Make this nice.
      */
     void endGame() {
-        frame.remove(tile);
+        frame.remove(timeMapMap);
         JOptionPane.showConfirmDialog(null, "You Died", "Close",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         frame.dispose();
     }
 
     /**
-     * Class sets the tile params by creating a bunch of JPanel objects with different colours. When this is improved
+     * Class sets the TileMap params by creating a bunch of JPanel objects with different colours. When this is improved
      * to use tiles / sprites, this class can be updated to handle them.
      */
-    private class Tile extends JPanel {
+    private class TimeMap extends JPanel {
         private final int tileSize = 25; // In pixels.
         final GridBagConstraints gbc = new GridBagConstraints();
 
-        private Tile(Board board) {
+        private TimeMap(Board board) {
             setLayout(new GridBagLayout());
             gbc.gridy = 0;
 

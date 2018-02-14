@@ -13,7 +13,7 @@ public class BoardWindowDebug extends JPanel {
             JFrame.setDefaultLookAndFeelDecorated(true);
             JFrame frame = new JFrame("Debug Tools");
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            frame.setLayout(new GridLayout(1, 4));
+            frame.setLayout(new GridLayout(1, 5));
 
             JButton up = new JButton("UP");
             up.addActionListener(e -> {
@@ -59,10 +59,17 @@ public class BoardWindowDebug extends JPanel {
                 }
             });
 
+            JButton exit = new JButton("EXIT");
+            exit.addActionListener(e -> {
+                frame.dispose();
+                setWindow.endGame();
+            });
+
             frame.add(up);
             frame.add(down);
             frame.add(left);
             frame.add(right);
+            frame.add(exit);
 
             frame.pack();
             frame.setLocationRelativeTo(null);
