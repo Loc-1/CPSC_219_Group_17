@@ -7,7 +7,7 @@ import java.awt.*;
  * Renders the board into an awt GridBagLayout. Class must be instantiated with a board object.
  */
 class BoardWindow {
-    private TimeMap timeMapMap;
+    private TimeMap timeMap;
     private final JFrame frame;
 
     /**
@@ -16,12 +16,12 @@ class BoardWindow {
      * @param setBoard the board to render.
      */
     BoardWindow(Board setBoard) {
-        this.timeMapMap = new TimeMap(setBoard);
+        this.timeMap = new TimeMap(setBoard);
         this.frame = new JFrame("Group 17 Game");
 
         EventQueue.invokeLater(() -> {
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            frame.add(timeMapMap);
+            frame.add(timeMap);
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
@@ -37,9 +37,9 @@ class BoardWindow {
     void refresh(Board setBoard) {
         EventQueue.invokeLater(() -> {
             setBoard.refresh();
-            frame.remove(timeMapMap);
-            this.timeMapMap = new TimeMap(setBoard);
-            frame.add(timeMapMap);
+            frame.remove(timeMap);
+            this.timeMap = new TimeMap(setBoard);
+            frame.add(timeMap);
             frame.pack();
             frame.setVisible(true);
         });
@@ -50,7 +50,7 @@ class BoardWindow {
      * Ends the game. :TODO: Make this nice.
      */
     void endGame() {
-        frame.remove(timeMapMap);
+        frame.remove(timeMap);
         JOptionPane.showConfirmDialog(null, "You Died", "Close",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         frame.dispose();
