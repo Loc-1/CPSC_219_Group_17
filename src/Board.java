@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
 /**
- * Class Owner: Josh
+ * Class Owner: Ashton / Lincoln
  *
  * This class is used to generate and store the board object. An obstacle map is automatically generated upon
  * instantiating a member of this class. Calls must include a valid frame width and height in units of 25x25 pixel

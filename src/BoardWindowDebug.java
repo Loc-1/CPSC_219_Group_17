@@ -17,8 +17,8 @@ public class BoardWindowDebug extends JPanel {
 
             JButton up = new JButton("UP");
             up.addActionListener(e -> {
-                setPlayer.moveUp();
                 if (setPlayer.isAlive()) {
+                    setPlayer.moveUp();
                     setWindow.refresh(setBoard);
                 } else {
                     frame.dispose();
@@ -28,8 +28,8 @@ public class BoardWindowDebug extends JPanel {
 
             JButton down = new JButton("DOWN");
             down.addActionListener(e -> {
-                setPlayer.moveDown();
                 if (setPlayer.isAlive()) {
+                    setPlayer.moveDown();
                     setWindow.refresh(setBoard);
                 } else {
                     frame.dispose();
@@ -39,8 +39,8 @@ public class BoardWindowDebug extends JPanel {
 
             JButton left = new JButton("LEFT");
             left.addActionListener(e -> {
-                setPlayer.moveLeft();
                 if (setPlayer.isAlive()) {
+                    setPlayer.moveLeft();
                     setWindow.refresh(setBoard);
                 } else {
                     frame.dispose();
@@ -50,8 +50,8 @@ public class BoardWindowDebug extends JPanel {
 
             JButton right = new JButton("RIGHT");
             right.addActionListener(e -> {
-                setPlayer.moveRight();
                 if (setPlayer.isAlive()) {
+                    setPlayer.moveRight();
                     setWindow.refresh(setBoard);
                 } else {
                     frame.dispose();

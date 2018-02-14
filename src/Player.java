@@ -1,4 +1,6 @@
 /**
+ * Class Owner: Ashton / Lincoln
+ *
  * The player class handles the player's location on the board, as well as tracking the player's id, handle, and
  * current score. Player movement is handled via move methods defined in this class.
  */

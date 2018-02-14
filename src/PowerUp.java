@@ -1,3 +1,7 @@
+/**
+ * Class Owner: Lincoln / Ashton.
+ */
+
 public class PowerUp {
     int type;
     int x_location;

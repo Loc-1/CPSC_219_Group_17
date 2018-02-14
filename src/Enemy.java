@@ -1,4 +1,6 @@
 /**
+ * Class Owner: Lincoln
+ *
  * The Enemy class contains all elements related to an enemy: enemies follow 'rails' of set length; enemies move at
  * a constant velocity; enemies have predetermined starting and ending points on their 'rails.'
  */

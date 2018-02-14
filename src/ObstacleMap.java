@@ -1,7 +1,7 @@
 import java.util.Random;
 
 /**
- * Class Owner: Josh
+ * Class Owner: Ashton
  * <p>
  * Class is a procedurally generated map of interesting and traversable 'obstacles' represented as a 2d array of
  * primitive booleans.
@@ -63,18 +63,10 @@ public class ObstacleMap {
                 //The new value is based on our simulation rules
                 //First, if a cell is alive but has too few neighbours, kill it.
                 if (oldMap[x][y]) {
-                    if (nbs < deathLimit) {
-                        newMap[x][y] = false;
-                    } else {
-                        newMap[x][y] = true;
-                    }
+                    newMap[x][y] = !(nbs < deathLimit);
                 } //Otherwise, if the cell is dead now, check if it has the right number of neighbours to be 'born'
                 else {
-                    if (nbs > birthLimit) {
-                        newMap[x][y] = true;
-                    } else {
-                        newMap[x][y] = false;
-                    }
+                    newMap[x][y] = nbs > birthLimit;
                 }
             }
         }

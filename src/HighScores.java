@@ -1,3 +1,6 @@
+/**
+ * Class Owner: Josh
+ */
 public class HighScores {
     private String[][] high_scores;
 
