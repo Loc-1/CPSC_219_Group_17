@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
+ * Class Owner - Josh
+ * <p>
  * Debug tool class for debugging the board window headlessly.
  */
 public class BoardWindowDebug extends JPanel {
