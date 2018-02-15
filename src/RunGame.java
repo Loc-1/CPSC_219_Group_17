@@ -1,5 +1,5 @@
 /**
- * Class Owner: Lachlan / Josh
+ * Class Owner: Lachlan / Josh / Lincoln
  * <p>
  * The RunGame class creates and runs the game
  */
