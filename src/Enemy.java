@@ -3,6 +3,7 @@
  *
  * The Enemy class contains all elements related to an enemy: enemies follow 'rails' of set length; enemies move at
  * a constant velocity; enemies have predetermined starting and ending points on their 'rails.'
+ * Enemies do not overlap the obstacle map. The player is killed if they run into an obstacle.
  */
 
 public class Enemy {
