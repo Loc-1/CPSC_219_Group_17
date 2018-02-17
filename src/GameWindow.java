@@ -19,6 +19,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  * Class Owner: Lachlan
@@ -85,6 +86,7 @@ public class GameWindow {
         panel.add(lblDifficulty);
 
         JComboBox difficultyBox = new JComboBox();
+        difficultyBox.setModel(new DefaultComboBoxModel(new String[] { "Casual", "Normal", "Hardcore", "Impossible" }));
         difficultyBox.setBounds(12, 103, 116, 22);
         panel.add(difficultyBox);
 
@@ -93,6 +95,7 @@ public class GameWindow {
         panel.add(lblMapSize);
 
         JComboBox mapSizeBox = new JComboBox();
+        mapSizeBox.setModel(new DefaultComboBoxModel(new String[] { "28 x 20", "32 x 23", "36 x 36" }));
         mapSizeBox.setBounds(12, 167, 116, 22);
         panel.add(mapSizeBox);
 
@@ -131,14 +134,31 @@ public class GameWindow {
         panel_2.setLayout(null);
 
         JButton btnStart = new JButton("Start");
+        btnStart.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                System.out.println("Game start");
+
+            }
+        });
+
         btnStart.setBounds(371, 64, 97, 25);
         panel_2.add(btnStart);
 
         JButton btnExit = new JButton("Exit ");
+        btnExit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         btnExit.setBounds(262, 64, 97, 25);
         panel_2.add(btnExit);
 
         JButton btnTutorial = new JButton("Tutorial");
+        btnTutorial.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         btnTutorial.setBounds(12, 64, 97, 25);
         panel_2.add(btnTutorial);
     }
