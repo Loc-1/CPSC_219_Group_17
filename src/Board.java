@@ -1,5 +1,6 @@
 import java.util.Arrays;
 
+
 /**
  * Class Owner: Ashton / Lincoln
  *
@@ -134,6 +135,45 @@ public class Board {
     public void setBoard(int row, int col, char setChar) {
         this.board[row][col] = setChar;
     }
+
+
+    /**
+     *
+     * @param oldMap    the ObstacleMap to be overwritten
+     * @param type      the type of overwrite action (0 == clear; 1 == regenerate)
+     */
+
+    public void resetObstacleMap(ObstacleMap oldMap, int type){
+
+        if(type == 0) {
+            for (int rowCount = 0; rowCount < rows; rowCount++) {
+                for (int colCount = 0; colCount < columns; colCount++) {
+                    this.obstacleMap.setObstacle(rowCount, colCount, false);
+                }
+            }
+            this.refresh();
+        }
+        if(type == 1) {
+            for (int rowCount = 0; rowCount < rows; rowCount++) {
+                for (int colCount = 0; colCount < columns; colCount++) {
+                    this.obstacleMap.setObstacle(rowCount, colCount, false);
+                    this.obstacleMap.setObstacle(rowCount, colCount, oldMap.generateRandomDouble() < oldMap.calcDifficultyModifier(this.difficulty));
+                }
+            }
+            this.refresh();
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
 
     /**
      * @param row         the row to set.

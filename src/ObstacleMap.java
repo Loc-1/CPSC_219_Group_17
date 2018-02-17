@@ -51,7 +51,7 @@ public class ObstacleMap {
      * @param oldMap the map to run simulations on.
      * @return a nice map with traversable obstacles.
      */
-    private static boolean[][] doSimulationStep(boolean[][] oldMap) {
+    public static boolean[][] doSimulationStep(boolean[][] oldMap) {
         final double deathLimit = 3f; // These numbers are entirely arbitrary.
         final double birthLimit = 5f;
 
@@ -73,7 +73,6 @@ public class ObstacleMap {
 
         return newMap;
     }
-
     /**
      * Counts the number of adjacent obstacles.
      *
@@ -129,7 +128,7 @@ public class ObstacleMap {
      * @param setDifficulty the difficulty int.
      * @return a difficulty modifier for the simulation step / seed generation.
      */
-    private static double calcDifficultyModifier(int setDifficulty) {
+    public static double calcDifficultyModifier(int setDifficulty) {
         double difficultyModifier = 0.00;
 
         if (setDifficulty == 1) {
@@ -146,7 +145,7 @@ public class ObstacleMap {
     /**
      * @return a random double.
      */
-    private double generateRandomDouble() {
+    public double generateRandomDouble() {
         Random randomNum = new Random();
         return randomNum.nextDouble();
     }
