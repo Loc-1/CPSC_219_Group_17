@@ -16,6 +16,7 @@ public class Board {
     private ObstacleMap obstacleMap;
     private Player playerOne;
     private Player playerTwo;
+    private Enemy enemies;
 
     /**
      * Constructor creates a single player board.
@@ -87,6 +88,16 @@ public class Board {
 
         return isValid;
     }
+    
+    /**
+     * @param player specified player
+     * @return true if player is dead.
+     */
+    public Boolean isPlayerDead(Player player) {
+    	Boolean isDead = false;
+    	return isDead;
+    	// :TODO: Write some code about if player coordinates are same as enemy coordinates.
+    }
 
     /**
      * Calling this method updates the player's location on the board. If the player moves into an obstacle, this
@@ -103,7 +114,7 @@ public class Board {
             }
         }
         if (this.obstacleMap.isObstacle(this.playerOne.getxLocation(), this.playerOne.getyLocation())) {
-            this.playerOne.kill();
+            this.playerOne.kill(); // :TODO: Get rid of this set of conditionals
         } else {
             this.board[this.playerOne.getxLocation()][this.playerOne.getyLocation()] = 'P';
 
