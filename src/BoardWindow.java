@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Class Owner: Josh /
+ * Class Owner: Josh / Lachlan
  * <p>
  * Renders the board into an awt GridBagLayout. Class must be instantiated with a board object.
  */
