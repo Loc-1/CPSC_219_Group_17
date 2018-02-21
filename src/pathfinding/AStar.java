@@ -8,9 +8,11 @@ import java.util.*;
  * 
  * Taken from  Taken from http://www.codebytes.in/2015/02/a-shortest-path-finding-algorithm.html
  * Algorithm that determines the cost of travel from a starting node to an end node using the A* Algorithm
+ * Scores nodes based on a number whether or not the node can be reached. 
+ * The higher the score, the harder it is to reach the node. A score of 0 means the node is impossible to reach.
  */
 public class AStar {
-    public static final int DIAGONAL_COST = 1400; // Changed Diagonal cost to 140 from 14 to not consider diagonal moves
+    public static final int DIAGONAL_COST = 1400; // Changed Diagonal cost to 1400 from 14 to not consider diagonal moves
     public static final int V_H_COST = 10;
     
     static class Cell{  
@@ -206,7 +208,7 @@ public class AStar {
     }
     
     /**
-     * 
+     * @ Author: Lincoln inspired by the test method above
      * @param x the width of the Grid
      * @param y the height of the Grid
      * @param si the starting row location
@@ -214,9 +216,8 @@ public class AStar {
      * @param ei the end row location
      * @param ej the end column location
      * @param blocked Array for coordinates of obstacles
-     * @return The cost of traversing to the end location
+     * @return The cost of traversing to the end location: 0 Indicates end location cannot be reached.
      */
-
     public static int aStarCost(int x, int y, int si, int sj, int ei, int ej, int[][] blocked){
          
     	//Reset
@@ -263,29 +264,12 @@ public class AStar {
  }
      
     public static void main(String[] args) throws Exception{   
-        test(1, 7, 5, 0, 0, 3, 1, new int[][]{{0,4},{2,2},{3,1},{3,3}}); 
+        test(1, 7, 5, 0, 0, 6, 3, new int[][]{{6,2},{5,2},{4,3},{3,3},{3,4},{4,2}}); 
         //test(2, 5, 5, 0, 0, 4, 4, new int[][]{{0,4},{2,2},{3,1},{3,3}});   
         //test(3, 7, 7, 2, 1, 5, 4, new int[][]{{4,1},{4,3},{5,3},{2,3}});
         
         //test(1, 5, 5, 0, 0, 4, 4, new int[][]{{3,4},{3,3},{4,3}});
         
-        // Lincoln's test
-        
-        //String userHandle = "Hi";
-        //int xLoc = 22;
-        //int yLoc = 32 / 2;
-        //Player p1 = new Player(xLoc, yLoc, 1, 001, userHandle);
-        //Board gameBoard = new Board(24, 32, 1, p1);
-        
-        //gameBoard.printBoard();
 
-        //test(2, gameBoard.getRows(), gameBoard.getColumns(), p1.getxLocation(), p1.getyLocation(), 0, 2, gameBoard.getObstacleMap().obstacleLocations());
-        
-        // Look at costs in the end row (first row of the board)
-        //for (int i = 0; i <gameBoard.getColumns(); i++) {
-        	//int cost = aStarCost(gameBoard.getRows(), gameBoard.getColumns(), p1.getxLocation(), p1.getyLocation(), 0, i, gameBoard.getObstacleMap().obstacleLocations());
-        	//System.out.println(cost);
-        //}
-        
     }
 }

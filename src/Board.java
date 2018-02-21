@@ -149,14 +149,16 @@ public class Board {
     
     /**
      * Check if the board is traversable
+     * Changes to the threshold modifier modify leniency on map traversability
+     * @return True if the map is deemed traversable
      */
     public boolean isTraversable() {
-    	int threshold = 900; // Increase value to tighten restraints on traversability
+    	int threshold = 900; // Decrease value to tighten restraints on traversability
     	boolean isTraversable = false;
         
         for (int i = 0; i < columns; i++) {
     	    int cost = pathfinding.AStar.aStarCost(rows, columns, playerOne.getxLocation(), playerOne.getyLocation(), 0, i, obstacleMap.obstacleLocations());
-    	    if (cost < threshold) {
+    	    if ((0 < cost) && (cost < threshold)) {
     	    	isTraversable = true;
     	    }
         }
