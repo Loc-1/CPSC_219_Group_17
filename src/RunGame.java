@@ -3,6 +3,9 @@
  * <p>
  * The RunGame class creates and runs the game
  */
+
+import pathfinding.*;
+
 public class RunGame {
 
     public static void main(String[] args) {
@@ -12,10 +15,32 @@ public class RunGame {
         int yLoc = 32 / 2;
         Player p1 = new Player(xLoc, yLoc, 1, 001, userHandle);
         Board gameBoard = new Board(24, 32, 1, p1);
-
+        
+        // Remake the board if it is impossible
+        while (!gameBoard.isTraversable()){
+        	gameBoard.printBoard();
+        	System.out.println("The board is not traversable, regenerating.");
+        	System.out.println("Here are the end point cost values :");
+            for (int i = 0; i <gameBoard.getColumns(); i++) {
+            	int cost = pathfinding.AStar.aStarCost(gameBoard.getRows(), gameBoard.getColumns(), p1.getxLocation(), p1.getyLocation(), 0, i, gameBoard.getObstacleMap().obstacleLocations());
+            	System.out.println(cost);   
+                }
+        	
+        	gameBoard = new Board(24,32,1,p1);
+        	
+        }
+        
+        
         String userPrompt = "";
         while (p1.isAlive()) {
             gameBoard.printBoard();
+            
+            System.out.println("\n The board is traversable, here are the end point cost values :");
+            for (int i = 0; i <gameBoard.getColumns(); i++) {
+            	int cost = pathfinding.AStar.aStarCost(gameBoard.getRows(), gameBoard.getColumns(), p1.getxLocation(), p1.getyLocation(), 0, i, gameBoard.getObstacleMap().obstacleLocations());
+            	System.out.println(cost);
+            }
+            
             System.out.println("Move Up, Down, Left or Right.");
             userPrompt = UserInput.getUserInput();
 

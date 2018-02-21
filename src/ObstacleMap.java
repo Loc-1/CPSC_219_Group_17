@@ -103,7 +103,7 @@ public class ObstacleMap {
     
     /**
      * Determine coordinates of obstacles in the map
-     * @return A integer array containing coordinates of the obstacles [row, column]
+     * @return A int array containing coordinates of the obstacles [row, column]
      */
     public int[][] obstacleLocations(){
     	

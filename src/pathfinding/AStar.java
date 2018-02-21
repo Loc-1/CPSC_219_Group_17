@@ -1,12 +1,16 @@
-/**
- * Taken from http://www.codebytes.in/2015/02/a-shortest-path-finding-algorithm.html
- */
+package pathfinding;
 
+ 
 
 import java.util.*;
 
+/**
+ * 
+ * Taken from  Taken from http://www.codebytes.in/2015/02/a-shortest-path-finding-algorithm.html
+ * Algorithm that determines the cost of travel from a starting node to an end node using the A* Algorithm
+ */
 public class AStar {
-    public static final int DIAGONAL_COST = 140; // Changed Diagonal cost to 140 from 14 to not consider diagonal moves
+    public static final int DIAGONAL_COST = 1400; // Changed Diagonal cost to 140 from 14 to not consider diagonal moves
     public static final int V_H_COST = 10;
     
     static class Cell{  
@@ -200,9 +204,66 @@ public class AStar {
                 System.out.println();
            }else System.out.println("No possible path");
     }
+    
+    /**
+     * 
+     * @param x the width of the Grid
+     * @param y the height of the Grid
+     * @param si the starting row location
+     * @param sj the starting column location
+     * @param ei the end row location
+     * @param ej the end column location
+     * @param blocked Array for coordinates of obstacles
+     * @return The cost of traversing to the end location
+     */
+
+    public static int aStarCost(int x, int y, int si, int sj, int ei, int ej, int[][] blocked){
+         
+    	//Reset
+        grid = new Cell[x][y];
+        closed = new boolean[x][y];
+        open = new PriorityQueue<>((Object o1, Object o2) -> {
+             Cell c1 = (Cell)o1;
+             Cell c2 = (Cell)o2;
+
+             return c1.finalCost<c2.finalCost?-1:
+                     c1.finalCost>c2.finalCost?1:0;
+         });
+        
+        //Set start position
+        setStartCell(si, sj); 
+        
+        //Set End Location
+        setEndCell(ei, ej); 
+        
+        for(int i=0;i<x;++i){
+           for(int j=0;j<y;++j){
+               grid[i][j] = new Cell(i, j);
+               grid[i][j].heuristicCost = Math.abs(i-endI)+Math.abs(j-endJ);
+           }
+        }
+        
+        grid[si][sj].finalCost = 0;
+        
+        /*
+          Set blocked cells. Simply set the cell values to null
+          for blocked cells.
+        */
+        for(int i=0;i<blocked.length;++i){
+            setBlocked(blocked[i][0], blocked[i][1]);
+        }
+        
+        AStar();
+       
+        if ( grid[ei][ej] == null) {
+        	return 50000; // Returns large value for the cost of travelling to obstacles
+        } else {
+        	return grid[ei][ej].finalCost;
+        }
+ }
      
     public static void main(String[] args) throws Exception{   
-        //test(1, 7, 5, 0, 0, 6, 2, new int[][]{{0,4},{2,2},{3,1},{3,3}}); 
+        test(1, 7, 5, 0, 0, 3, 1, new int[][]{{0,4},{2,2},{3,1},{3,3}}); 
         //test(2, 5, 5, 0, 0, 4, 4, new int[][]{{0,4},{2,2},{3,1},{3,3}});   
         //test(3, 7, 7, 2, 1, 5, 4, new int[][]{{4,1},{4,3},{5,3},{2,3}});
         
@@ -210,15 +271,21 @@ public class AStar {
         
         // Lincoln's test
         
-        String userHandle = "Hi";
-        int xLoc = 22;
-        int yLoc = 32 / 2;
-        Player p1 = new Player(xLoc, yLoc, 1, 001, userHandle);
-        Board gameBoard = new Board(24, 32, 1, p1);
+        //String userHandle = "Hi";
+        //int xLoc = 22;
+        //int yLoc = 32 / 2;
+        //Player p1 = new Player(xLoc, yLoc, 1, 001, userHandle);
+        //Board gameBoard = new Board(24, 32, 1, p1);
         
-        gameBoard.printBoard();
+        //gameBoard.printBoard();
 
-        test(2, gameBoard.getRows(), gameBoard.getColumns(), p1.getxLocation(), p1.getyLocation(), 2, 2, gameBoard.getObstacleMap().obstacleLocations());
+        //test(2, gameBoard.getRows(), gameBoard.getColumns(), p1.getxLocation(), p1.getyLocation(), 0, 2, gameBoard.getObstacleMap().obstacleLocations());
+        
+        // Look at costs in the end row (first row of the board)
+        //for (int i = 0; i <gameBoard.getColumns(); i++) {
+        	//int cost = aStarCost(gameBoard.getRows(), gameBoard.getColumns(), p1.getxLocation(), p1.getyLocation(), 0, i, gameBoard.getObstacleMap().obstacleLocations());
+        	//System.out.println(cost);
+        //}
         
     }
 }
