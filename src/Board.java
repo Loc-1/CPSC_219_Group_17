@@ -215,5 +215,12 @@ public class Board {
     public int getColumns() {
         return columns;
     }
+    
+    /**
+     * @return the obstacle map
+     */
+    public ObstacleMap getObstacleMap() {
+    	return obstacleMap;
+    }
 
 }
