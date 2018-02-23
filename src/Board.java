@@ -34,6 +34,7 @@ public class Board {
         this.board = new char[rows][columns];
         this.obstacleMap = new ObstacleMap(this.rows, this.columns, this.difficulty);
         this.playerOne = setPlayer;
+        this.enemies = new Enemy(this.rows, this.columns);
         
         if (this.rows < 0 || this.columns < 0) { // Temp error catching if.
             System.out.println("Width: " + setColumns);
@@ -48,7 +49,17 @@ public class Board {
                     }
                 }
             }
+            
+            // Place the player
             this.board[playerOne.getxLocation()][playerOne.getyLocation()] = 'P';
+            
+            // :TODO: Try multiple times to place an enemy, check that end coordinates are also not on an obstacle
+            //Place the enemies ensure they are not on an obstacle or the player
+            if (Arrays.asList(this.obstacleMap.obstacleLocations()).contains(this.enemies.getstartCoords())) {
+            	this.enemies = new Enemy(this.rows, this.columns);
+            } else {
+            	this.board[this.enemies.getstartCoords()[0]][this.enemies.getstartCoords()[1]] = 'E';
+            }
         }
 
     }
@@ -112,9 +123,12 @@ public class Board {
                     this.board[row][col] = '.';
                 }
             }
+        // :TODO: Replace enemies start coordinates with current coordinates once enemy has a path
+        this.board[this.enemies.getstartCoords()[0]][this.enemies.getstartCoords()[1]] = 'E';
+            
         }
-        if (this.obstacleMap.isObstacle(this.playerOne.getxLocation(), this.playerOne.getyLocation())) {
-            this.playerOne.kill(); // :TODO: Get rid of this set of conditionals
+        if ((this.enemies.getstartCoords()[0] == this.playerOne.getxLocation()) && (this.enemies.getstartCoords()[1] == this.playerOne.getyLocation())) {
+        	this.playerOne.kill();
         } else {
             this.board[this.playerOne.getxLocation()][this.playerOne.getyLocation()] = 'P';
 
