@@ -8,23 +8,23 @@ public class Player {
     private Boolean isAlive;
     private int userID;
     private String userHandle;
-    private int yLocation;
-    private int xLocation;
+    private int col;
+    private int row;
     private int score = 0;
     private int sprite; // :TODO: Change to a sprite class once one is implemented.
 
     /***
      * Constructor to add player sprite to the board.
-     * @param setXLocation player's starting x coordinate.
-     * @param setYLocation player's starting y coordinate.
+     * @param setRow player's starting x coordinate.
+     * @param setCol player's starting y coordinate.
      * @param setSprite player's character sprite.
      * @param setUserID either 0 for a single player game or 1 for a two player game.
      * @param setUserHandle player's chosen handle.
      */
-    public Player(int setXLocation, int setYLocation, int setSprite, int setUserID, String setUserHandle) {
+    public Player(int setRow, int setCol, int setSprite, int setUserID, String setUserHandle) {
         this.isAlive = true; // New players start off alive.
-        this.xLocation = setXLocation;
-        this.yLocation = setYLocation;
+        this.row = setRow;
+        this.col = setCol;
         this.sprite = setSprite;
         this.userID = setUserID;
         this.userHandle = setUserHandle;
@@ -37,12 +37,12 @@ public class Player {
         this.isAlive = false;
     }
 
-    public int getyLocation() {
-        return yLocation;
+    public int getCol() {
+        return col;
     }
 
-    public int getxLocation() {
-        return xLocation;
+    public int getRow() {
+        return row;
     }
 
     public Boolean isAlive() {
@@ -58,19 +58,19 @@ public class Player {
     }
 
     public void moveUp() {
-        this.xLocation -= 1;
+        this.row -= 1;
     }
 
     public void moveDown() {
-        this.xLocation += 1;
+        this.row += 1;
     }
 
     public void moveRight() {
-        this.yLocation += 1;
+        this.col += 1;
     }
 
     public void moveLeft() {
-        this.yLocation -= 1;
+        this.col -= 1;
     }
 
     public String getUserHandle() {

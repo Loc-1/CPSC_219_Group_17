@@ -1,4 +1,3 @@
-import java.awt.event.KeyEvent;
 import java.util.concurrent.TimeUnit;
 
 public class RunGame {
@@ -21,32 +20,4 @@ public class RunGame {
         RunGame game = new RunGame(26, 32, 1, "Noone");
     }
 
-    /**
-     * Dispatches KeyEvents; makes sure the move doesn't move into an obstacle.
-     *
-     * @param e a KeyEvent listener.
-     */
-    private void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_RIGHT || key == 68) {
-            if (this.board.isValidMove(this.playerOne.getxLocation(), this.playerOne.getyLocation() + 1)) {
-                this.playerOne.moveRight();
-            }
-        } else if (key == KeyEvent.VK_LEFT || key == 65) {
-            if (this.board.isValidMove(this.playerOne.getxLocation(), this.playerOne.getyLocation() - 1)) {
-                this.playerOne.moveLeft();
-            }
-        } else if (key == KeyEvent.VK_UP || key == 83) {
-            System.out.println("UP");
-            if (this.board.isValidMove(this.playerOne.getxLocation() + 1, this.playerOne.getyLocation())) {
-                this.playerOne.moveUp();
-            }
-        } else if (key == KeyEvent.VK_DOWN || key == 87) {
-            if (this.board.isValidMove(this.playerOne.getxLocation() - 1, this.playerOne.getyLocation())) {
-                this.playerOne.moveDown();
-            }
-        }
-    }
 }
-

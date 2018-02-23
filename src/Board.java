@@ -50,7 +50,7 @@ public class Board {
             }
             
             // Place the player
-            this.board[playerOne.getxLocation()][playerOne.getyLocation()] = 'P';
+            this.board[playerOne.getRow()][playerOne.getCol()] = 'P';
             
             // :TODO: Try multiple times to place an enemy, check that end coordinates are also not on an obstacle
             //Place the enemies ensure they are not on an obstacle or the player
@@ -86,13 +86,13 @@ public class Board {
     }
 
     /**
-     * @param xEnd destination x coord.
-     * @param yEnd destination y coord.
+     * @param rowEnd destination x coord.
+     * @param colEnd destination y coord.
      * @return true if move is valid.
      */
-    public Boolean isValidMove(int xEnd, int yEnd) {
+    public Boolean isValidMove(int rowEnd, int colEnd) {
         Boolean isValid = true;
-        if (this.obstacleMap.isObstacle(xEnd, yEnd)) {
+        if (this.obstacleMap.isObstacle(rowEnd, colEnd)) {
             isValid = false;
         }
 
@@ -126,10 +126,10 @@ public class Board {
         this.board[this.enemies.getstartCoords()[0]][this.enemies.getstartCoords()[1]] = 'E';
             
         }
-        if ((this.enemies.getstartCoords()[0] == this.playerOne.getxLocation()) && (this.enemies.getstartCoords()[1] == this.playerOne.getyLocation())) {
-        	this.playerOne.kill();
+        if ((this.enemies.getstartCoords()[0] == this.playerOne.getRow()) && (this.enemies.getstartCoords()[1] == this.playerOne.getCol())) {
+            this.playerOne.kill();
         } else {
-            this.board[this.playerOne.getxLocation()][this.playerOne.getyLocation()] = 'P';
+            this.board[this.playerOne.getRow()][this.playerOne.getCol()] = 'P';
 
         }
 
@@ -170,8 +170,8 @@ public class Board {
     	boolean isTraversable = false;
         
         for (int i = 0; i < columns; i++) {
-    	    int cost = pathfinding.AStar.aStarCost(rows, columns, playerOne.getxLocation(), playerOne.getyLocation(), 0, i, obstacleMap.obstacleLocations());
-    	    if ((0 < cost) && (cost < threshold)) {
+            int cost = pathfinding.AStar.aStarCost(rows, columns, playerOne.getRow(), playerOne.getCol(), 0, i, obstacleMap.obstacleLocations());
+            if ((0 < cost) && (cost < threshold)) {
     	    	isTraversable = true;
     	    }
         }

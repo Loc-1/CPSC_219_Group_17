@@ -9,33 +9,33 @@ public class PlayerTest{
 	@Test
 	public void test_x_coordinate_movement(){
 		Player tester = new Player(0,0,0,0,"null");
-		assertEquals("failed to initialize x coordinate", 0, tester.getxLocation());
+		assertEquals("failed to initialize x coordinate", 0, tester.getRow());
 		tester.moveUp();
-		assertEquals("movement up failed", -1, tester.getxLocation());
+		assertEquals("movement up failed", -1, tester.getRow());
 		tester = new Player(1,1,1,1,"null");
 		tester.moveUp();
-		assertEquals("movement up failed", 0, tester.getxLocation());
+		assertEquals("movement up failed", 0, tester.getRow());
 		tester = new Player(3,3,3,3,"null");
 		tester.moveUp();
-		assertEquals("movement up failed",2,tester.getxLocation());
+		assertEquals("movement up failed", 2, tester.getRow());
 		tester = new Player(5,5,5,5,"null");
 		tester.moveUp();
 		tester.moveUp();
-		assertEquals("consecutive movements up failed",3,tester.getxLocation());
+		assertEquals("consecutive movements up failed", 3, tester.getRow());
 		tester = new Player(0,0,0,0,"null");
-		assertEquals("failed to initialize x coordinate", 0, tester.getxLocation());
+		assertEquals("failed to initialize x coordinate", 0, tester.getRow());
 		tester.moveDown();
-		assertEquals("movement down failed", 1, tester.getxLocation());
+		assertEquals("movement down failed", 1, tester.getRow());
 		tester = new Player(1,1,1,1,"null");
 		tester.moveDown();
-		assertEquals("movement down failed", 2, tester.getxLocation());
+		assertEquals("movement down failed", 2, tester.getRow());
 		tester = new Player(3,3,3,3,"null");
 		tester.moveDown();
-		assertEquals("movement down failed",4,tester.getxLocation());
+		assertEquals("movement down failed", 4, tester.getRow());
 		tester = new Player(5,5,5,5,"null");
 		tester.moveDown();
 		tester.moveDown();
-		assertEquals("consecutive movements down failed",7,tester.getxLocation());
+		assertEquals("consecutive movements down failed", 7, tester.getRow());
 
 	}
 
@@ -44,33 +44,33 @@ public class PlayerTest{
 	@Test
 	public void test_y_coordinate_movement(){
 		Player tester = new Player(0,0,0,0,"null");
-		assertEquals("failed to initialize y coordinate", 0, tester.getyLocation());
+		assertEquals("failed to initialize y coordinate", 0, tester.getCol());
 		tester.moveLeft();
-		assertEquals("movement left failed", -1, tester.getyLocation());
+		assertEquals("movement left failed", -1, tester.getCol());
 		tester = new Player(1,1,1,1,"null");
 		tester.moveLeft();
-		assertEquals("movement left failed", 0, tester.getyLocation());
+		assertEquals("movement left failed", 0, tester.getCol());
 		tester = new Player(3,3,3,3,"null");
 		tester.moveLeft();
-		assertEquals("movement left failed",2,tester.getyLocation());
+		assertEquals("movement left failed", 2, tester.getCol());
 		tester = new Player(5,5,5,5,"null");
 		tester.moveLeft();
 		tester.moveLeft();
-		assertEquals("consecutive left movements failed",3,tester.getyLocation());
+		assertEquals("consecutive left movements failed", 3, tester.getCol());
 		tester = new Player(0,0,0,0,"null");
-		assertEquals("failed to initialize y coordinate", 0, tester.getyLocation());
+		assertEquals("failed to initialize y coordinate", 0, tester.getCol());
 		tester.moveRight();
-		assertEquals("movement right failed", 1, tester.getyLocation());
+		assertEquals("movement right failed", 1, tester.getCol());
 		tester = new Player(1,1,1,1,"null");
 		tester.moveRight();
-		assertEquals("movement right failed", 2, tester.getyLocation());
+		assertEquals("movement right failed", 2, tester.getCol());
 		tester = new Player(3,3,3,3,"null");
 		tester.moveRight();
-		assertEquals("movement right failed",4,tester.getyLocation());
+		assertEquals("movement right failed", 4, tester.getCol());
 		tester = new Player(5,5,5,5,"null");
 		tester.moveRight();
 		tester.moveRight();
-		assertEquals("consecutive right movements failed",7,tester.getyLocation());
+		assertEquals("consecutive right movements failed", 7, tester.getCol());
 		
 	}
 	

@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * Class Owner: Josh / Lachlan
@@ -9,16 +10,52 @@ import java.awt.event.KeyListener;
  */
 class BoardWindow {
     private TileMap tileMap;
+    private Board board;
     private final JFrame frame;
 
     /**
-     * Constructor builds out a new render from the board passed.
+     * Constructor builds out a new render from the board passed. Also adds a listener to the frame to manage keystroke
+     * handling.
      *
      * @param setBoard the board to render.
      */
     BoardWindow(Board setBoard) {
         this.tileMap = new TileMap(setBoard);
         this.frame = new JFrame("Group 17 Game");
+        this.board = setBoard;
+
+        // This adds the key listener and moves the player. It also ensures the player isn't trying to move onto an
+        // obstacle.
+        this.frame.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                int key = e.getKeyCode();
+
+                System.out.println(key);
+
+                if (key == 39 || key == 68) {
+                    if (board.isValidMove(board.getPlayerOne().getRow(), board.getPlayerOne().getCol() + 1)) {
+                        EventQueue.invokeLater(() -> board.getPlayerOne().moveRight());
+                    }
+                } else if (key == 37 || key == 65) {
+                    if (board.isValidMove(board.getPlayerOne().getRow(), board.getPlayerOne().getCol() - 1)) {
+                        EventQueue.invokeLater(() -> board.getPlayerOne().moveLeft());
+                    }
+                } else if (key == 38 || key == 83) {
+                    if (board.getPlayerOne().getRow() != 0 && board.isValidMove(
+                            board.getPlayerOne().getRow() - 1, board.getPlayerOne().getCol())) {
+                        EventQueue.invokeLater(() -> board.getPlayerOne().moveUp());
+                    }
+                } else if (key == 40 || key == 87) {
+                    if (board.getPlayerOne().getRow() != setBoard.getRows() - 1 && board.isValidMove(
+                            board.getPlayerOne().getRow() + 1, board.getPlayerOne().getCol())) {
+                        EventQueue.invokeLater(() -> board.getPlayerOne().moveDown());
+                    }
+                }
+            }
+
+        });
 
         EventQueue.invokeLater(() -> {
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -57,14 +94,6 @@ class BoardWindow {
         frame.dispose();
     }
 
-    /**
-     * Allows a KeyListener to be added to a frame.
-     *
-     * @param e a KeyListener.
-     */
-    public void setListener(KeyListener e) {
-        this.frame.addKeyListener(e);
-    }
 
     /**
      * Class sets the TileMap params by creating a bunch of JPanel objects with different colours. When this is improved
