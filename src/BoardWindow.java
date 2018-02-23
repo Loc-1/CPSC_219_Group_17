@@ -21,18 +21,16 @@ class BoardWindow {
      */
     BoardWindow(Board setBoard) {
         this.tileMap = new TileMap(setBoard);
-        this.frame = new JFrame("Group 17 Game");
         this.board = setBoard;
+        this.frame = new JFrame("Group 17 Game");
 
         // This adds the key listener and moves the player. It also ensures the player isn't trying to move onto an
-        // obstacle.
+        // obstacle or outside the Board array.
         this.frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
                 int key = e.getKeyCode();
-
-                System.out.println(key);
 
                 if (key == 39 || key == 68) {
                     if (board.isValidMove(board.getPlayerOne().getRow(), board.getPlayerOne().getCol() + 1)) {
@@ -94,6 +92,9 @@ class BoardWindow {
         frame.dispose();
     }
 
+    /**
+     * Kills the GameWindow frame.
+     */
     void trash() {
         this.frame.dispose();
     }
