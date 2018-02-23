@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
  * This is the primary game loop, it constructs a new game (Board, Player, and BoardWindow.)
  */
 public class RunGame {
-    private Boolean isRunning = true;
+    private Boolean isRunning;
 
     /**
      * Constructs a new board.
@@ -26,6 +26,7 @@ public class RunGame {
         // Main loop, also sets score. Score is loosely tracked by the second.
         try {
             while (playerOne.isAlive()) {
+                this.isRunning = true;
                 boardWindow.refresh(board);
                 TimeUnit.MILLISECONDS.sleep(15);
                 count++;
@@ -38,6 +39,7 @@ public class RunGame {
                 }
             }
         } catch (InterruptedException e) {
+            this.isRunning = false;
             e.printStackTrace();
         }
 
@@ -45,7 +47,7 @@ public class RunGame {
         boardWindow.endGame();
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         RunGame game = new RunGame(32, 26, 1, "Josh");
     }
 
