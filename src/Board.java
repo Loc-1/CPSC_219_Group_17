@@ -256,5 +256,12 @@ public class Board {
     public ObstacleMap getObstacleMap() {
     	return obstacleMap;
     }
+    
+    /**
+     * @return the player
+     */
+    public Player getPlayer() {
+    	return playerOne;
+    }
 
 }
