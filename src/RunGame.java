@@ -43,7 +43,7 @@ public class RunGame {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        RunGame game = new RunGame(32, 26, 1, "Noone");
+        RunGame game = new RunGame(32, 26, 1, "Josh");
     }
 
     public Boolean isRunning() {

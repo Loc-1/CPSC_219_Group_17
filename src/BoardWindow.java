@@ -25,7 +25,7 @@ class BoardWindow {
         this.frame = new JFrame("Group 17 Game");
 
         // This adds the key listener and moves the player. It also ensures the player isn't trying to move onto an
-        // obstacle or outside the Board array.
+        // obstacle or outside the Board array. Ends game when escape is pressed.
         this.frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -50,6 +50,8 @@ class BoardWindow {
                             board.getPlayerOne().getRow() + 1, board.getPlayerOne().getCol())) {
                         EventQueue.invokeLater(() -> board.getPlayerOne().moveDown());
                     }
+                } else if (key == 27) {
+                    endGame();
                 }
             }
 
@@ -83,12 +85,23 @@ class BoardWindow {
     }
 
     /**
-     * Ends the game. :TODO: Make this nice.
+     * Ends the game, if the player is alive, the player is killed. A nice message showing the player's name and final
+     * score is shown.
      */
     void endGame() {
         frame.remove(tileMap);
-        JOptionPane.showConfirmDialog(null, "You Died", "Close",
+
+        // Need to kill the player if the game is escaped manually. This stops the main game loop.
+        if (this.board.getPlayerOne().isAlive()) {
+            this.board.getPlayerOne().kill();
+        }
+
+        // Show a message with the players score.
+        JOptionPane.showConfirmDialog(null,
+                this.board.getPlayerOne().getUserHandle() + " died\nScore: "
+                        + this.board.getPlayerOne().getScore(), "Game Over",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+
         frame.dispose();
     }
 
