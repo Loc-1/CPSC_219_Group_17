@@ -100,6 +100,51 @@ public class ObstacleMap {
 
         return count;
     }
+    
+    /**
+     * Determine coordinates of obstacles in the map
+     * @return A int array containing coordinates of the obstacles [row, column]
+     */
+    public int[][] obstacleLocations(){
+    	
+    	boolean[][] checkMap = this.obstacleMap;
+    	int numObstacles = checkNumObstacles();
+    	int obstacleNum = 0;
+    	
+    	int[][] locations = new int[numObstacles][2];
+    	
+    	for (int i = 0; i < checkMap.length; i++) {
+    		for (int j = 0; j < checkMap[0].length; j++) {
+    			if (checkMap[i][j]) { 				
+    				locations[obstacleNum][0] = i;
+    				locations[obstacleNum][1] = j;
+    				obstacleNum += 1;
+
+    			}
+    			
+    		}
+    	}
+        return locations;
+    }
+    
+    /**
+     * Determines the amount of obstacles in the map
+     */
+    public int checkNumObstacles() {
+    	
+    	boolean[][] checkMap = this.obstacleMap;
+    	int numObstacles = 0;
+    	
+    	for (int i = 0; i < checkMap.length; i++) {
+    		for (int j = 0; j < checkMap[0].length; j++) {
+    			if (checkMap[i][j]) {
+    				numObstacles += 1;
+    			}
+    		}
+    	}
+    	
+    	return numObstacles;
+    }
 
     /**
      * First pass at the flood fill map checker.

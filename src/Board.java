@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import pathfinding.*;
 
 
 /**
@@ -33,8 +34,7 @@ public class Board {
         this.board = new char[rows][columns];
         this.obstacleMap = new ObstacleMap(this.rows, this.columns, this.difficulty);
         this.playerOne = setPlayer;
-
-
+        
         if (this.rows < 0 || this.columns < 0) { // Temp error catching if.
             System.out.println("Width: " + setColumns);
             System.out.println("Height: " + setRows);
@@ -146,6 +146,26 @@ public class Board {
     public void setBoard(int row, int col, char setChar) {
         this.board[row][col] = setChar;
     }
+    
+    /**
+     * Check if the board is traversable
+     * Changes to the threshold modifier modify leniency on map traversability
+     * @return True if the map is deemed traversable
+     */
+    public boolean isTraversable() {
+    	int threshold = 900; // Decrease value to tighten restraints on traversability
+    	boolean isTraversable = false;
+        
+        for (int i = 0; i < columns; i++) {
+    	    int cost = pathfinding.AStar.aStarCost(rows, columns, playerOne.getxLocation(), playerOne.getyLocation(), 0, i, obstacleMap.obstacleLocations());
+    	    if ((0 < cost) && (cost < threshold)) {
+    	    	isTraversable = true;
+    	    }
+        }
+        
+        return isTraversable;
+       
+    }
 
 
     /**
@@ -214,6 +234,13 @@ public class Board {
      */
     public int getColumns() {
         return columns;
+    }
+    
+    /**
+     * @return the obstacle map
+     */
+    public ObstacleMap getObstacleMap() {
+    	return obstacleMap;
     }
 
 }
