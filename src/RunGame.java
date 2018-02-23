@@ -15,9 +15,8 @@ public class RunGame {
      * @param cols       the desired number of columns.
      * @param difficulty the desired difficulty.
      * @param handle     the player's handle. :TODO: Add a second player.
-     * @throws InterruptedException if the while loop is interrupted.
      */
-    public RunGame(int rows, int cols, int difficulty, String handle) throws InterruptedException {
+    public RunGame(int rows, int cols, int difficulty, String handle) {
         Player playerOne = new Player(rows - 1, cols / 2, 1, 1, handle);
         Board board = new Board(rows, cols, difficulty, playerOne);
         BoardWindow boardWindow = new BoardWindow(board);
@@ -25,17 +24,21 @@ public class RunGame {
         int count = 0;
 
         // Main loop, also sets score. Score is loosely tracked by the second.
-        while (playerOne.isAlive()) {
-            boardWindow.refresh(board);
-            TimeUnit.MILLISECONDS.sleep(15);
-            count++;
-            if (count < 70) {
-                if (count == 69) {
-                    playerOne.setScore(playerOne.getScore() + 1);
-                    System.out.println(playerOne.getScore());
-                    count = 0;
+        try {
+            while (playerOne.isAlive()) {
+                boardWindow.refresh(board);
+                TimeUnit.MILLISECONDS.sleep(15);
+                count++;
+                if (count < 70) {
+                    if (count == 69) {
+                        playerOne.setScore(playerOne.getScore() + 1);
+                        System.out.println(playerOne.getScore());
+                        count = 0;
+                    }
                 }
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         this.isRunning = false;
