@@ -94,6 +94,10 @@ class BoardWindow {
         frame.dispose();
     }
 
+    void trash() {
+        this.frame.dispose();
+    }
+
 
     /**
      * Class sets the TileMap params by creating a bunch of JPanel objects with different colours. When this is improved
