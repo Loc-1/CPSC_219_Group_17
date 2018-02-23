@@ -20,7 +20,6 @@ public class RunGame {
     public RunGame(int rows, int cols, int difficulty, String handle) throws InterruptedException {
         Player playerOne = new Player(rows - 1, cols / 2, 1, 1, handle);
         Board board = new Board(rows, cols, difficulty, playerOne);
-
         BoardWindow boardWindow = new BoardWindow(board);
 
         int count = 0;
@@ -40,8 +39,7 @@ public class RunGame {
         }
 
         this.isRunning = false;
-        boardWindow.trash();
-
+        boardWindow.endGame();
     }
 
     public static void main(String[] args) throws InterruptedException {
