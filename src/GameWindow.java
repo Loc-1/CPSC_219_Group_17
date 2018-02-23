@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
@@ -34,6 +35,8 @@ public class GameWindow {
     private JTextField nameField;
     private JTextField rowField;
     private JTextField colField;
+    private Player thePlayer;
+    private Board theBoard;
 
     /**
      * Launch the application.
@@ -137,7 +140,7 @@ public class GameWindow {
         btnStart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 System.out.println("Game start");
-
+                
             }
         });
 
@@ -161,5 +164,28 @@ public class GameWindow {
         });
         btnTutorial.setBounds(12, 64, 97, 25);
         panel_2.add(btnTutorial);
+    }
+
+    /**
+     * This method gets the constant movement commands from the user ie. arrow keys
+     * or wasd
+     * 
+     * @param e
+     */
+    public void keyPressed(KeyEvent e) {
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_RIGHT || key == 68) {
+            this.thePlayer.moveRight();
+        }
+        if (key == KeyEvent.VK_LEFT || key == 65) {
+            this.thePlayer.moveLeft();
+        }
+        if (key == KeyEvent.VK_DOWN || key == 83) {
+            this.thePlayer.moveDown();
+        }
+        if (key == KeyEvent.VK_UP || key == 87) {
+            this.thePlayer.moveUp();
+        }
     }
 }
