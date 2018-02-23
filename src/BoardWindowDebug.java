@@ -80,8 +80,8 @@ public class BoardWindowDebug extends JPanel {
     }
 
     public static void main(String[] args) {
-        Player testPlayer = new Player(25, 32 / 2, 1, 1, "");
-        Board testBoard = new Board(26, 32, 1, testPlayer);
+        Player testPlayer = new Player(31, 26 / 2, 1, 1, "");
+        Board testBoard = new Board(32, 26, 1, testPlayer);
         BoardWindow testWindow = new BoardWindow(testBoard);
         new BoardWindowDebug(testBoard, testPlayer, testWindow);
     }

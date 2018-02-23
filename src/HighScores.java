@@ -3,7 +3,8 @@ import java.io.*;
 /**
  * Class Owner: Josh
  *
- * Stores high scores in a text files, reads the same file and returns a high score array (String[][]).
+ * Stores high scores in a text files, reads the same file and returns a high score array (String[][]). Ten high scores
+ * are saved (i.e. the "top 10").
  */
 public class HighScores {
     private Object[][] highScores = new Object[10][2];
@@ -60,7 +61,7 @@ public class HighScores {
         return null;
     }
 
-    public void set(String user_name, int score) {
+    public void setScore(String user_name, int score) {
     }
 
     public Object[][] getHighScores() {
