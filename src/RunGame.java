@@ -9,7 +9,7 @@ public class RunGame {
     private Boolean isRunning;
 
     /**
-     * Constructs a new board.
+     * Constructs a new game.
      *
      * @param rows       the desired number of rows.
      * @param cols       the desired number of columns.
@@ -17,14 +17,28 @@ public class RunGame {
      * @param handle     the player's handle. :TODO: Add a second player.
      */
     public RunGame(int rows, int cols, int difficulty, String handle) {
-        Player playerOne = new Player(rows - 1, cols / 2, 1, 1, handle);
-        Board board = new Board(rows, cols, difficulty, playerOne);
-        BoardWindow boardWindow = new BoardWindow(board);
+        Player playerOne;
+        Board board;
+        BoardWindow boardWindow;
 
-        int count = 0;
+        if (rows > 20 && cols > 20) {
+            playerOne = new Player(rows - 1, cols / 2, 1, 1, handle);
+            board = new Board(rows, cols, difficulty, playerOne);
+            boardWindow = new BoardWindow(board);
+        } else {
+            try {
+                throw new SizeException("Invalid number of rows and columns, both must be greater than 20.");
+            } catch (SizeException e) {
+                e.printStackTrace();
+                return; // cheating to end the loop.
+            }
+
+        }
 
         // Main loop, also sets score. Score is loosely tracked by the second.
         try {
+            int count = 0; // Counter is needed to calculate score.
+
             while (playerOne.isAlive()) {
                 this.isRunning = true;
                 boardWindow.refresh(board);
@@ -41,18 +55,29 @@ public class RunGame {
         } catch (InterruptedException e) {
             this.isRunning = false;
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
 
         this.isRunning = false;
         boardWindow.endGame();
+
     }
 
     public static void main(String[] args) {
-        RunGame game = new RunGame(32, 26, 1, "Josh");
+        new RunGame(32, 26, 1, "Josh");
     }
 
     public Boolean isRunning() {
         return this.isRunning;
     }
 
+    /**
+     * Custom exception for when the board size is too small.
+     */
+    class SizeException extends Exception {
+        SizeException(String setMessage) {
+            super(setMessage);
+        }
+    }
 }
