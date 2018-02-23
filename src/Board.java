@@ -259,10 +259,6 @@ public class Board {
     /**
      * @return the player
      */
-    public Player getPlayer() {
-    	return playerOne;
-    }
-
     public Player getPlayerOne() {
         return playerOne;
     }
