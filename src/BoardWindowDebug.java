@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Class Owner - Josh
@@ -79,11 +80,16 @@ public class BoardWindowDebug extends JPanel {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Player testPlayer = new Player(31, 26 / 2, 1, 1, "");
         Board testBoard = new Board(32, 26, 1, testPlayer);
         BoardWindow testWindow = new BoardWindow(testBoard);
         new BoardWindowDebug(testBoard, testPlayer, testWindow);
+
+        while (true) {
+            testBoard.refresh();
+            TimeUnit.MILLISECONDS.sleep(15);
+        }
     }
 
 }
