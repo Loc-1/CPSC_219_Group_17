@@ -100,6 +100,8 @@ class BoardWindow {
                 color = Color.BLACK;
             } else if (setBoard.getTile(row, col) == '.') {
                 color = Color.WHITE;
+            } else if (setBoard.getTile(row, col) == 'E') {
+                color = Color.ORANGE;
             }
 
             return color;
