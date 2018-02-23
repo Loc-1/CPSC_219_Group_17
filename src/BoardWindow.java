@@ -40,12 +40,12 @@ class BoardWindow {
                     if (board.isValidMove(board.getPlayerOne().getRow(), board.getPlayerOne().getCol() - 1)) {
                         EventQueue.invokeLater(() -> board.getPlayerOne().moveLeft());
                     }
-                } else if (key == 38 || key == 83) {
+                } else if (key == 38 || key == 87) {
                     if (board.getPlayerOne().getRow() != 0 && board.isValidMove(
                             board.getPlayerOne().getRow() - 1, board.getPlayerOne().getCol())) {
                         EventQueue.invokeLater(() -> board.getPlayerOne().moveUp());
                     }
-                } else if (key == 40 || key == 87) {
+                } else if (key == 40 || key == 83) {
                     if (board.getPlayerOne().getRow() != setBoard.getRows() - 1 && board.isValidMove(
                             board.getPlayerOne().getRow() + 1, board.getPlayerOne().getCol())) {
                         EventQueue.invokeLater(() -> board.getPlayerOne().moveDown());
