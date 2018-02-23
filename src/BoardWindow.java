@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
 
 /**
  * Class Owner: Josh / Lachlan
@@ -54,6 +55,15 @@ class BoardWindow {
         JOptionPane.showConfirmDialog(null, "You Died", "Close",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         frame.dispose();
+    }
+
+    /**
+     * Allows a KeyListener to be added to a frame.
+     *
+     * @param e a KeyListener.
+     */
+    public void setListener(KeyListener e) {
+        this.frame.addKeyListener(e);
     }
 
     /**

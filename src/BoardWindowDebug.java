@@ -86,9 +86,9 @@ public class BoardWindowDebug extends JPanel {
         BoardWindow testWindow = new BoardWindow(testBoard);
         new BoardWindowDebug(testBoard, testPlayer, testWindow);
 
-        while (true) {
+        while (testPlayer.isAlive()) {
             testWindow.refresh(testBoard);
-            TimeUnit.MILLISECONDS.sleep(15);
+            TimeUnit.MILLISECONDS.sleep(150);
         }
     }
 

@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import pathfinding.*;
 
 
 /**
@@ -202,7 +201,7 @@ public class Board {
             for (int rowCount = 0; rowCount < rows; rowCount++) {
                 for (int colCount = 0; colCount < columns; colCount++) {
                     this.obstacleMap.setObstacle(rowCount, colCount, false);
-                    this.obstacleMap.setObstacle(rowCount, colCount, oldMap.generateRandomDouble() < oldMap.calcDifficultyModifier(this.difficulty));
+                    this.obstacleMap.setObstacle(rowCount, colCount, oldMap.generateRandomDouble() < ObstacleMap.calcDifficultyModifier(this.difficulty));
                 }
             }
             this.refresh();
@@ -264,4 +263,7 @@ public class Board {
     	return playerOne;
     }
 
+    public Player getPlayerOne() {
+        return playerOne;
+    }
 }
