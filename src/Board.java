@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import pathfinding.*;
 
 
 /**
@@ -50,7 +51,7 @@ public class Board {
             }
             
             // Place the player
-            this.board[playerOne.getRow()][playerOne.getCol()] = 'P';
+            this.board[playerOne.getxLocation()][playerOne.getyLocation()] = 'P';
             
             // :TODO: Try multiple times to place an enemy, check that end coordinates are also not on an obstacle
             //Place the enemies ensure they are not on an obstacle or the player
@@ -86,13 +87,13 @@ public class Board {
     }
 
     /**
-     * @param rowEnd destination x coord.
-     * @param colEnd destination y coord.
+     * @param xEnd destination x coord.
+     * @param yEnd destination y coord.
      * @return true if move is valid.
      */
-    public Boolean isValidMove(int rowEnd, int colEnd) {
+    public Boolean isValidMove(int xEnd, int yEnd) {
         Boolean isValid = true;
-        if (this.obstacleMap.isObstacle(rowEnd, colEnd)) {
+        if (this.obstacleMap.isObstacle(xEnd, yEnd)) {
             isValid = false;
         }
 
@@ -126,14 +127,27 @@ public class Board {
         this.board[this.enemies.getstartCoords()[0]][this.enemies.getstartCoords()[1]] = 'E';
             
         }
-        if ((this.enemies.getstartCoords()[0] == this.playerOne.getRow()) && (this.enemies.getstartCoords()[1] == this.playerOne.getCol())) {
-            this.playerOne.kill();
+        if ((this.enemies.getstartCoords()[0] == this.playerOne.getxLocation()) && (this.enemies.getstartCoords()[1] == this.playerOne.getyLocation())) {
+        	this.playerOne.kill();
         } else {
-            this.board[this.playerOne.getRow()][this.playerOne.getCol()] = 'P';
+            this.board[this.playerOne.getxLocation()][this.playerOne.getyLocation()] = 'P';
 
         }
 
     }
+
+    /**
+     *
+     * @param newMap new obstacle map to be updated to board
+     */
+
+    public void refreshObstacleMap (ObstacleMap newMap) {
+        this.obstacleMap = newMap;
+
+
+    }
+
+
 
     /**
      * @param row the row to check.
@@ -170,8 +184,8 @@ public class Board {
     	boolean isTraversable = false;
         
         for (int i = 0; i < columns; i++) {
-            int cost = pathfinding.AStar.aStarCost(rows, columns, playerOne.getRow(), playerOne.getCol(), 0, i, obstacleMap.obstacleLocations());
-            if ((0 < cost) && (cost < threshold)) {
+    	    int cost = pathfinding.AStar.aStarCost(rows, columns, playerOne.getxLocation(), playerOne.getyLocation(), 0, i, obstacleMap.obstacleLocations());
+    	    if ((0 < cost) && (cost < threshold)) {
     	    	isTraversable = true;
     	    }
         }
@@ -179,42 +193,6 @@ public class Board {
         return isTraversable;
        
     }
-
-
-    /**
-     *
-     * @param oldMap    the ObstacleMap to be overwritten
-     * @param type      the type of overwrite action (0 == clear; 1 == regenerate)
-     */
-
-    public void resetObstacleMap(ObstacleMap oldMap, int type){
-
-        if(type == 0) {
-            for (int rowCount = 0; rowCount < rows; rowCount++) {
-                for (int colCount = 0; colCount < columns; colCount++) {
-                    this.obstacleMap.setObstacle(rowCount, colCount, false);
-                }
-            }
-            this.refresh();
-        }
-        if(type == 1) {
-            for (int rowCount = 0; rowCount < rows; rowCount++) {
-                for (int colCount = 0; colCount < columns; colCount++) {
-                    this.obstacleMap.setObstacle(rowCount, colCount, false);
-                    this.obstacleMap.setObstacle(rowCount, colCount, oldMap.generateRandomDouble() < ObstacleMap.calcDifficultyModifier(this.difficulty));
-                }
-            }
-            this.refresh();
-        }
-
-    }
-
-
-
-
-
-
-
 
 
 
@@ -234,6 +212,13 @@ public class Board {
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
+
+
+    /**
+     *
+     * @return the difficulty as an int.
+     */
+    public int getDifficulty() {return difficulty;}
 
     /**
      * @return the number of rows as an int.
@@ -255,11 +240,5 @@ public class Board {
     public ObstacleMap getObstacleMap() {
     	return obstacleMap;
     }
-    
-    /**
-     * @return the player
-     */
-    public Player getPlayerOne() {
-        return playerOne;
-    }
+
 }
