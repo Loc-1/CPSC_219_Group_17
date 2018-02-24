@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import pathfinding.*;
 
 
 /**
@@ -35,7 +34,7 @@ public class Board {
         this.obstacleMap = new ObstacleMap(this.rows, this.columns, this.difficulty);
         this.playerOne = setPlayer;
         this.enemies = new Enemy(this.rows, this.columns);
-        
+
         if (this.rows < 0 || this.columns < 0) { // Temp error catching if.
             System.out.println("Width: " + setColumns);
             System.out.println("Height: " + setRows);
@@ -49,16 +48,16 @@ public class Board {
                     }
                 }
             }
-            
+
             // Place the player
-            this.board[playerOne.getxLocation()][playerOne.getyLocation()] = 'P';
-            
+            this.board[playerOne.getRow()][playerOne.getCol()] = 'P';
+
             // :TODO: Try multiple times to place an enemy, check that end coordinates are also not on an obstacle
             //Place the enemies ensure they are not on an obstacle or the player
             if (Arrays.asList(this.obstacleMap.obstacleLocations()).contains(this.enemies.getstartCoords())) {
-            	this.enemies = new Enemy(this.rows, this.columns);
+                this.enemies = new Enemy(this.rows, this.columns);
             } else {
-            	this.board[this.enemies.getstartCoords()[0]][this.enemies.getstartCoords()[1]] = 'E';
+                this.board[this.enemies.getstartCoords()[0]][this.enemies.getstartCoords()[1]] = 'E';
             }
         }
 
@@ -87,27 +86,27 @@ public class Board {
     }
 
     /**
-     * @param xEnd destination x coord.
-     * @param yEnd destination y coord.
+     * @param rowEnd destination x coord.
+     * @param colEnd destination y coord.
      * @return true if move is valid.
      */
-    public Boolean isValidMove(int xEnd, int yEnd) {
+    public Boolean isValidMove(int rowEnd, int colEnd) {
         Boolean isValid = true;
-        if (this.obstacleMap.isObstacle(xEnd, yEnd)) {
+        if (this.obstacleMap.isObstacle(rowEnd, colEnd)) {
             isValid = false;
         }
 
         return isValid;
     }
-    
+
     /**
      * @param player specified player
      * @return true if player is dead.
      */
     public Boolean isPlayerDead(Player player) {
-    	Boolean isDead = false;
-    	return isDead;
-    	// :TODO: Write some code about if player coordinates are same as enemy coordinates.
+        Boolean isDead = false;
+        return isDead;
+        // :TODO: Write some code about if player coordinates are same as enemy coordinates.
     }
 
     /**
@@ -123,31 +122,18 @@ public class Board {
                     this.board[row][col] = '.';
                 }
             }
-        // :TODO: Replace enemies start coordinates with current coordinates once enemy has a path
-        this.board[this.enemies.getstartCoords()[0]][this.enemies.getstartCoords()[1]] = 'E';
-            
+            // :TODO: Replace enemies start coordinates with current coordinates once enemy has a path
+            this.board[this.enemies.getstartCoords()[0]][this.enemies.getstartCoords()[1]] = 'E';
+
         }
-        if ((this.enemies.getstartCoords()[0] == this.playerOne.getxLocation()) && (this.enemies.getstartCoords()[1] == this.playerOne.getyLocation())) {
-        	this.playerOne.kill();
+        if ((this.enemies.getstartCoords()[0] == this.playerOne.getRow()) && (this.enemies.getstartCoords()[1] == this.playerOne.getCol())) {
+            this.playerOne.kill();
         } else {
-            this.board[this.playerOne.getxLocation()][this.playerOne.getyLocation()] = 'P';
+            this.board[this.playerOne.getRow()][this.playerOne.getCol()] = 'P';
 
         }
 
     }
-
-    /**
-     *
-     * @param newMap new obstacle map to be updated to board
-     */
-
-    public void refreshObstacleMap (ObstacleMap newMap) {
-        this.obstacleMap = newMap;
-
-
-    }
-
-
 
     /**
      * @param row the row to check.
@@ -173,28 +159,54 @@ public class Board {
     public void setBoard(int row, int col, char setChar) {
         this.board[row][col] = setChar;
     }
-    
+
     /**
      * Check if the board is traversable
      * Changes to the threshold modifier modify leniency on map traversability
      * @return True if the map is deemed traversable
      */
     public boolean isTraversable() {
-    	int threshold = 900; // Decrease value to tighten restraints on traversability
-    	boolean isTraversable = false;
-        
+        int threshold = 900; // Decrease value to tighten restraints on traversability
+        boolean isTraversable = false;
+
         for (int i = 0; i < columns; i++) {
-    	    int cost = pathfinding.AStar.aStarCost(rows, columns, playerOne.getxLocation(), playerOne.getyLocation(), 0, i, obstacleMap.obstacleLocations());
-    	    if ((0 < cost) && (cost < threshold)) {
-    	    	isTraversable = true;
-    	    }
+            int cost = pathfinding.AStar.aStarCost(rows, columns, playerOne.getRow(), playerOne.getCol(), 0, i, obstacleMap.obstacleLocations());
+            if ((0 < cost) && (cost < threshold)) {
+                isTraversable = true;
+            }
         }
-        
+
         return isTraversable;
-       
+
     }
 
 
+    /**
+     * @param oldMap the ObstacleMap to be overwritten
+     * @param type   the type of overwrite action (0 == clear; 1 == regenerate)
+     */
+
+    public void resetObstacleMap(ObstacleMap oldMap, int type) {
+
+        if (type == 0) {
+            for (int rowCount = 0; rowCount < rows; rowCount++) {
+                for (int colCount = 0; colCount < columns; colCount++) {
+                    this.obstacleMap.setObstacle(rowCount, colCount, false);
+                }
+            }
+            this.refresh();
+        }
+        if (type == 1) {
+            for (int rowCount = 0; rowCount < rows; rowCount++) {
+                for (int colCount = 0; colCount < columns; colCount++) {
+                    this.obstacleMap.setObstacle(rowCount, colCount, false);
+                    this.obstacleMap.setObstacle(rowCount, colCount, oldMap.generateRandomDouble() < ObstacleMap.calcDifficultyModifier(this.difficulty));
+                }
+            }
+            this.refresh();
+        }
+
+    }
 
 
     /**
@@ -213,13 +225,6 @@ public class Board {
         this.difficulty = difficulty;
     }
 
-
-    /**
-     *
-     * @return the difficulty as an int.
-     */
-    public int getDifficulty() {return difficulty;}
-
     /**
      * @return the number of rows as an int.
      */
@@ -233,12 +238,15 @@ public class Board {
     public int getColumns() {
         return columns;
     }
-    
+
     /**
      * @return the obstacle map
      */
     public ObstacleMap getObstacleMap() {
-    	return obstacleMap;
+        return obstacleMap;
     }
 
+    public Player getPlayerOne() {
+        return playerOne;
+    }
 }
