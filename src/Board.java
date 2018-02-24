@@ -137,6 +137,19 @@ public class Board {
     }
 
     /**
+     *
+     * @param newMap new obstacle map to be updated to board
+     */
+
+    public void refreshObstacleMap (ObstacleMap newMap) {
+        this.obstacleMap = newMap;
+
+
+    }
+
+
+
+    /**
      * @param row the row to check.
      * @param col the col to check.
      * @return the symbol at (row, col).
@@ -182,42 +195,6 @@ public class Board {
     }
 
 
-    /**
-     *
-     * @param oldMap    the ObstacleMap to be overwritten
-     * @param type      the type of overwrite action (0 == clear; 1 == regenerate)
-     */
-
-    public void resetObstacleMap(ObstacleMap oldMap, int type){
-
-        if(type == 0) {
-            for (int rowCount = 0; rowCount < rows; rowCount++) {
-                for (int colCount = 0; colCount < columns; colCount++) {
-                    this.obstacleMap.setObstacle(rowCount, colCount, false);
-                }
-            }
-            this.refresh();
-        }
-        if(type == 1) {
-            for (int rowCount = 0; rowCount < rows; rowCount++) {
-                for (int colCount = 0; colCount < columns; colCount++) {
-                    this.obstacleMap.setObstacle(rowCount, colCount, false);
-                    this.obstacleMap.setObstacle(rowCount, colCount, oldMap.generateRandomDouble() < oldMap.calcDifficultyModifier(this.difficulty));
-                }
-            }
-            this.refresh();
-        }
-
-    }
-
-
-
-
-
-
-
-
-
 
 
     /**
@@ -235,6 +212,13 @@ public class Board {
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
+
+
+    /**
+     *
+     * @return the difficulty as an int.
+     */
+    public int getDifficulty() {return difficulty;}
 
     /**
      * @return the number of rows as an int.
