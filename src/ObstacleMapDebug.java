@@ -18,7 +18,7 @@ public class ObstacleMapDebug extends JPanel{
                 if (setPlayer.isAlive()) {
                     testObstacleMap.resetObstacleMap(1);
                     setBoard.refresh();
-                    setBoard.refreshObstacleMap(testObstacleMap);
+                    // setBoard.refreshObstacleMap(testObstacleMap);
 
 
                     setWindow.refresh(setBoard);
@@ -59,7 +59,7 @@ public class ObstacleMapDebug extends JPanel{
                 if (setPlayer.isAlive()) {
                     testObstacleMap.resetObstacleMap(0);
                     setBoard.refresh();
-                    setBoard.refreshObstacleMap(testObstacleMap);
+                    // setBoard.refreshObstacleMap(testObstacleMap);
                     setWindow.refresh(setBoard);
                 } else {
                     frame.dispose();
