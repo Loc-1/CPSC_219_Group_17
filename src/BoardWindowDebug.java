@@ -20,7 +20,7 @@ public class BoardWindowDebug extends JPanel {
             up.addActionListener(e -> {
                 if (setPlayer.isAlive()) {
                     setPlayer.moveUp();
-                    setWindow.refresh(setBoard);
+                    setWindow.refresh();
                 } else {
                     frame.dispose();
                     setWindow.endGame();
@@ -31,7 +31,7 @@ public class BoardWindowDebug extends JPanel {
             down.addActionListener(e -> {
                 if (setPlayer.isAlive()) {
                     setPlayer.moveDown();
-                    setWindow.refresh(setBoard);
+                    setWindow.refresh();
                 } else {
                     frame.dispose();
                     setWindow.endGame();
@@ -42,7 +42,7 @@ public class BoardWindowDebug extends JPanel {
             left.addActionListener(e -> {
                 if (setPlayer.isAlive()) {
                     setPlayer.moveLeft();
-                    setWindow.refresh(setBoard);
+                    setWindow.refresh();
                 } else {
                     frame.dispose();
                     setWindow.endGame();
@@ -53,7 +53,7 @@ public class BoardWindowDebug extends JPanel {
             right.addActionListener(e -> {
                 if (setPlayer.isAlive()) {
                     setPlayer.moveRight();
-                    setWindow.refresh(setBoard);
+                    setWindow.refresh();
                 } else {
                     frame.dispose();
                     setWindow.endGame();
@@ -87,7 +87,7 @@ public class BoardWindowDebug extends JPanel {
         new BoardWindowDebug(testBoard, testPlayer, testWindow);
 
         while (testPlayer.isAlive()) {
-            testWindow.refresh(testBoard);
+            testWindow.refresh();
             TimeUnit.MILLISECONDS.sleep(150);
         }
     }

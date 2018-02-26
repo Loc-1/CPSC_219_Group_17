@@ -21,7 +21,7 @@ public class ObstacleMapDebug extends JPanel{
                     // setBoard.refreshObstacleMap(testObstacleMap);
 
 
-                    setWindow.refresh(setBoard);
+                    setWindow.refresh();
                 } else {
                     frame.dispose();
                     setWindow.endGame();
@@ -36,7 +36,7 @@ public class ObstacleMapDebug extends JPanel{
 
                     if (setBoard.isTraversable()) {
 
-                        setWindow.refresh(setBoard);
+                        setWindow.refresh();
 
 
                     } else {
@@ -60,7 +60,7 @@ public class ObstacleMapDebug extends JPanel{
                     testObstacleMap.resetObstacleMap(0);
                     setBoard.refresh();
                     // setBoard.refreshObstacleMap(testObstacleMap);
-                    setWindow.refresh(setBoard);
+                    setWindow.refresh();
                 } else {
                     frame.dispose();
                     setWindow.endGame();

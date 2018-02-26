@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
 class BoardWindow {
     private TileMap tileMap;
     private Board board;
-    private final JFrame frame;
+    private JFrame frame;
 
     /**
      * Constructor builds out a new render from the board passed. Also adds a listener to the frame to manage keystroke
@@ -20,13 +20,13 @@ class BoardWindow {
      * @param setBoard the board to render.
      */
     BoardWindow(Board setBoard) {
-        this.tileMap = new TileMap(setBoard);
-        this.board = setBoard;
-        this.frame = new JFrame("Group 17 Game");
+        tileMap = new TileMap(setBoard);
+        board = setBoard;
+        frame = new JFrame("Group 17 Game");
 
         // This adds the key listener and moves the player. It also ensures the player isn't trying to move onto an
         // obstacle or outside the Board array. Ends game when escape is pressed.
-        this.frame.addKeyListener(new KeyAdapter() {
+        frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
@@ -69,15 +69,15 @@ class BoardWindow {
     /**
      * Refresh the Window after something moves. Runs in the EventQueue to keep everything moving along nicely.
      *
-     * @param setBoard the board to re-render.
      */
-    void refresh(Board setBoard) {
-        setBoard.refresh();
+    void refresh() {
+        board.refresh();
         frame.remove(tileMap);
-        this.tileMap = new TileMap(setBoard);
-        frame.add(tileMap);
+        tileMap = new TileMap(board);
+        frame.add(this.tileMap);
         frame.pack();
         frame.setVisible(true);
+
     }
 
     /**
@@ -85,7 +85,7 @@ class BoardWindow {
      * score is shown.
      */
     void endGame() {
-        frame.remove(tileMap);
+        this.frame.remove(tileMap);
 
         // Need to kill the player if the game is escaped manually. This stops the main game loop.
         if (this.board.getPlayerOne().isAlive()) {

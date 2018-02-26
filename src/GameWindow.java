@@ -1,30 +1,11 @@
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import javax.swing.JPanel;
-import java.awt.GridLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JLabel;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import javax.swing.BoxLayout;
-import java.awt.GridBagLayout;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
 
 /**
  * Class Owner: Lachlan
- * 
+ *
  * This class is a frame to display the menus and game windows. Includes a GUI
  * to display game to users.
  *
@@ -143,26 +124,26 @@ public class GameWindow {
                 int difficulty;
                 String difficultySele = "" + difficultyBox.getSelectedItem();
                 switch (difficultySele) {
-                case "Casual":
-                    difficulty = 1;
-                    break;
-                case "Normal":
-                    difficulty = 2;
-                    break;
-                case "Hardcore":
-                    difficulty = 3;
-                    break;
-                case "Impossible":
-                    difficulty = 4;
-                    break;
-                default:
-                    difficulty = 1;
-                    break;
+                    case "Casual":
+                        difficulty = 1;
+                        break;
+                    case "Normal":
+                        difficulty = 2;
+                        break;
+                    case "Hardcore":
+                        difficulty = 3;
+                        break;
+                    case "Impossible":
+                        difficulty = 4;
+                        break;
+                    default:
+                        difficulty = 1;
+                        break;
                 }
 
                 String playerHandle = nameField.getText();
 
-                new RunGame(rows, cols, difficulty, playerHandle);
+                initGame(rows, cols, difficulty, playerHandle);
 
             }
         });
@@ -187,5 +168,16 @@ public class GameWindow {
         });
         btnTutorial.setBounds(12, 64, 97, 25);
         panel_2.add(btnTutorial);
+    }
+
+    private void initGame(int rows, int cols, int difficulty, String playerHandle) {
+        Player player = new Player(rows - 1, cols / 2, 1, 1, "");
+        Board board = new Board(rows, cols, difficulty, player);
+        BoardWindow boardWindow = new BoardWindow(board);
+
+        RunGame runGame = new RunGame(rows, cols, difficulty, playerHandle);
+
+        runGame.runGame();
+
     }
 }
