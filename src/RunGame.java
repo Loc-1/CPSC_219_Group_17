@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class RunGame {
     private Boolean isRunning;
+    private BoardWindow boardWindow;
 
     /**
      * Constructs a new game.
@@ -19,12 +20,11 @@ public class RunGame {
     public RunGame(int rows, int cols, int difficulty, String handle) {
         Player playerOne;
         Board board;
-        BoardWindow boardWindow;
 
         if (rows > 20 && cols > 20) {
             playerOne = new Player(rows - 1, cols / 2, 1, 1, handle);
             board = new Board(rows, cols, difficulty, playerOne);
-            boardWindow = new BoardWindow(board);
+            this.boardWindow = new BoardWindow(board);
         } else {
             try {
                 throw new SizeException("Invalid number of rows and columns, both must be greater than 20.");
@@ -66,6 +66,13 @@ public class RunGame {
 
     public static void main(String[] args) {
         new RunGame(32, 26, 1, "Josh");
+    }
+
+    /**
+     * Calling this method kills the BoardWindow.
+     */
+    public void endGame() {
+        this.boardWindow.endGame();
     }
 
     public Boolean isRunning() {
