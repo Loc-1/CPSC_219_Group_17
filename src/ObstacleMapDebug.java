@@ -16,8 +16,11 @@ public class ObstacleMapDebug extends JPanel{
             JButton regenerate = new JButton("REGENERATE");
             regenerate.addActionListener(e -> {
                 if (setPlayer.isAlive()) {
-                    setBoard.resetObstacleMap(testObstacleMap, 1);
+                    testObstacleMap.resetObstacleMap(1);
                     setBoard.refresh();
+                    // setBoard.refreshObstacleMap(testObstacleMap);
+
+
                     setWindow.refresh(setBoard);
                 } else {
                     frame.dispose();
@@ -25,11 +28,38 @@ public class ObstacleMapDebug extends JPanel{
                 }
             });
 
+
+            JButton traverseTest = new JButton("TRAVERSABILITY");
+            regenerate.addActionListener(e -> {
+                if (setPlayer.isAlive()) {
+
+
+                    if (setBoard.isTraversable()) {
+
+                        setWindow.refresh(setBoard);
+
+
+                    } else {
+                        frame.dispose();
+                        setWindow.endGame();
+                    }
+
+
+                } else {
+                    frame.dispose();
+                    setWindow.endGame();
+                }
+            });
+
+
+
+
             JButton clear = new JButton("CLEAR");
             clear.addActionListener(e -> {
                 if (setPlayer.isAlive()) {
-                    setBoard.resetObstacleMap(testObstacleMap, 0);
+                    testObstacleMap.resetObstacleMap(0);
                     setBoard.refresh();
+                    // setBoard.refreshObstacleMap(testObstacleMap);
                     setWindow.refresh(setBoard);
                 } else {
                     frame.dispose();
@@ -47,6 +77,7 @@ public class ObstacleMapDebug extends JPanel{
             frame.add(regenerate);
             frame.add(clear);
             frame.add(exit);
+            frame.add(traverseTest);
 
             frame.pack();
             frame.setLocationRelativeTo(null);
@@ -57,6 +88,12 @@ public class ObstacleMapDebug extends JPanel{
     }
 
 
+
+
+
+
+
+
     public static void main(String[] args) {
 
         Player testPlayer = new Player(25,32/2,1,1,"");
@@ -64,6 +101,9 @@ public class ObstacleMapDebug extends JPanel{
         BoardWindow testWindow = new BoardWindow(testBoard);
         ObstacleMap testerObstacleMap = new ObstacleMap(26,32,1);
         new ObstacleMapDebug(testBoard, testWindow, testPlayer, testerObstacleMap);
+
+
+
 
 
     }

@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * Class Owner: Josh / Lachlan
@@ -8,16 +10,52 @@ import java.awt.*;
  */
 class BoardWindow {
     private TileMap tileMap;
+    private Board board;
     private final JFrame frame;
 
     /**
-     * Constructor builds out a new render from the board passed.
+     * Constructor builds out a new render from the board passed. Also adds a listener to the frame to manage keystroke
+     * handling.
      *
      * @param setBoard the board to render.
      */
     BoardWindow(Board setBoard) {
         this.tileMap = new TileMap(setBoard);
+        this.board = setBoard;
         this.frame = new JFrame("Group 17 Game");
+
+        // This adds the key listener and moves the player. It also ensures the player isn't trying to move onto an
+        // obstacle or outside the Board array. Ends game when escape is pressed.
+        this.frame.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                int key = e.getKeyCode();
+
+                if (key == 39 || key == 68) {
+                    if (board.isValidMove(board.getPlayerOne().getRow(), board.getPlayerOne().getCol() + 1)) {
+                        EventQueue.invokeLater(() -> board.getPlayerOne().moveRight());
+                    }
+                } else if (key == 37 || key == 65) {
+                    if (board.isValidMove(board.getPlayerOne().getRow(), board.getPlayerOne().getCol() - 1)) {
+                        EventQueue.invokeLater(() -> board.getPlayerOne().moveLeft());
+                    }
+                } else if (key == 38 || key == 87) {
+                    if (board.getPlayerOne().getRow() != 0 && board.isValidMove(
+                            board.getPlayerOne().getRow() - 1, board.getPlayerOne().getCol())) {
+                        EventQueue.invokeLater(() -> board.getPlayerOne().moveUp());
+                    }
+                } else if (key == 40 || key == 83) {
+                    if (board.getPlayerOne().getRow() != setBoard.getRows() - 1 && board.isValidMove(
+                            board.getPlayerOne().getRow() + 1, board.getPlayerOne().getCol())) {
+                        EventQueue.invokeLater(() -> board.getPlayerOne().moveDown());
+                    }
+                } else if (key == 27) {
+                    endGame();
+                }
+            }
+
+        });
 
         EventQueue.invokeLater(() -> {
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -47,12 +85,23 @@ class BoardWindow {
     }
 
     /**
-     * Ends the game. :TODO: Make this nice.
+     * Ends the game, if the player is alive, the player is killed. A nice message showing the player's name and final
+     * score is shown.
      */
     void endGame() {
         frame.remove(tileMap);
-        JOptionPane.showConfirmDialog(null, "You Died", "Close",
+
+        // Need to kill the player if the game is escaped manually. This stops the main game loop.
+        if (this.board.getPlayerOne().isAlive()) {
+            this.board.getPlayerOne().kill();
+        }
+
+        // Show a message with the players score.
+        JOptionPane.showConfirmDialog(null,
+                this.board.getPlayerOne().getUserHandle() + " died\nScore: "
+                        + this.board.getPlayerOne().getScore(), "Game Over",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+
         frame.dispose();
     }
 
@@ -100,6 +149,8 @@ class BoardWindow {
                 color = Color.BLACK;
             } else if (setBoard.getTile(row, col) == '.') {
                 color = Color.WHITE;
+            } else if (setBoard.getTile(row, col) == 'E') {
+                color = Color.ORANGE;
             }
 
             return color;

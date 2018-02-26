@@ -51,6 +51,7 @@ public class ObstacleMap {
      * @param oldMap the map to run simulations on.
      * @return a nice map with traversable obstacles.
      */
+
     public static boolean[][] doSimulationStep(boolean[][] oldMap) {
         final double deathLimit = 3f; // These numbers are entirely arbitrary.
         final double birthLimit = 5f;
@@ -73,6 +74,61 @@ public class ObstacleMap {
 
         return newMap;
     }
+
+    /**
+     *
+     * @param type      the type of overwrite action (0 == clear; 1 == regenerate)
+     */
+
+    public void resetObstacleMap(int type){
+
+        if(type == 0) {
+            for (int rowCount = 0; rowCount < 26; rowCount++) {
+                for (int colCount = 0; colCount < 32; colCount++) {
+                    this.setObstacle(rowCount, colCount, false);
+                }
+            }
+
+        }
+        if(type == 1) {
+            for (int rowCount = 0; rowCount < 26; rowCount++) {
+                for (int colCount = 0; colCount < 32; colCount++) {
+                    this.setObstacle(rowCount, colCount, false);
+                    this.setObstacle(rowCount, colCount, this.generateRandomDouble() < this.calcDifficultyModifier(1));
+                }
+            }
+
+
+            // This recursively runs the cellular simulation per the int in numberOfSteps.
+            for (int i = 0; i < 100; i++) {
+                this.obstacleMap = doSimulationStep(this.obstacleMap);
+            }
+
+
+            //creates safe zone in updated map
+            for (int i = 0; i < 32; i++) {
+                this.obstacleMap[25][i] = false;
+                this.obstacleMap[24][i] = false;
+            }
+
+
+            // Ensures the edges of the board are always an obstacle.
+            for (int i = 0; i < 26; i++) {
+                this.obstacleMap[i][0] = true;
+                this.obstacleMap[i][32 - 1] = true;
+            }
+
+
+
+
+        }
+
+    }
+
+
+
+
+
     /**
      * Counts the number of adjacent obstacles.
      *
@@ -99,6 +155,51 @@ public class ObstacleMap {
         }
 
         return count;
+    }
+    
+    /**
+     * Determine coordinates of obstacles in the map
+     * @return A int array containing coordinates of the obstacles [row, column]
+     */
+    public int[][] obstacleLocations(){
+    	
+    	boolean[][] checkMap = this.obstacleMap;
+    	int numObstacles = checkNumObstacles();
+    	int obstacleNum = 0;
+    	
+    	int[][] locations = new int[numObstacles][2];
+    	
+    	for (int i = 0; i < checkMap.length; i++) {
+    		for (int j = 0; j < checkMap[0].length; j++) {
+    			if (checkMap[i][j]) { 				
+    				locations[obstacleNum][0] = i;
+    				locations[obstacleNum][1] = j;
+    				obstacleNum += 1;
+
+    			}
+    			
+    		}
+    	}
+        return locations;
+    }
+    
+    /**
+     * Determines the amount of obstacles in the map
+     */
+    public int checkNumObstacles() {
+    	
+    	boolean[][] checkMap = this.obstacleMap;
+    	int numObstacles = 0;
+    	
+    	for (int i = 0; i < checkMap.length; i++) {
+    		for (int j = 0; j < checkMap[0].length; j++) {
+    			if (checkMap[i][j]) {
+    				numObstacles += 1;
+    			}
+    		}
+    	}
+    	
+    	return numObstacles;
     }
 
     /**

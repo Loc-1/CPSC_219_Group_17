@@ -33,7 +33,7 @@ public class Board {
         this.board = new char[rows][columns];
         this.obstacleMap = new ObstacleMap(this.rows, this.columns, this.difficulty);
         this.playerOne = setPlayer;
-
+        this.enemies = new Enemy(this.rows, this.columns);
 
         if (this.rows < 0 || this.columns < 0) { // Temp error catching if.
             System.out.println("Width: " + setColumns);
@@ -48,7 +48,17 @@ public class Board {
                     }
                 }
             }
-            this.board[playerOne.getxLocation()][playerOne.getyLocation()] = 'P';
+
+            // Place the player
+            this.board[playerOne.getRow()][playerOne.getCol()] = 'P';
+
+            // :TODO: Try multiple times to place an enemy, check that end coordinates are also not on an obstacle
+            //Place the enemies ensure they are not on an obstacle or the player
+            if (Arrays.asList(this.obstacleMap.obstacleLocations()).contains(this.enemies.getstartCoords())) {
+                this.enemies = new Enemy(this.rows, this.columns);
+            } else {
+                this.board[this.enemies.getstartCoords()[0]][this.enemies.getstartCoords()[1]] = 'E';
+            }
         }
 
     }
@@ -76,27 +86,27 @@ public class Board {
     }
 
     /**
-     * @param xEnd destination x coord.
-     * @param yEnd destination y coord.
+     * @param rowEnd destination x coord.
+     * @param colEnd destination y coord.
      * @return true if move is valid.
      */
-    public Boolean isValidMove(int xEnd, int yEnd) {
+    public Boolean isValidMove(int rowEnd, int colEnd) {
         Boolean isValid = true;
-        if (this.obstacleMap.isObstacle(xEnd, yEnd)) {
+        if (this.obstacleMap.isObstacle(rowEnd, colEnd)) {
             isValid = false;
         }
 
         return isValid;
     }
-    
+
     /**
      * @param player specified player
      * @return true if player is dead.
      */
     public Boolean isPlayerDead(Player player) {
-    	Boolean isDead = false;
-    	return isDead;
-    	// :TODO: Write some code about if player coordinates are same as enemy coordinates.
+        Boolean isDead = false;
+        return isDead;
+        // :TODO: Write some code about if player coordinates are same as enemy coordinates.
     }
 
     /**
@@ -112,11 +122,14 @@ public class Board {
                     this.board[row][col] = '.';
                 }
             }
+            // :TODO: Replace enemies start coordinates with current coordinates once enemy has a path
+            this.board[this.enemies.getstartCoords()[0]][this.enemies.getstartCoords()[1]] = 'E';
+
         }
-        if (this.obstacleMap.isObstacle(this.playerOne.getxLocation(), this.playerOne.getyLocation())) {
-            this.playerOne.kill(); // :TODO: Get rid of this set of conditionals
+        if ((this.enemies.getstartCoords()[0] == this.playerOne.getRow()) && (this.enemies.getstartCoords()[1] == this.playerOne.getCol())) {
+            this.playerOne.kill();
         } else {
-            this.board[this.playerOne.getxLocation()][this.playerOne.getyLocation()] = 'P';
+            this.board[this.playerOne.getRow()][this.playerOne.getCol()] = 'P';
 
         }
 
@@ -147,16 +160,35 @@ public class Board {
         this.board[row][col] = setChar;
     }
 
+    /**
+     * Check if the board is traversable
+     * Changes to the threshold modifier modify leniency on map traversability
+     * @return True if the map is deemed traversable
+     */
+    public boolean isTraversable() {
+        int threshold = 900; // Decrease value to tighten restraints on traversability
+        boolean isTraversable = false;
+
+        for (int i = 0; i < columns; i++) {
+            int cost = pathfinding.AStar.aStarCost(rows, columns, playerOne.getRow(), playerOne.getCol(), 0, i, obstacleMap.obstacleLocations());
+            if ((0 < cost) && (cost < threshold)) {
+                isTraversable = true;
+            }
+        }
+
+        return isTraversable;
+
+    }
+
 
     /**
-     *
-     * @param oldMap    the ObstacleMap to be overwritten
-     * @param type      the type of overwrite action (0 == clear; 1 == regenerate)
+     * @param oldMap the ObstacleMap to be overwritten
+     * @param type   the type of overwrite action (0 == clear; 1 == regenerate)
      */
 
-    public void resetObstacleMap(ObstacleMap oldMap, int type){
+    public void resetObstacleMap(ObstacleMap oldMap, int type) {
 
-        if(type == 0) {
+        if (type == 0) {
             for (int rowCount = 0; rowCount < rows; rowCount++) {
                 for (int colCount = 0; colCount < columns; colCount++) {
                     this.obstacleMap.setObstacle(rowCount, colCount, false);
@@ -164,26 +196,17 @@ public class Board {
             }
             this.refresh();
         }
-        if(type == 1) {
+        if (type == 1) {
             for (int rowCount = 0; rowCount < rows; rowCount++) {
                 for (int colCount = 0; colCount < columns; colCount++) {
                     this.obstacleMap.setObstacle(rowCount, colCount, false);
-                    this.obstacleMap.setObstacle(rowCount, colCount, oldMap.generateRandomDouble() < oldMap.calcDifficultyModifier(this.difficulty));
+                    this.obstacleMap.setObstacle(rowCount, colCount, oldMap.generateRandomDouble() < ObstacleMap.calcDifficultyModifier(this.difficulty));
                 }
             }
             this.refresh();
         }
 
     }
-
-
-
-
-
-
-
-
-
 
 
     /**
@@ -216,4 +239,14 @@ public class Board {
         return columns;
     }
 
+    /**
+     * @return the obstacle map
+     */
+    public ObstacleMap getObstacleMap() {
+        return obstacleMap;
+    }
+
+    public Player getPlayerOne() {
+        return playerOne;
+    }
 }
