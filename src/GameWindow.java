@@ -35,8 +35,6 @@ public class GameWindow {
     private JTextField nameField;
     private JTextField rowField;
     private JTextField colField;
-    private Player thePlayer;
-    private Board theBoard;
 
     /**
      * Launch the application.
@@ -139,8 +137,33 @@ public class GameWindow {
         JButton btnStart = new JButton("Start");
         btnStart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                System.out.println("Game start");
-                
+                int rows = Integer.parseInt(rowField.getText());
+                int cols = Integer.parseInt(colField.getText());
+
+                int difficulty;
+                String difficultySele = "" + difficultyBox.getSelectedItem();
+                switch (difficultySele) {
+                case "Casual":
+                    difficulty = 1;
+                    break;
+                case "Normal":
+                    difficulty = 2;
+                    break;
+                case "Hardcore":
+                    difficulty = 3;
+                    break;
+                case "Impossible":
+                    difficulty = 4;
+                    break;
+                default:
+                    difficulty = 1;
+                    break;
+                }
+
+                String playerHandle = nameField.getText();
+
+                new RunGame(rows, cols, difficulty, playerHandle);
+
             }
         });
 
@@ -164,28 +187,5 @@ public class GameWindow {
         });
         btnTutorial.setBounds(12, 64, 97, 25);
         panel_2.add(btnTutorial);
-    }
-
-    /**
-     * This method gets the constant movement commands from the user ie. arrow keys
-     * or wasd
-     * 
-     * @param e
-     */
-    public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_RIGHT || key == 68) {
-            this.thePlayer.moveRight();
-        }
-        if (key == KeyEvent.VK_LEFT || key == 65) {
-            this.thePlayer.moveLeft();
-        }
-        if (key == KeyEvent.VK_DOWN || key == 83) {
-            this.thePlayer.moveDown();
-        }
-        if (key == KeyEvent.VK_UP || key == 87) {
-            this.thePlayer.moveUp();
-        }
     }
 }
