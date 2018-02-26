@@ -101,13 +101,13 @@ public class GameWindow {
         panel.add(mapSizeBox);
 
         rowField = new JTextField();
-        rowField.setText("Rows");
+        rowField.setText("36");
         rowField.setBounds(12, 334, 56, 22);
         panel.add(rowField);
         rowField.setColumns(10);
 
         colField = new JTextField();
-        colField.setText("Col");
+        colField.setText("36");
         colField.setBounds(80, 334, 56, 22);
         panel.add(colField);
         colField.setColumns(10);
