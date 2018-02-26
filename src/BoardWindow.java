@@ -57,13 +57,12 @@ class BoardWindow {
 
         });
 
-        EventQueue.invokeLater(() -> {
-            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            frame.add(tileMap);
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        });
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.add(tileMap);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
 
     }
 
@@ -73,15 +72,12 @@ class BoardWindow {
      * @param setBoard the board to re-render.
      */
     void refresh(Board setBoard) {
-        EventQueue.invokeLater(() -> {
-            setBoard.refresh();
-            frame.remove(tileMap);
-            this.tileMap = new TileMap(setBoard);
-            frame.add(tileMap);
-            frame.pack();
-            frame.setVisible(true);
-        });
-
+        setBoard.refresh();
+        frame.remove(tileMap);
+        this.tileMap = new TileMap(setBoard);
+        frame.add(tileMap);
+        frame.pack();
+        frame.setVisible(true);
     }
 
     /**

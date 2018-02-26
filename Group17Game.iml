@@ -18,5 +18,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="com.jgoodies:forms:1.2.1" level="project" />
+    <orderEntry type="library" name="lwjgl" level="project" />
   </component>
 </module>

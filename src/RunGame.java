@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -41,7 +42,9 @@ public class RunGame {
 
             while (playerOne.isAlive()) {
                 this.isRunning = true;
-                boardWindow.refresh(board);
+                EventQueue.invokeLater(() -> {
+                    boardWindow.refresh(board);
+                });
                 TimeUnit.MILLISECONDS.sleep(15);
                 count++;
                 if (count < 70) {
