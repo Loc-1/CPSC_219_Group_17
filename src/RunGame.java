@@ -6,14 +6,10 @@ import java.util.concurrent.TimeUnit;
  * This is the primary game loop, it constructs a new game (Board, Player, and BoardWindow.)
  */
 public class RunGame {
-    private Boolean isRunning;
+    private Boolean isRunning = true;
     private BoardWindow boardWindow;
     private Board board;
     private Player playerOne;
-    private int rows;
-    private int cols;
-    private int difficulty;
-    private String handle;
 
     /**
      * Constructs a new game.
@@ -24,10 +20,9 @@ public class RunGame {
      * @param handle     the player's handle. :TODO: Add a second player.
      */
     public RunGame(int rows, int cols, int difficulty, String handle) {
-        this.rows = rows;
-        this.cols = cols;
-        this.difficulty = difficulty;
-        this.handle = handle;
+        this.playerOne = new Player(rows-1,cols/2,0,0,handle);
+        this.board = new Board(rows, cols, difficulty, this.playerOne);
+        this.boardWindow = new BoardWindow(this.board);
     }
 
     public static void main(String[] args) {
@@ -42,7 +37,7 @@ public class RunGame {
         // Main loop, also sets score. Score is loosely tracked by the second.
         try {
             int count = 0; // Counter is needed to calculate score.
-
+            
             while (this.playerOne.isAlive()) {
                 this.isRunning = true;
                 this.boardWindow.refresh();

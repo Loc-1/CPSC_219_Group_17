@@ -143,7 +143,7 @@ public class GameWindow {
 
                 String playerHandle = nameField.getText();
 
-                initGame(rows, cols, difficulty, playerHandle);
+                new RunGame(rows, cols, difficulty, playerHandle);
 
             }
         });
@@ -168,16 +168,5 @@ public class GameWindow {
         });
         btnTutorial.setBounds(12, 64, 97, 25);
         panel_2.add(btnTutorial);
-    }
-
-    private void initGame(int rows, int cols, int difficulty, String playerHandle) {
-        Player player = new Player(rows - 1, cols / 2, 1, 1, "");
-        Board board = new Board(rows, cols, difficulty, player);
-        BoardWindow boardWindow = new BoardWindow(board);
-
-        RunGame runGame = new RunGame(rows, cols, difficulty, playerHandle);
-
-        runGame.runGame();
-
     }
 }
