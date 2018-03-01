@@ -1,6 +1,7 @@
 import java.util.Random;
 import java.util.Arrays;
 
+
 /**
  * Class Owner: Lincoln
  *
@@ -45,6 +46,17 @@ public class Enemy {
     	
     	this.endCoords = new int[] {x_end, y_end}; 
     }
+    
+    /**
+     * Moves the enemy from the start coordinates to the end coordinates.
+     * @param startCoords row-column coordinates of starting location
+     * @param endCoords row-column coordinates of ending location
+     * @param stepNumber The current step or progress of the enemy
+     * @param blockedCoords 2D array with all locations that cannot be traversed
+     */
+    public void move(int[] startCoords, int[] endCoords, int stepNumber, int[][] blockedCoords) {
+    	
+    }
 
     /**
      * @param direction {'0': 'up', '1': 'down', '2', 'left', '3', 'right}
@@ -58,7 +70,14 @@ public class Enemy {
     public void setStartLocation(int[] xy) {
     	this.startCoords = xy;
     }
+    
+    /**
+     * @param xy row-column coordinates of current location.
+     */
 
+    public void setCurrentLocation(int[] xy) {
+    	this.currentCoords = xy;
+    }
     /**
      * @param xy row-column coordinates of ending location.
      */
@@ -75,14 +94,21 @@ public class Enemy {
     /**
      * Gets the start coordinates
      */
-    public int[] getstartCoords() {
+    public int[] getStartCoords() {
     	return this.startCoords;
+    }
+
+    /**
+     * Gets the current coordinates
+     */
+    public int[] getCurrentCoords() {
+    	return this.currentCoords;
     }
     
     /**
      * Gets the end coordinates
      */
-    public int[] getendCoords() {
+    public int[] getEndCoords() {
     	return this.endCoords;
     }
     /**
@@ -105,10 +131,10 @@ public class Enemy {
     
     //Testing
     public static void main(String[] args) {
-    	Enemy enemy = new Enemy(20, 20);
+    	//Enemy enemy = new Enemy(20, 20);
 
-    	System.out.println(Arrays.toString(enemy.getstartCoords()));
-    	System.out.println(Arrays.toString(enemy.getendCoords()));
+    	//System.out.println(Arrays.toString(enemy.getStartCoords()));
+    	//System.out.println(Arrays.toString(enemy.getEndCoords()));
     	
     }
 

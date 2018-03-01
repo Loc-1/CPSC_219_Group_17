@@ -1,5 +1,5 @@
 import java.util.Arrays;
-
+import pathfinding.*;
 
 /**
  * Class Owner: Ashton / Lincoln
@@ -54,10 +54,10 @@ public class Board {
 
             // :TODO: Try multiple times to place an enemy, check that end coordinates are also not on an obstacle
             //Place the enemies ensure they are not on an obstacle or the player
-            if (Arrays.asList(this.obstacleMap.obstacleLocations()).contains(this.enemies.getstartCoords())) {
+            if (Arrays.asList(this.obstacleMap.obstacleLocations()).contains(this.enemies.getStartCoords())) {
                 this.enemies = new Enemy(this.rows, this.columns);
             } else {
-                this.board[this.enemies.getstartCoords()[0]][this.enemies.getstartCoords()[1]] = 'E';
+                this.board[this.enemies.getStartCoords()[0]][this.enemies.getStartCoords()[1]] = 'E';
             }
         }
 
@@ -110,7 +110,7 @@ public class Board {
     }
 
     /**
-     * Calling this method updates the player's location on the board. If the player moves into an obstacle, this
+     * Calling this method updates the player's location on the board. If the player moves into an enemy, this
      * method sets the players status to isAlive = false.
      */
     public void refresh() {
@@ -123,10 +123,11 @@ public class Board {
                 }
             }
             // :TODO: Replace enemies start coordinates with current coordinates once enemy has a path
-            this.board[this.enemies.getstartCoords()[0]][this.enemies.getstartCoords()[1]] = 'E';
+            this.board[this.enemies.getStartCoords()[0]][this.enemies.getStartCoords()[1]] = 'E';
 
         }
-        if ((this.enemies.getstartCoords()[0] == this.playerOne.getRow()) && (this.enemies.getstartCoords()[1] == this.playerOne.getCol())) {
+        
+        if ((this.enemies.getStartCoords()[0] == this.playerOne.getRow()) && (this.enemies.getStartCoords()[1] == this.playerOne.getCol())) {
             this.playerOne.kill();
         } else {
             this.board[this.playerOne.getRow()][this.playerOne.getCol()] = 'P';

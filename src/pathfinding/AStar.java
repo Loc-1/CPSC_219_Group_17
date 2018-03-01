@@ -262,14 +262,84 @@ public class AStar {
         	return grid[ei][ej].finalCost;
         }
  }
+    
+    /**
+     * @author Lincoln
+     * @param x the width of the Grid
+     * @param y the height of the Grid
+     * @param si the starting row location
+     * @param sj the starting column location
+     * @param ei the end row location
+     * @param ej the end column location
+     * @param blocked Array for coordinates of obstacles
+     * @return 2D containing the coordinates of each point on the path of an object
+     */
+    public static ArrayList<Integer> pathfinding(int x, int y, int si, int sj, int ei, int ej, int[][] blocked){
+    	ArrayList<Integer> path = new ArrayList<Integer>();
+        grid = new Cell[x][y];
+        closed = new boolean[x][y];
+        open = new PriorityQueue<>((Object o1, Object o2) -> {
+             Cell c1 = (Cell)o1;
+             Cell c2 = (Cell)o2;
+
+             return c1.finalCost<c2.finalCost?-1:
+                     c1.finalCost>c2.finalCost?1:0;
+         });
+        //Set start position
+        setStartCell(si, sj);  //Setting to 0,0 by default. Will be useful for the UI part
+        
+        //Set End Location
+        setEndCell(ei, ej); 
+        
+        for(int i=0;i<x;++i){
+           for(int j=0;j<y;++j){
+               grid[i][j] = new Cell(i, j);
+               grid[i][j].heuristicCost = Math.abs(i-endI)+Math.abs(j-endJ);
+           }
+        }
+        grid[si][sj].finalCost = 0;       
+        /*
+          Set blocked cells. Simply set the cell values to null
+          for blocked cells.
+        */
+        for(int i=0;i<blocked.length;++i){
+            setBlocked(blocked[i][0], blocked[i][1]);
+        }
+        
+        AStar();
+      
+        if(closed[endI][endJ]){
+            //Trace back the path 
+             //System.out.println("Path: ");
+             Cell current = grid[endI][endJ];
+             //System.out.print(current);
+             while(current.parent!=null){
+            	 // :TODO: Return a 2D array containing coordinates of the path.
+            	 path.add(current.i);
+            	 path.add(current.j);
+                 //System.out.print(" -> "+current.parent);
+                 current = current.parent;
+             } 
+             //System.out.println();
+        }else System.out.println("No possible path");
+        
+        return path;
+ }
+    
+    public static int[][] append(int[][] arrayOne, int[][] arrayTwo) {
+    	int[][] summedArray = new int[arrayOne.length + arrayTwo.length][];
+    	return summedArray;
+    }
      
     public static void main(String[] args) throws Exception{   
-        test(1, 7, 5, 0, 0, 6, 3, new int[][]{{6,2},{5,2},{4,3},{3,3},{3,4},{4,2}}); 
-        //test(2, 5, 5, 0, 0, 4, 4, new int[][]{{0,4},{2,2},{3,1},{3,3}});   
+        //test(1, 7, 5, 0, 0, 6, 3, new int[][]{{6,2},{5,2},{4,3},{3,3},{3,4},{4,2}}); 
+        test(2, 5, 5, 0, 0, 4, 4, new int[][]{{0,4},{2,2},{3,1},{3,3}});   
         //test(3, 7, 7, 2, 1, 5, 4, new int[][]{{4,1},{4,3},{5,3},{2,3}});
         
         //test(1, 5, 5, 0, 0, 4, 4, new int[][]{{3,4},{3,3},{4,3}});
         
+        ArrayList<Integer> lincolnTest = pathfinding(5,5,0,0,4,4, new int[][]{{0,4},{2,2},{3,1},{3,3}});
+        System.out.println(lincolnTest);
 
     }
 }
