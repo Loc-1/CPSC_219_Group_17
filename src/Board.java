@@ -126,7 +126,14 @@ public class Board {
             this.board[this.enemies.getStartCoords()[0]][this.enemies.getStartCoords()[1]] = 'E';
 
         }
+        // Obstacle collision condition
+        if (!isValidMove(playerOne.getRow(),playerOne.getCol())) {
+        	this.playerOne.setCol(playerOne.getLastcol());
+        	this.playerOne.setRow(playerOne.getLastrow());
+        	//this.board[this.playerOne.getRow()][this.playerOne.getCol()] = 'P';
+        }
         
+        // Kill conditions
         if ((this.enemies.getStartCoords()[0] == this.playerOne.getRow()) && (this.enemies.getStartCoords()[1] == this.playerOne.getCol())) {
             this.playerOne.kill();
         } else {
