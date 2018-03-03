@@ -28,6 +28,8 @@ public class BoardWindow extends Application {
 
     private Scene scene;
 
+    private final int tileWidthHeight = 32;
+
     /**
      * Custom constructor.
      *
@@ -58,7 +60,7 @@ public class BoardWindow extends Application {
     @Override
     public void start(Stage primaryStage) {
         Group root = new Group();
-        scene = new Scene(root, this.board.getColumns() * 32, this.board.getRows() * 32);
+        scene = new Scene(root, this.board.getColumns() * tileWidthHeight, this.board.getRows() * tileWidthHeight);
         primaryStage.setScene(scene);
 
         loadGame(); // Loads all the images.
@@ -71,7 +73,7 @@ public class BoardWindow extends Application {
         root.getChildren().add(this.floorPane);
         root.getChildren().add(this.wallPane);
 
-        Canvas canvas = new Canvas(this.board.getColumns() * 32, this.board.getRows() * 32);
+        Canvas canvas = new Canvas(this.board.getColumns() * tileWidthHeight, this.board.getRows() * tileWidthHeight);
         root.getChildren().add(canvas);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -118,7 +120,7 @@ public class BoardWindow extends Application {
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                gc.clearRect(0, 0, board.getColumns() * 32, board.getRows() * 32);
+                gc.clearRect(0, 0, board.getColumns() * tileWidthHeight, board.getRows() * tileWidthHeight);
                 playerSprite.setY(player.getRow());
                 playerSprite.setX(player.getCol());
                 playerSprite.render(gc);
