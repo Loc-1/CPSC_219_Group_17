@@ -93,24 +93,23 @@ public class BoardWindow extends Application {
                         player.moveUp();
                     }
                     break;
-
                 case DOWN:
                     if (this.board.isValidMove(player.getRow() + 1, player.getCol())) {
                         player.moveDown();
                     }
                     break;
-
                 case LEFT:
                     if (this.board.isValidMove(player.getRow(), player.getCol() - 1)) {
                         player.moveLeft();
                     }
                     break;
-
                 case RIGHT:
                     if (this.board.isValidMove(player.getRow(), player.getCol() + 1)) {
                         player.moveRight();
                     }
                     break;
+                case ESCAPE:
+                    primaryStage.close();
 
             }
         });
