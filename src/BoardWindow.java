@@ -60,7 +60,8 @@ public class BoardWindow extends Application {
     @Override
     public void start(Stage primaryStage) {
         Group root = new Group();
-        scene = new Scene(root, this.board.getColumns() * tileWidthHeight, this.board.getRows() * tileWidthHeight);
+        scene = new Scene(root, this.board.getColumns() * tileWidthHeight,
+                this.board.getRows() * tileWidthHeight);
         primaryStage.setScene(scene);
 
         loadGame(); // Loads all the images.
@@ -73,7 +74,8 @@ public class BoardWindow extends Application {
         root.getChildren().add(this.floorPane);
         root.getChildren().add(this.wallPane);
 
-        Canvas canvas = new Canvas(this.board.getColumns() * tileWidthHeight, this.board.getRows() * tileWidthHeight);
+        Canvas canvas = new Canvas(this.board.getColumns() * tileWidthHeight,
+                this.board.getRows() * tileWidthHeight);
         root.getChildren().add(canvas);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -112,19 +114,22 @@ public class BoardWindow extends Application {
                     break;
                 case ESCAPE:
                     primaryStage.close();
-
             }
+
         });
 
-        // Sets the gameLoop as an Animation Timer.
+        // Sets the gameLoop as an Animation Timer. Only repaints the player tiles. Once the enemies are added
+        // they will be refreshed too. :TODO: add enemies once they're fixed up.
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                gc.clearRect(0, 0, board.getColumns() * tileWidthHeight, board.getRows() * tileWidthHeight);
+                gc.clearRect(0, 0, board.getColumns() * tileWidthHeight,
+                        board.getRows() * tileWidthHeight);
                 playerSprite.setY(player.getRow());
                 playerSprite.setX(player.getCol());
                 playerSprite.render(gc);
             }
+
         };
 
         gameLoop.start();
@@ -134,34 +139,32 @@ public class BoardWindow extends Application {
      * Fills the background with tile images that can be traversed. (i.e. they show 'under' the sprites.)
      */
     private void fillBackground() {
-        final int tileWidthHeight = 32;
-
         for (int col = 0; col < this.board.getColumns(); col++) {
             for (int row = 0; row < this.board.getRows(); row++) {
                 ImageView i = new ImageView();
                 switch (this.board.getTile(row, col)) {
-                    case '.':
+                    case '.': // Floor
                         i.setImage(this.backgroundImage);
                         i.setX(col * tileWidthHeight);
                         i.setY(row * tileWidthHeight);
                         this.floorPane.getChildren().add(i);
                         break;
 
-                    case 'X':
+                    case 'X': // Wall
                         i.setImage(this.wallImage);
                         i.setX(col * tileWidthHeight);
                         i.setY(row * tileWidthHeight);
                         this.wallPane.getChildren().add(i);
                         break;
 
-                    case 'P':
+                    case 'P': // Player tiles still have floor backgrounds.
                         i.setImage(this.backgroundImage);
                         i.setX(col * tileWidthHeight);
                         i.setY(row * tileWidthHeight);
                         this.floorPane.getChildren().add(i);
                         break;
 
-                    case 'E':
+                    case 'E': // Enemy tiles still have floor backgrounds.
                         i.setImage(this.backgroundImage);
                         i.setX(col * tileWidthHeight);
                         i.setY(row * tileWidthHeight);
