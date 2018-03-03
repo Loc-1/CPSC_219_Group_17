@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
+ * @author Josh
  * Renders the BoardWindow in JavaFX.
  */
 public class BoardWindow extends Application {
