@@ -9,6 +9,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * Renders the BoardWindow in JavaFX.
+ */
 public class BoardWindow extends Application {
     private Board board;
     private Player player;
@@ -24,11 +27,20 @@ public class BoardWindow extends Application {
 
     private Scene scene;
 
+    /**
+     * Custom constructor.
+     *
+     * @param board  the board to render.
+     * @param player the player to render.
+     */
     public BoardWindow(Board board, Player player) {
         this.board = board;
         this.player = player;
     }
 
+    /**
+     * Default constructor renders a 32 * 26 tile board.
+     */
     public BoardWindow() {
         this.player = new Player(32 - 1, 26 / 2, 1, 1, "");
         this.board = new Board(32, 26, 1, player);
@@ -38,18 +50,22 @@ public class BoardWindow extends Application {
         launch(args);
     }
 
+    /**
+     * The actual render code.
+     * @param primaryStage from javafx.application
+     */
     @Override
     public void start(Stage primaryStage) {
         Group root = new Group();
         scene = new Scene(root, this.board.getColumns() * 32, this.board.getRows() * 32);
         primaryStage.setScene(scene);
 
-        loadGame();
+        loadGame(); // Loads all the images.
 
-        this.floorPane = new Pane();
+        this.floorPane = new Pane(); // Adds the background panes to the scene.
         this.wallPane = new Pane();
 
-        this.fillBackground();
+        this.fillBackground(); // Fills the background tiles with images.
 
         root.getChildren().add(this.floorPane);
         root.getChildren().add(this.wallPane);
@@ -68,6 +84,7 @@ public class BoardWindow extends Application {
 
         primaryStage.show();
 
+        // Adds the key listeners and move validators.
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:
@@ -97,6 +114,7 @@ public class BoardWindow extends Application {
             }
         });
 
+        // Sets the gameLoop as an Animation Timer.
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -110,6 +128,9 @@ public class BoardWindow extends Application {
         gameLoop.start();
     }
 
+    /**
+     * Fills the background with tile images that can be traversed. (i.e. they show 'under' the sprites.)
+     */
     private void fillBackground() {
         final int tileWidthHeight = 32;
 
@@ -148,9 +169,11 @@ public class BoardWindow extends Application {
             }
         }
 
-
     }
 
+    /**
+     * Loads all the images into their instance vars.
+     */
     private void loadGame() {
         playerImage = new Image("file:assets/player/base/deep_elf_m.png");
         backgroundImage = new Image("file:assets/dc-dngn/floor/dirt0.png");
