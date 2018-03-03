@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import pathfinding.*;
 
 /**
  * Class Owner: Ashton / Lincoln
@@ -16,6 +15,11 @@ public class Board {
     private ObstacleMap obstacleMap;
     private Player playerOne;
     private Player playerTwo;
+
+    public Enemy getEnemies() {
+        return enemies;
+    }
+
     private Enemy enemies;
 
     /**
@@ -130,7 +134,7 @@ public class Board {
         if (!isValidMove(playerOne.getRow(),playerOne.getCol())) {
         	this.playerOne.setCol(playerOne.getLastcol());
         	this.playerOne.setRow(playerOne.getLastrow());
-        	//this.board[this.playerOne.getRow()][this.playerOne.getCol()] = 'P';
+            //this.board[this.playerOne.getY()][this.playerOne.getX()] = 'P';
         }
         
         // Kill conditions

@@ -1,156 +1,161 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import javafx.animation.AnimationTimer;
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
-/**
- * Class Owner: Josh / Lachlan
- * <p>
- * Renders the board into an awt GridBagLayout. Class must be instantiated with a board object.
- */
-class BoardWindow {
-    private TileMap tileMap;
+public class BoardWindow extends Application {
     private Board board;
-    private JFrame frame;
+    private Player player;
+    private Sprite playerSprite;
 
-    /**
-     * Constructor builds out a new render from the board passed. Also adds a listener to the frame to manage keystroke
-     * handling.
-     *
-     * @param setBoard the board to render.
-     */
-    BoardWindow(Board setBoard) {
-        tileMap = new TileMap(setBoard);
-        board = setBoard;
-        frame = new JFrame("Group 17 Game");
+    private Pane floorPane = new Pane();
+    private Pane wallPane = new Pane();
 
-        // This adds the key listener and moves the player. It also ensures the player isn't trying to move onto an
-        // obstacle or outside the Board array. Ends game when escape is pressed.
-        frame.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                super.keyPressed(e);
-                int key = e.getKeyCode();
+    private Image playerImage;
+    private Image backgroundImage;
+    private Image wallImage;
+    private Image enemyImage;
 
-                if (key == 39 || key == 68) {
-                    if (board.isValidMove(board.getPlayerOne().getRow(), board.getPlayerOne().getCol() + 1)) {
-                        EventQueue.invokeLater(() -> board.getPlayerOne().moveRight());
+    private Scene scene;
+
+    public BoardWindow(Board board, Player player) {
+        this.board = board;
+        this.player = player;
+    }
+
+    public BoardWindow() {
+        this.player = new Player(32 - 1, 26 / 2, 1, 1, "");
+        this.board = new Board(32, 26, 1, player);
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        Group root = new Group();
+        scene = new Scene(root, this.board.getColumns() * 32, this.board.getRows() * 32);
+        primaryStage.setScene(scene);
+
+        loadGame();
+
+        this.floorPane = new Pane();
+        this.wallPane = new Pane();
+
+        this.fillBackground();
+
+        root.getChildren().add(this.floorPane);
+        root.getChildren().add(this.wallPane);
+
+        Canvas canvas = new Canvas(this.board.getColumns() * 32, this.board.getRows() * 32);
+        root.getChildren().add(canvas);
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        playerSprite = new Sprite();
+        playerSprite.setX(this.player.getCol());
+        playerSprite.setY(this.player.getRow());
+        playerSprite.setImage(playerImage);
+
+        playerSprite.render(gc);
+
+        primaryStage.show();
+
+        scene.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case UP:
+                    if (this.board.isValidMove(player.getRow() - 1, player.getCol())) {
+                        player.moveUp();
                     }
-                } else if (key == 37 || key == 65) {
-                    if (board.isValidMove(board.getPlayerOne().getRow(), board.getPlayerOne().getCol() - 1)) {
-                        EventQueue.invokeLater(() -> board.getPlayerOne().moveLeft());
+                    break;
+
+                case DOWN:
+                    if (this.board.isValidMove(player.getRow() + 1, player.getCol())) {
+                        player.moveDown();
                     }
-                } else if (key == 38 || key == 87) {
-                    if (board.getPlayerOne().getRow() != 0 && board.isValidMove(
-                            board.getPlayerOne().getRow() - 1, board.getPlayerOne().getCol())) {
-                        EventQueue.invokeLater(() -> board.getPlayerOne().moveUp());
+                    break;
+
+                case LEFT:
+                    if (this.board.isValidMove(player.getRow(), player.getCol() - 1)) {
+                        player.moveLeft();
                     }
-                } else if (key == 40 || key == 83) {
-                    if (board.getPlayerOne().getRow() != setBoard.getRows() - 1 && board.isValidMove(
-                            board.getPlayerOne().getRow() + 1, board.getPlayerOne().getCol())) {
-                        EventQueue.invokeLater(() -> board.getPlayerOne().moveDown());
+                    break;
+
+                case RIGHT:
+                    if (this.board.isValidMove(player.getRow(), player.getCol() + 1)) {
+                        player.moveRight();
                     }
-                } else if (key == 27) {
-                    endGame();
-                }
+                    break;
+
             }
-
         });
 
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.add(tileMap);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        AnimationTimer gameLoop = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                gc.clearRect(0, 0, board.getColumns() * 32, board.getRows() * 32);
+                playerSprite.setY(player.getRow());
+                playerSprite.setX(player.getCol());
+                playerSprite.render(gc);
+            }
+        };
 
-
+        gameLoop.start();
     }
 
-    /**
-     * Refresh the Window after something moves. Runs in the EventQueue to keep everything moving along nicely.
-     *
-     */
-    void refresh() {
-        board.refresh();
-        frame.remove(tileMap);
-        tileMap = new TileMap(board);
-        frame.add(this.tileMap);
-        frame.pack();
-        frame.setVisible(true);
+    private void fillBackground() {
+        final int tileWidthHeight = 32;
 
-    }
+        for (int col = 0; col < this.board.getColumns(); col++) {
+            for (int row = 0; row < this.board.getRows(); row++) {
+                ImageView i = new ImageView();
+                switch (this.board.getTile(row, col)) {
+                    case '.':
+                        i.setImage(this.backgroundImage);
+                        i.setX(col * tileWidthHeight);
+                        i.setY(row * tileWidthHeight);
+                        this.floorPane.getChildren().add(i);
+                        break;
 
-    /**
-     * Ends the game, if the player is alive, the player is killed. A nice message showing the player's name and final
-     * score is shown.
-     */
-    void endGame() {
-        this.frame.remove(tileMap);
+                    case 'X':
+                        i.setImage(this.wallImage);
+                        i.setX(col * tileWidthHeight);
+                        i.setY(row * tileWidthHeight);
+                        this.wallPane.getChildren().add(i);
+                        break;
 
-        // Need to kill the player if the game is escaped manually. This stops the main game loop.
-        if (this.board.getPlayerOne().isAlive()) {
-            this.board.getPlayerOne().kill();
-        }
+                    case 'P':
+                        i.setImage(this.backgroundImage);
+                        i.setX(col * tileWidthHeight);
+                        i.setY(row * tileWidthHeight);
+                        this.floorPane.getChildren().add(i);
+                        break;
 
-        // Show a message with the players score.
-        JOptionPane.showConfirmDialog(null,
-                this.board.getPlayerOne().getUserHandle() + " died\nScore: "
-                        + this.board.getPlayerOne().getScore(), "Game Over",
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-
-        frame.dispose();
-    }
-
-    /**
-     * Class sets the TileMap params by creating a bunch of JPanel objects with different colours. When this is improved
-     * to use tiles / sprites, this class can be updated to handle them.
-     */
-    private class TileMap extends JPanel {
-        private final int tileSize = 25; // In pixels.
-        final GridBagConstraints gbc = new GridBagConstraints();
-
-        private TileMap(Board setBoard) {
-            setLayout(new GridBagLayout());
-
-            gbc.gridy = 0;
-            for (int row = 0; row < setBoard.getRows(); row++) {
-                gbc.gridx = 0;
-                for (int col = 0; col < setBoard.getColumns(); col++) {
-                    JPanel cell = new JPanel() {
-                        @Override
-                        public Dimension getPreferredSize() {
-                            return new Dimension(tileSize, tileSize);
-                        }
-                    };
-                    cell.setBackground(setColour(setBoard, row, col));
-                    add(cell, gbc);
-                    gbc.gridx++;
+                    case 'E':
+                        i.setImage(this.backgroundImage);
+                        i.setX(col * tileWidthHeight);
+                        i.setY(row * tileWidthHeight);
+                        this.floorPane.getChildren().add(i);
+                        break;
                 }
-                gbc.gridy++;
             }
-
         }
 
-        /**
-         * @param row row to check.
-         * @param col col to check.
-         * @return a color object based on the char located at the row, col on the Board.
-         */
-        private Color setColour(Board setBoard, int row, int col) {
-            Color color = Color.BLUE;
 
-            if (setBoard.getTile(row, col) == 'P') {
-                color = Color.RED;
-            } else if (setBoard.getTile(row, col) == 'X') {
-                color = Color.BLACK;
-            } else if (setBoard.getTile(row, col) == '.') {
-                color = Color.WHITE;
-            } else if (setBoard.getTile(row, col) == 'E') {
-                color = Color.ORANGE;
-            }
+    }
 
-            return color;
-        }
+    private void loadGame() {
+        playerImage = new Image("file:assets/player/base/deep_elf_m.png");
+        backgroundImage = new Image("file:assets/dc-dngn/floor/dirt0.png");
+        wallImage = new Image("file:assets/dc-dngn/wall/brick_dark0.png");
+        enemyImage = new Image("file:assets/dc-mon/centaur.png");
     }
 
 }

@@ -1,3 +1,5 @@
+import javafx.application.Application;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -142,9 +144,10 @@ public class GameWindow {
                 }
 
                 String playerHandle = nameField.getText();
+                Player player = new Player(rows - 1, cols / 2, 1, 1, playerHandle);
+                Board board = new Board(rows, cols, difficulty, player);
 
-                new RunGame(rows, cols, difficulty, playerHandle);
-
+                Application.launch(BoardWindow.class);
             }
         });
 
