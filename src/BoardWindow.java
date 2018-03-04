@@ -33,8 +33,6 @@ public class BoardWindow extends Application {
     private Image wallImage;
     private Image enemyImage;
 
-    private Scene scene;
-
     private final int tileWidthHeight = 32;
 
     /**
@@ -43,13 +41,14 @@ public class BoardWindow extends Application {
      * @param board  the board to render.
      * @param player the player to render.
      */
-    public BoardWindow(Board board, Player player) {
+    BoardWindow(Board board, Player player) {
         this.board = board;
         this.player = player;
     }
 
     /**
-     * Default constructor renders a 32 * 26 tile board. Makes debugging a lot easier.
+     * Default constructor renders a 32 * 26 tile board. Makes debugging a lot easier. Can be removed once debugging
+     * is finished--if you so desire.
      */
     public BoardWindow() {
         this.player = new Player(32 - 1, 26 / 2, 1, 1, "");
@@ -70,8 +69,9 @@ public class BoardWindow extends Application {
         Group root = new Group();
 
         // Set the scene size and add it to the primary stage.
-        scene = new Scene(root, this.board.getColumns() * tileWidthHeight,
+        Scene scene = new Scene(root, this.board.getColumns() * tileWidthHeight,
                 this.board.getRows() * tileWidthHeight);
+
         primaryStage.setScene(scene);
         primaryStage.setTitle("Run!!");
 
@@ -93,7 +93,6 @@ public class BoardWindow extends Application {
         // Add the padding to the background div.
         this.scorePane.setStyle("-fx-padding: 5;");
         this.scorePane.setLayoutY(5);
-
         this.scorePane.getChildren().add(scoreLabel);
 
         // Add everything to the root group of nodes.
@@ -104,6 +103,7 @@ public class BoardWindow extends Application {
         // Create a canvas and add it to the root group. This canvas is where the sprites are drawn.
         Canvas canvas = new Canvas(this.board.getColumns() * tileWidthHeight,
                 this.board.getRows() * tileWidthHeight);
+
         root.getChildren().add(canvas);
 
         // Add the 2D graphicsContext to the canvas. Used to keep all the Sprites in the same context.
@@ -121,7 +121,7 @@ public class BoardWindow extends Application {
         primaryStage.show();
 
         // Adds the key listeners and move validators.
-        this.scene.setOnKeyPressed(event -> {
+        scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:
                     if (this.board.isValidMove(player.getRow() - 1, player.getCol())) {
@@ -171,7 +171,7 @@ public class BoardWindow extends Application {
                 scorePane.setLayoutX((board.getColumns() * tileWidthHeight) - (scorePane.getWidth() - 5));
 
                 // This adds one to the player score (roughly) every second.
-                if (scoreCount == 60) {
+                if (scoreCount == 61) {
                     player.setScore(player.getScore() + 1);
                     scoreLabel.setText(String.valueOf(player.getScore()));
                     scoreCount = 0;
