@@ -20,8 +20,8 @@ import javafx.stage.Stage;
  * Renders the BoardWindow in JavaFX.
  */
 public class BoardWindow extends Application {
-    private Board board;
-    private Player player;
+    private final Board board;
+    private final Player player;
     private Sprite playerSprite;
 
     private Pane floorPane;
