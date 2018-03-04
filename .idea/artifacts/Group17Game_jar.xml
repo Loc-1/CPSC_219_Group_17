@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/artifacts/Group17Game_jar</output-path>
     <root id="archive" name="Group17Game.jar">
       <element id="module-output" name="Group17Game" />
+      <element id="dir-copy" path="$PROJECT_DIR$/assets" />
     </root>
   </artifact>
 </component>

@@ -1,32 +1,37 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+
 
 /**
  * @author Josh
  * Renders the BoardWindow in JavaFX.
  */
 public class BoardWindow extends Application {
-    private Board board;
-    private Player player;
+    private final Board board;
+    private final Player player;
     private Sprite playerSprite;
 
-    private Pane floorPane = new Pane();
-    private Pane wallPane = new Pane();
+    private Pane floorPane;
+    private Pane wallPane;
+    private Pane scorePane;
 
     private Image playerImage;
     private Image backgroundImage;
     private Image wallImage;
     private Image enemyImage;
-
-    private Scene scene;
 
     private final int tileWidthHeight = 32;
 
@@ -36,13 +41,14 @@ public class BoardWindow extends Application {
      * @param board  the board to render.
      * @param player the player to render.
      */
-    public BoardWindow(Board board, Player player) {
+    BoardWindow(Board board, Player player) {
         this.board = board;
         this.player = player;
     }
 
     /**
-     * Default constructor renders a 32 * 26 tile board.
+     * Default constructor renders a 32 * 26 tile board. Makes debugging a lot easier. Can be removed once debugging
+     * is finished--if you so desire.
      */
     public BoardWindow() {
         this.player = new Player(32 - 1, 26 / 2, 1, 1, "");
@@ -55,38 +61,62 @@ public class BoardWindow extends Application {
 
     /**
      * The actual render code.
-     * @param primaryStage from javafx.application
+     *
+     * @param primaryStage can be passed, if not constructor creates one.
      */
     @Override
     public void start(Stage primaryStage) {
         Group root = new Group();
-        scene = new Scene(root, this.board.getColumns() * tileWidthHeight,
+
+        // Set the scene size and add it to the primary stage.
+        Scene scene = new Scene(root, this.board.getColumns() * tileWidthHeight,
                 this.board.getRows() * tileWidthHeight);
+
         primaryStage.setScene(scene);
         primaryStage.setTitle("Run!!");
 
         loadGame(); // Loads all the images.
 
-        this.floorPane = new Pane(); // Adds the background panes to the scene.
+        this.floorPane = new Pane(); // Create panes to store the background (i.e. things that don't need to update.)
         this.wallPane = new Pane();
+        this.scorePane = new Pane(); // Create the score pane.
 
         this.fillBackground(); // Fills the background tiles with images.
 
+        // You can use CSS to style things! There IS a God!
+        Label scoreLabel = new Label(String.valueOf(this.player.getScore()));
+        scoreLabel.setStyle("-fx-background-color: rgba(150, 150, 150, 0.55); -fx-background-radius: 10;");
+        scoreLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+        scoreLabel.setTextFill(Color.BLACK);
+        scoreLabel.setPadding(new Insets(5));
+
+        // Add the padding to the background div.
+        this.scorePane.setStyle("-fx-padding: 5;");
+        this.scorePane.setLayoutY(5);
+        this.scorePane.getChildren().add(scoreLabel);
+
+        // Add everything to the root group of nodes.
         root.getChildren().add(this.floorPane);
         root.getChildren().add(this.wallPane);
+        root.getChildren().add(this.scorePane);
 
+        // Create a canvas and add it to the root group. This canvas is where the sprites are drawn.
         Canvas canvas = new Canvas(this.board.getColumns() * tileWidthHeight,
                 this.board.getRows() * tileWidthHeight);
+
         root.getChildren().add(canvas);
 
+        // Add the 2D graphicsContext to the canvas. Used to keep all the Sprites in the same context.
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        playerSprite = new Sprite();
-        playerSprite.setX(this.player.getCol());
-        playerSprite.setY(this.player.getRow());
-        playerSprite.setImage(playerImage);
+        // Create a playerSprite and position it.
+        this.playerSprite = new Sprite();
+        this.playerSprite.setX(this.player.getCol());
+        this.playerSprite.setY(this.player.getRow());
+        this.playerSprite.setImage(playerImage);
 
-        playerSprite.render(gc);
+        // Draw the player sprite on the initial board.
+        this.playerSprite.render(gc);
 
         primaryStage.show();
 
@@ -119,16 +149,35 @@ public class BoardWindow extends Application {
 
         });
 
-        // Sets the gameLoop as an Animation Timer. Only repaints the player tiles. Once the enemies are added
-        // they will be refreshed too. :TODO: add enemies once they're fixed up.
         AnimationTimer gameLoop = new AnimationTimer() {
+            int scoreCount = 0; // set score counter to 0 (each frame represents 1/60 of a second).
+
+            /**
+             * This handler handles the continuous drawing of player sprites. Refresh is at (about) 60 fps.
+             *
+             * @param now the time.
+             */
             @Override
             public void handle(long now) {
+                // Clears the graphics context before drawing the new positions.
                 gc.clearRect(0, 0, board.getColumns() * tileWidthHeight,
                         board.getRows() * tileWidthHeight);
                 playerSprite.setY(player.getRow());
                 playerSprite.setX(player.getCol());
                 playerSprite.render(gc);
+
+                // setLayoutX is needed to keep the label from falling off the side of the board. Five is subtracted
+                // to account for the CSS padding already in place.
+                scorePane.setLayoutX((board.getColumns() * tileWidthHeight) - (scorePane.getWidth() - 5));
+
+                // This adds one to the player score (roughly) every second.
+                if (scoreCount == 61) {
+                    player.setScore(player.getScore() + 1);
+                    scoreLabel.setText(String.valueOf(player.getScore()));
+                    scoreCount = 0;
+                }
+
+                scoreCount++;
             }
 
         };
@@ -178,13 +227,13 @@ public class BoardWindow extends Application {
     }
 
     /**
-     * Loads all the images into their instance vars.
+     * Loads all the images into their instance vars. This speeds up the loads of subsequent background painting calls.
      */
     private void loadGame() {
-        playerImage = new Image("file:assets/player/base/deep_elf_m.png");
-        backgroundImage = new Image("file:assets/dc-dngn/floor/dirt0.png");
-        wallImage = new Image("file:assets/dc-dngn/wall/brick_dark0.png");
-        enemyImage = new Image("file:assets/dc-mon/centaur.png");
+        playerImage = new Image("player/base/deep_elf_m.png");
+        backgroundImage = new Image("dc-dngn/floor/dirt0.png");
+        wallImage = new Image("dc-dngn/wall/brick_dark0.png");
+        enemyImage = new Image("dc-mon/centaur.png");
     }
 
 }

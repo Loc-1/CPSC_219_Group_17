@@ -28,22 +28,29 @@ public class GameWindow extends Application {
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(25));
 
+        gridPane.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case ESCAPE:
+                    primaryStage.close();
+            }
+        });
+
         Label rows = new Label("Rows:");
         gridPane.add(rows, 0, 0);
 
-        TextField rowsField = new TextField();
+        TextField rowsField = new TextField("26");
         gridPane.add(rowsField, 1, 0);
 
         Label cols = new Label("Columns:");
         gridPane.add(cols, 0, 1);
 
-        TextField colsField = new TextField();
+        TextField colsField = new TextField("22");
         gridPane.add(colsField, 1, 1);
 
         Label difficulty = new Label("Difficulty:");
         gridPane.add(difficulty, 0, 2);
 
-        TextField difficultyField = new TextField();
+        TextField difficultyField = new TextField("1");
         gridPane.add(difficultyField, 1, 2);
 
         Button launchGame = new Button("Launch!");
