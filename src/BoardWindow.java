@@ -169,7 +169,6 @@ public class BoardWindow extends Application {
                 // setLayoutX is needed to keep the label from falling off the side of the board. Five is subtracted
                 // to account for the CSS padding already in place.
                 scorePane.setLayoutX((board.getColumns() * tileWidthHeight) - (scorePane.getWidth() - 5));
-                scoreLabel.setText(String.valueOf(player.getScore()));
 
                 // This adds one to the player score (roughly) every second.
                 if (scoreCount == 60) {
