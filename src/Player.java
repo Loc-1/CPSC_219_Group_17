@@ -9,8 +9,6 @@ public class Player {
     private int userID;
     private String userHandle;
     
-    private int lastcol;
-    private int lastrow;
     private int col;
     private int row;
     private int score = 0;
@@ -56,14 +54,6 @@ public class Player {
         this.row = row;
     }
     
-    public int getLastcol() {
-        return lastcol;
-    }
-    
-    public int getLastrow() {
-        return lastrow;
-    }
-    
 
     public Boolean isAlive() {
         return isAlive;
@@ -76,29 +66,20 @@ public class Player {
     public void setScore(int score) {
         this.score = score;
     }
-    
-    public void lastPosition() {
-    	this.lastcol = this.col;
-    	this.lastrow = this.row;
-    }
 
     public void moveUp() {
-    	lastPosition();
         this.row -= 1;
     }
 
     public void moveDown() {
-    	lastPosition();
         this.row += 1;
     }
 
     public void moveRight() {
-    	lastPosition();
         this.col += 1;
     }
 
     public void moveLeft() {
-    	lastPosition();
         this.col -= 1;
     }
 

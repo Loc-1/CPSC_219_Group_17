@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Class Owner: Ashton / Lincoln
@@ -15,12 +16,8 @@ public class Board {
     private ObstacleMap obstacleMap;
     private Player playerOne;
     private Player playerTwo;
-
-    public Enemy getEnemies() {
-        return enemies;
-    }
-
-    private Enemy enemies;
+    private Enemy[] enemies;
+    private int numOfEnemies;
 
     /**
      * Constructor creates a single player board.
@@ -37,7 +34,10 @@ public class Board {
         this.board = new char[rows][columns];
         this.obstacleMap = new ObstacleMap(this.rows, this.columns, this.difficulty);
         this.playerOne = setPlayer;
-        this.enemies = new Enemy(this.rows, this.columns);
+        
+        this.numOfEnemies = 1;
+        this.enemies = new Enemy[numOfEnemies];
+        this.enemies[0] = new Enemy(this.rows, this.columns);
 
         if (this.rows < 0 || this.columns < 0) { // Temp error catching if.
             System.out.println("Width: " + setColumns);
@@ -57,11 +57,17 @@ public class Board {
             this.board[playerOne.getRow()][playerOne.getCol()] = 'P';
 
             // :TODO: Try multiple times to place an enemy, check that end coordinates are also not on an obstacle
+            
+            
             //Place the enemies ensure they are not on an obstacle or the player
-            if (Arrays.asList(this.obstacleMap.obstacleLocations()).contains(this.enemies.getStartCoords())) {
-                this.enemies = new Enemy(this.rows, this.columns);
-            } else {
-                this.board[this.enemies.getStartCoords()[0]][this.enemies.getStartCoords()[1]] = 'E';
+            
+          
+            for (int i=0; i < numOfEnemies; i++) {
+                if (Arrays.asList(this.obstacleMap.obstacleLocations()).contains(this.enemies[i].getStartCoords())) {
+                    this.enemies[i] = new Enemy(this.rows, this.columns);
+                } else {
+                    this.board[this.enemies[i].getStartCoords()[0]][this.enemies[i].getStartCoords()[1]] = 'E';
+            }
             }
         }
 
@@ -127,18 +133,18 @@ public class Board {
                 }
             }
             // :TODO: Replace enemies start coordinates with current coordinates once enemy has a path
-            this.board[this.enemies.getStartCoords()[0]][this.enemies.getStartCoords()[1]] = 'E';
+            this.board[this.enemies[0].getStartCoords()[0]][this.enemies[0].getStartCoords()[1]] = 'E';
 
         }
         // Obstacle collision condition
-        if (!isValidMove(playerOne.getRow(),playerOne.getCol())) {
-        	this.playerOne.setCol(playerOne.getLastcol());
-        	this.playerOne.setRow(playerOne.getLastrow());
+        //if (!isValidMove(playerOne.getRow(),playerOne.getCol())) {
+        	//this.playerOne.setCol(playerOne.getLastcol());
+        	//this.playerOne.setRow(playerOne.getLastrow());
             //this.board[this.playerOne.getY()][this.playerOne.getX()] = 'P';
-        }
+        //}
         
         // Kill conditions
-        if ((this.enemies.getStartCoords()[0] == this.playerOne.getRow()) && (this.enemies.getStartCoords()[1] == this.playerOne.getCol())) {
+        if ((this.enemies[0].getStartCoords()[0] == this.playerOne.getRow()) && (this.enemies[0].getStartCoords()[1] == this.playerOne.getCol())) {
             this.playerOne.kill();
         } else {
             this.board[this.playerOne.getRow()][this.playerOne.getCol()] = 'P';
@@ -191,7 +197,31 @@ public class Board {
         return isTraversable;
 
     }
-
+    
+    /**
+     * Check if all required enemies are on the board
+     * @return True if the map has all enemies
+     */
+    public boolean areEnemiesPlaced() {
+    	boolean allEnemiesPlaced = false;
+    	int placedEnemies = 0;
+    	
+    	board = this.board;
+    	for (int i = 0; i < board.length; i++) {
+    		for (int j = 0; j < board.length; j++) {
+    			if (board[i][j] == 'E') {
+    				placedEnemies += 1;
+    			}
+    		}
+    	}
+    	
+    	if (placedEnemies == this.numOfEnemies) {
+    		allEnemiesPlaced = true;
+    	}
+    	
+    	return allEnemiesPlaced;
+    	
+    }
 
     /**
      * @param oldMap the ObstacleMap to be overwritten
@@ -219,8 +249,19 @@ public class Board {
         }
 
     }
-
-
+    
+    /**
+     * Determines a valid start position for enemies
+     */
+    public void enemyStart(Enemy aenemy) {
+    	int[][] freeTiles = this.obstacleMap.nonObstacleLocations();
+    	int[] randstartCoords = freeTiles[(int) (generateRandomDouble() * freeTiles.length)];
+    	
+    	aenemy.setStartLocation(randstartCoords[0], randstartCoords[1]);
+    }
+    
+    
+  
     /**
      * @param row         the row to set.
      * @param col         the col to set.
@@ -260,5 +301,37 @@ public class Board {
 
     public Player getPlayerOne() {
         return playerOne;
+    }
+    
+    public Enemy[] getEnemies() {
+        return enemies;
+    }
+    
+    /**
+     * 
+     * @return a random double.
+     */
+    public static double generateRandomDouble() {
+        Random randomNum = new Random();
+        return randomNum.nextDouble();
+    }
+    
+    // Testing
+    //Testing
+    public static void main(String[] args) {
+    	Player player = new Player(32 - 1, 26 / 2, 1, 1, "");
+    	Board board = new Board(32, 26, 1, player);
+    	
+    	board.printBoard();
+    	System.out.println(Arrays.deepToString(board.getObstacleMap().obstacleLocations()));
+
+    	System.out.println(Arrays.deepToString(board.getObstacleMap().nonObstacleLocations()));
+    	
+    	int[][] a = board.getObstacleMap().nonObstacleLocations();
+    	
+    	int[] randcoords = a[(int) (generateRandomDouble() * a.length)];
+    	System.out.println(Arrays.toString(randcoords));
+    	//System.out.println(Arrays.toString(enemy.getEndCoords()));
+    	
     }
 }

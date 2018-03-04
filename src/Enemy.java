@@ -13,38 +13,36 @@ import java.util.Arrays;
 public class Enemy {
     private int direction;
     private int speed;
-    private int[] startCoords;
-    private int[] endCoords;
-    private int[] currentCoords;
+    private int x_start, x_end;
+    private int y_start, y_end;
+    private int x_current, y_current;
+    private int pathprogress;
     
     /**
      * Constructor that creates an enemy and sets the start and end locations
      */
     public Enemy(int boardRows, int boardColumns) {
-    	int x_start;
-    	int x_end;
-    	int y_start;
-    	int y_end;
     	
-    	x_start = (int) (generateRandomDouble() * (boardRows-4) + 4); // Ensuring enemy path does not go off array bounds
-    	y_start = (int) (generateRandomDouble() * (boardColumns-4) + 4); // :TODO: Make this more intuitive
+    	int xTravelDis = distanceToTravel();
+    	int yTravelDis = distanceToTravel();
     	
-    	this.startCoords = new int[] {x_start, y_start};
+    	this.x_start = (int) (generateRandomDouble() * (boardRows-5) + 5); // Ensuring enemy path does not go off array bounds
+    	this.y_start = (int) (generateRandomDouble() * (boardColumns-5) + 5); // :TODO: Make this more intuitive
+    	
     	
     	// Determine end coordinates using movement constraints
     	if (generateRandomDouble() > 0.50) {
-    	    x_end = x_start + distanceToTravel();	
+    	    this.x_end = x_start + xTravelDis;	
     	} else {
-    		x_end = x_start - distanceToTravel();
+    		this.x_end = x_start - xTravelDis;
     	}
     	
     	if (generateRandomDouble() > 0.50) {
-    		y_end = y_start + distanceToTravel();
+    		this.y_end = y_start + yTravelDis;
     	} else {
-    		y_end = y_start - distanceToTravel();
+    		this.y_end = y_start - yTravelDis;
     	}
     	
-    	this.endCoords = new int[] {x_end, y_end}; 
     }
     
     /**
@@ -67,23 +65,28 @@ public class Enemy {
     /**
      * @param xy row-column coordinates of starting location.
      */
-    public void setStartLocation(int[] xy) {
-    	this.startCoords = xy;
+    public void setStartLocation(int x, int y) {
+    	this.x_start = x;
+    	this.y_start = y;
+    }
+    
+    /**
+     * @param xy row-column coordinates of ending location.
+     */
+    public void setEndLocation(int x, int y) {
+    	this.x_end = x;
+    	this.y_end = y;
     }
     
     /**
      * @param xy row-column coordinates of current location.
      */
 
-    public void setCurrentLocation(int[] xy) {
-    	this.currentCoords = xy;
+    public void setCurrentLocation(int x, int y) {
+    	this.x_current = x;
+    	this.y_current = y;
     }
-    /**
-     * @param xy row-column coordinates of ending location.
-     */
-    public void setEndLocation(int[] xy) {
-    	this.endCoords = xy;
-    }
+
 
     /**
      * @param velocity {'1.0': 'Top speed', '0.0': 'Stopped'}
@@ -95,21 +98,24 @@ public class Enemy {
      * Gets the start coordinates
      */
     public int[] getStartCoords() {
-    	return this.startCoords;
+    	int [] startCoords = new int[] {this.x_start, this.y_start};
+    	return startCoords;
     }
 
     /**
      * Gets the current coordinates
      */
     public int[] getCurrentCoords() {
-    	return this.currentCoords;
+    	int [] currentCoords = new int[] {this.x_current, this.y_current};
+    	return currentCoords;
     }
     
     /**
      * Gets the end coordinates
      */
     public int[] getEndCoords() {
-    	return this.endCoords;
+    	int [] endCoords = new int[] {this.x_end, this.y_end};
+    	return endCoords;
     }
     /**
      * 
@@ -131,10 +137,10 @@ public class Enemy {
     
     //Testing
     public static void main(String[] args) {
-    	//Enemy enemy = new Enemy(20, 20);
+    	Enemy enemy = new Enemy(20, 20);
 
-    	//System.out.println(Arrays.toString(enemy.getStartCoords()));
-    	//System.out.println(Arrays.toString(enemy.getEndCoords()));
+    	System.out.println(Arrays.toString(enemy.getStartCoords()));
+    	System.out.println(Arrays.toString(enemy.getEndCoords()));
     	
     }
 

@@ -184,6 +184,35 @@ public class ObstacleMap {
     }
     
     /**
+     * Determine coordinates of obstacles in the map
+     * @return A int array containing coordinates of the obstacles [row, column]
+     */
+    public int[][] nonObstacleLocations(){
+    	
+    	boolean[][] checkMap = this.obstacleMap;
+    	int numObstacles = checkNumObstacles();
+    	int totalTiles = checkMap[0].length * checkMap.length;
+    	int numFreeSpace = totalTiles - numObstacles;
+    	
+    	int freeSpaceNum = 0;
+    	
+    	int[][] locations = new int[numFreeSpace][2];
+    	
+    	for (int i = 0; i < checkMap.length; i++) {
+    		for (int j = 0; j < checkMap[0].length; j++) {
+    			if (!checkMap[i][j]) { 				
+    				locations[freeSpaceNum][0] = i;
+    				locations[freeSpaceNum][1] = j;
+    				freeSpaceNum += 1;
+
+    			}
+    			
+    		}
+    	}
+        return locations;
+    }
+    
+    /**
      * Determines the amount of obstacles in the map
      */
     public int checkNumObstacles() {
