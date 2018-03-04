@@ -181,10 +181,10 @@ public class BoardWindow extends Application {
      * Loads all the images into their instance vars.
      */
     private void loadGame() {
-        playerImage = new Image("file:assets/player/base/deep_elf_m.png");
-        backgroundImage = new Image("file:assets/dc-dngn/floor/dirt0.png");
-        wallImage = new Image("file:assets/dc-dngn/wall/brick_dark0.png");
-        enemyImage = new Image("file:assets/dc-mon/centaur.png");
+        playerImage = new Image("player/base/deep_elf_m.png");
+        backgroundImage = new Image("dc-dngn/floor/dirt0.png");
+        wallImage = new Image("dc-dngn/wall/brick_dark0.png");
+        enemyImage = new Image("dc-mon/centaur.png");
     }
 
 }
