@@ -88,7 +88,7 @@ public class BoardWindow extends Application {
         scoreLabel.setStyle("-fx-background-color: rgba(150, 150, 150, 0.55); -fx-background-radius: 10;");
         scoreLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
         scoreLabel.setTextFill(Color.BLACK);
-        scoreLabel.setPadding(new Insets(10));
+        scoreLabel.setPadding(new Insets(5));
 
         // Add the padding to the background div.
         this.scorePane.setStyle("-fx-padding: 5;");
