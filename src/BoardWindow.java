@@ -1,13 +1,19 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+
 
 /**
  * @author Josh
@@ -18,8 +24,9 @@ public class BoardWindow extends Application {
     private Player player;
     private Sprite playerSprite;
 
-    private Pane floorPane = new Pane();
-    private Pane wallPane = new Pane();
+    private Pane floorPane;
+    private Pane wallPane;
+    private Pane scorePane;
 
     private Image playerImage;
     private Image backgroundImage;
@@ -42,7 +49,7 @@ public class BoardWindow extends Application {
     }
 
     /**
-     * Default constructor renders a 32 * 26 tile board.
+     * Default constructor renders a 32 * 26 tile board. Makes debugging a lot easier.
      */
     public BoardWindow() {
         this.player = new Player(32 - 1, 26 / 2, 1, 1, "");
@@ -55,6 +62,7 @@ public class BoardWindow extends Application {
 
     /**
      * The actual render code.
+     *
      * @param primaryStage from javafx.application
      */
     @Override
@@ -69,18 +77,35 @@ public class BoardWindow extends Application {
 
         this.floorPane = new Pane(); // Adds the background panes to the scene.
         this.wallPane = new Pane();
+        this.scorePane = new Pane();
 
         this.fillBackground(); // Fills the background tiles with images.
 
+        // You can use CSS to style things! There IS a God!
+        Label scoreLabel = new Label(String.valueOf(this.player.getScore()));
+        scoreLabel.setStyle("-fx-background-color: rgba(150, 150, 150, 0.55); -fx-background-radius: 10;");
+        scoreLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+        scoreLabel.setTextFill(Color.BLACK);
+        scoreLabel.setPadding(new Insets(10));
+
+        // Add the padding to the background div.
+        this.scorePane.setStyle("-fx-padding: 5;");
+        this.scorePane.setLayoutY(5);
+        this.scorePane.getChildren().add(scoreLabel);
+
+        // Add everything to the root node.
         root.getChildren().add(this.floorPane);
         root.getChildren().add(this.wallPane);
+        root.getChildren().add(this.scorePane);
 
+        // Create a canvas and add all the root groups nodes to it.
         Canvas canvas = new Canvas(this.board.getColumns() * tileWidthHeight,
                 this.board.getRows() * tileWidthHeight);
         root.getChildren().add(canvas);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
+        // Create a playerSprite and position it.
         playerSprite = new Sprite();
         playerSprite.setX(this.player.getCol());
         playerSprite.setY(this.player.getRow());
@@ -122,6 +147,8 @@ public class BoardWindow extends Application {
         // Sets the gameLoop as an Animation Timer. Only repaints the player tiles. Once the enemies are added
         // they will be refreshed too. :TODO: add enemies once they're fixed up.
         AnimationTimer gameLoop = new AnimationTimer() {
+            int scoreCount = 0;
+
             @Override
             public void handle(long now) {
                 gc.clearRect(0, 0, board.getColumns() * tileWidthHeight,
@@ -129,6 +156,20 @@ public class BoardWindow extends Application {
                 playerSprite.setY(player.getRow());
                 playerSprite.setX(player.getCol());
                 playerSprite.render(gc);
+
+                // setLayoutX is needed to keep the label from falling off the side of the board. Five is subtracted
+                // to account for the CSS padding already in place.
+                scorePane.setLayoutX((board.getColumns() * tileWidthHeight) - (scorePane.getWidth() - 5));
+                scoreLabel.setText(String.valueOf(player.getScore()));
+
+                // This adds one to the player score (roughly) every second.
+                if (scoreCount == 60) {
+                    player.setScore(player.getScore() + 1);
+                    scoreLabel.setText(String.valueOf(player.getScore()));
+                    scoreCount = 0;
+                }
+
+                scoreCount++;
             }
 
         };
