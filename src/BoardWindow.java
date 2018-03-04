@@ -153,7 +153,7 @@ public class BoardWindow extends Application {
             int scoreCount = 0; // set score counter to 0 (each frame represents 1/60 of a second).
 
             /**
-             * This handler handles the drawing of player sprites. Refresh is at (about) 60 fps.
+             * This handler handles the continuous drawing of player sprites. Refresh is at (about) 60 fps.
              *
              * @param now the time.
              */
