@@ -63,6 +63,7 @@ public class BoardWindow extends Application {
         scene = new Scene(root, this.board.getColumns() * tileWidthHeight,
                 this.board.getRows() * tileWidthHeight);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Run!!");
 
         loadGame(); // Loads all the images.
 

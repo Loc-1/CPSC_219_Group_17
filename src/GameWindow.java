@@ -21,7 +21,6 @@ public class GameWindow extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Group 17 Game");
-        primaryStage.show();
 
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
@@ -66,6 +65,7 @@ public class GameWindow extends Application {
 
         Scene scene = new Scene(gridPane, 550, 700);
         primaryStage.setScene(scene);
+        primaryStage.show();
 
     }
 
