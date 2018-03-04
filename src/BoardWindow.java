@@ -63,11 +63,13 @@ public class BoardWindow extends Application {
     /**
      * The actual render code.
      *
-     * @param primaryStage from javafx.application
+     * @param primaryStage can be passed, if not constructor creates one.
      */
     @Override
     public void start(Stage primaryStage) {
         Group root = new Group();
+
+        // Set the scene size and add it to the primary stage.
         scene = new Scene(root, this.board.getColumns() * tileWidthHeight,
                 this.board.getRows() * tileWidthHeight);
         primaryStage.setScene(scene);
@@ -75,9 +77,9 @@ public class BoardWindow extends Application {
 
         loadGame(); // Loads all the images.
 
-        this.floorPane = new Pane(); // Adds the background panes to the scene.
+        this.floorPane = new Pane(); // Create panes to store the background (i.e. things that don't need to update.)
         this.wallPane = new Pane();
-        this.scorePane = new Pane();
+        this.scorePane = new Pane(); // Create the score pane.
 
         this.fillBackground(); // Fills the background tiles with images.
 
@@ -91,32 +93,35 @@ public class BoardWindow extends Application {
         // Add the padding to the background div.
         this.scorePane.setStyle("-fx-padding: 5;");
         this.scorePane.setLayoutY(5);
+
         this.scorePane.getChildren().add(scoreLabel);
 
-        // Add everything to the root node.
+        // Add everything to the root group of nodes.
         root.getChildren().add(this.floorPane);
         root.getChildren().add(this.wallPane);
         root.getChildren().add(this.scorePane);
 
-        // Create a canvas and add all the root groups nodes to it.
+        // Create a canvas and add it to the root group. This canvas is where the sprites are drawn.
         Canvas canvas = new Canvas(this.board.getColumns() * tileWidthHeight,
                 this.board.getRows() * tileWidthHeight);
         root.getChildren().add(canvas);
 
+        // Add the 2D graphicsContext to the canvas. Used to keep all the Sprites in the same context.
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // Create a playerSprite and position it.
-        playerSprite = new Sprite();
-        playerSprite.setX(this.player.getCol());
-        playerSprite.setY(this.player.getRow());
-        playerSprite.setImage(playerImage);
+        this.playerSprite = new Sprite();
+        this.playerSprite.setX(this.player.getCol());
+        this.playerSprite.setY(this.player.getRow());
+        this.playerSprite.setImage(playerImage);
 
-        playerSprite.render(gc);
+        // Draw the player sprite on the initial board.
+        this.playerSprite.render(gc);
 
         primaryStage.show();
 
         // Adds the key listeners and move validators.
-        scene.setOnKeyPressed(event -> {
+        this.scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:
                     if (this.board.isValidMove(player.getRow() - 1, player.getCol())) {
@@ -144,13 +149,17 @@ public class BoardWindow extends Application {
 
         });
 
-        // Sets the gameLoop as an Animation Timer. Only repaints the player tiles. Once the enemies are added
-        // they will be refreshed too. :TODO: add enemies once they're fixed up.
         AnimationTimer gameLoop = new AnimationTimer() {
-            int scoreCount = 0;
+            int scoreCount = 0; // set score counter to 0 (each frame represents 1/60 of a second).
 
+            /**
+             * This handler handles the drawing of player sprites. Refresh is at (about) 60 fps.
+             *
+             * @param now the time.
+             */
             @Override
             public void handle(long now) {
+                // Clears the graphics context before drawing the new positions.
                 gc.clearRect(0, 0, board.getColumns() * tileWidthHeight,
                         board.getRows() * tileWidthHeight);
                 playerSprite.setY(player.getRow());
@@ -219,7 +228,7 @@ public class BoardWindow extends Application {
     }
 
     /**
-     * Loads all the images into their instance vars.
+     * Loads all the images into their instance vars. This speeds up the loads of subsequent background painting calls.
      */
     private void loadGame() {
         playerImage = new Image("player/base/deep_elf_m.png");
