@@ -192,35 +192,24 @@ public class BoardWindow extends Application {
         for (int col = 0; col < this.board.getColumns(); col++) {
             for (int row = 0; row < this.board.getRows(); row++) {
                 ImageView i = new ImageView();
+                i.setX(col * tileWidthHeight);
+                i.setY(row * tileWidthHeight);
+
                 switch (this.board.getTile(row, col)) {
                     case '.': // Floor
                         i.setImage(this.backgroundImage);
-                        i.setX(col * tileWidthHeight);
-                        i.setY(row * tileWidthHeight);
-                        this.floorPane.getChildren().add(i);
                         break;
-
                     case 'X': // Wall
                         i.setImage(this.wallImage);
-                        i.setX(col * tileWidthHeight);
-                        i.setY(row * tileWidthHeight);
-                        this.wallPane.getChildren().add(i);
                         break;
-
                     case 'P': // Player tiles still have floor backgrounds.
                         i.setImage(this.backgroundImage);
-                        i.setX(col * tileWidthHeight);
-                        i.setY(row * tileWidthHeight);
-                        this.floorPane.getChildren().add(i);
                         break;
-
                     case 'E': // Enemy tiles still have floor backgrounds.
                         i.setImage(this.backgroundImage);
-                        i.setX(col * tileWidthHeight);
-                        i.setY(row * tileWidthHeight);
-                        this.floorPane.getChildren().add(i);
                         break;
                 }
+                this.floorPane.getChildren().add(i);
             }
         }
 
