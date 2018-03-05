@@ -14,6 +14,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 
 /**
  * @author Josh
@@ -23,6 +25,7 @@ public class BoardWindow extends Application {
     private final Board board;
     private final Player player;
     private Sprite playerSprite;
+    private ArrayList<Sprite> enemySprites = new ArrayList<>();
 
     private Pane floorPane;
     private Pane wallPane;
@@ -44,6 +47,7 @@ public class BoardWindow extends Application {
     BoardWindow(Board board, Player player) {
         this.board = board;
         this.player = player;
+
     }
 
     /**
@@ -118,6 +122,16 @@ public class BoardWindow extends Application {
         // Draw the player sprite on the initial board.
         this.playerSprite.render(gc);
 
+        for (Enemy e : this.board.getEnemies()) {
+            Sprite sprite = new Sprite();
+            int[] coords = e.getStartCoords();
+            sprite.setX(coords[0]);
+            sprite.setY(coords[1]);
+            sprite.setImage(this.enemyImage);
+            sprite.render(gc);
+            this.enemySprites.add(sprite);
+        }
+
         primaryStage.show();
 
         // Adds the key listeners and move validators.
@@ -165,6 +179,9 @@ public class BoardWindow extends Application {
                 playerSprite.setY(player.getRow());
                 playerSprite.setX(player.getCol());
                 playerSprite.render(gc);
+                for (Sprite s : enemySprites) {
+                    s.render(gc);
+                }
 
                 // setLayoutX is needed to keep the label from falling off the side of the board. Five is subtracted
                 // to account for the CSS padding already in place.
@@ -175,6 +192,17 @@ public class BoardWindow extends Application {
                     player.setScore(player.getScore() + 1);
                     scoreLabel.setText(String.valueOf(player.getScore()));
                     scoreCount = 0;
+
+                    // Move and render the enemySprites
+                    for (Sprite s : enemySprites) {
+                        for (Enemy e : board.getEnemies()) {
+                            e.move();
+                            int[] coords = e.getCurrentCoords();
+                            s.setX(coords[0]);
+                            s.setY(coords[1]);
+                            s.render(gc);
+                        }
+                    }
                 }
 
                 scoreCount++;
