@@ -24,8 +24,8 @@ import java.util.ArrayList;
 public class BoardWindow extends Application {
     private final Board board;
     private final Player player;
+    private final ArrayList<Sprite> enemySprites = new ArrayList<>();
     private Sprite playerSprite;
-    private ArrayList<Sprite> enemySprites = new ArrayList<>();
 
     private Pane floorPane;
     private Pane wallPane;
@@ -122,15 +122,17 @@ public class BoardWindow extends Application {
         // Draw the player sprite on the initial board.
         this.playerSprite.render(gc);
 
+        // Create an enemy Sprite for all enemies on the board.
         for (Enemy e : this.board.getEnemies()) {
             Sprite sprite = new Sprite();
             int[] coords = e.getStartCoords();
             sprite.setX(coords[0]);
             sprite.setY(coords[1]);
             sprite.setImage(this.enemyImage);
-            sprite.render(gc);
             this.enemySprites.add(sprite);
         }
+
+        this.renderEnemySprites(gc);
 
         primaryStage.show();
 
@@ -179,10 +181,7 @@ public class BoardWindow extends Application {
                 playerSprite.setY(player.getRow());
                 playerSprite.setX(player.getCol());
                 playerSprite.render(gc);
-
-                for (Sprite s : enemySprites) {
-                    s.render(gc);
-                }
+                renderEnemySprites(gc);
 
                 // setLayoutX is needed to keep the label from falling off the side of the board. Five is subtracted
                 // to account for the CSS padding already in place.
@@ -194,15 +193,9 @@ public class BoardWindow extends Application {
                     scoreLabel.setText(String.valueOf(player.getScore()));
                     scoreCount = 0;
 
-                    // Move and render the enemySprites
+                    // Move the enemy sprites AFTER they've been rendered.
                     for (Enemy e : board.getEnemies()) {
                         e.move();
-                        for (Sprite s : enemySprites) {
-                            int[] coords = e.getCurrentCoords();
-                            s.setX(coords[0]);
-                            s.setY(coords[1]);
-                            s.render(gc);
-                        }
                     }
                 }
 
@@ -212,6 +205,26 @@ public class BoardWindow extends Application {
         };
 
         gameLoop.start();
+    }
+
+    /**
+     * Renders all the enemy sprites from the Enemy[] on the board.
+     *
+     * @param gc the canvas GraphicsContext where the Sprites are drawn.
+     */
+    private void renderEnemySprites(GraphicsContext gc) {
+        for (Enemy e : this.board.getEnemies()) {
+            for (Sprite s : this.enemySprites) {
+                int[] coords = e.getCurrentCoords();
+                s.setY(coords[0]);
+                s.setX(coords[1]);
+            }
+        }
+
+        // This is separate to prevent the 'flickering' of the enemy sprites.
+        for (Sprite s : this.enemySprites) {
+            s.render(gc);
+        }
     }
 
     /**
@@ -227,18 +240,21 @@ public class BoardWindow extends Application {
                 switch (this.board.getTile(row, col)) {
                     case '.': // Floor
                         i.setImage(this.backgroundImage);
+                        this.floorPane.getChildren().add(i);
                         break;
                     case 'X': // Wall
                         i.setImage(this.wallImage);
+                        this.wallPane.getChildren().add(i);
                         break;
                     case 'P': // Player tiles still have floor backgrounds.
                         i.setImage(this.backgroundImage);
+                        this.floorPane.getChildren().add(i);
                         break;
                     case 'E': // Enemy tiles still have floor backgrounds.
                         i.setImage(this.backgroundImage);
+                        this.floorPane.getChildren().add(i);
                         break;
                 }
-                this.floorPane.getChildren().add(i);
             }
         }
 

@@ -2,6 +2,10 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+/**
+ * @author Josh
+ * Custom class to handle the Sprites on the board.
+ */
 public class Sprite {
     private final int tileWidthHeight = 32;
     private Image image;
@@ -9,15 +13,28 @@ public class Sprite {
     private int y;
     private boolean isColliadable;
 
+    /**
+     * Initialize the sprite in the top right.
+     */
     public Sprite() {
         x = 0;
         y = 0;
     }
 
+    /**
+     * This method draws the sprite.
+     *
+     * @param gc the graphics context to draw in.
+     */
     public void render(GraphicsContext gc) {
         gc.drawImage(this.image, this.x * tileWidthHeight, this.y * tileWidthHeight);
     }
 
+    /**
+     * This method will be used for collision detection and player killing.
+     *
+     * @return a Rectangle bounding box.
+     */
     public Rectangle2D getBoundary() {
         return new Rectangle2D(this.x * tileWidthHeight, this.y * tileWidthHeight, tileWidthHeight, tileWidthHeight);
     }
