@@ -179,6 +179,7 @@ public class BoardWindow extends Application {
                 playerSprite.setY(player.getRow());
                 playerSprite.setX(player.getCol());
                 playerSprite.render(gc);
+
                 for (Sprite s : enemySprites) {
                     s.render(gc);
                 }
@@ -194,9 +195,9 @@ public class BoardWindow extends Application {
                     scoreCount = 0;
 
                     // Move and render the enemySprites
-                    for (Sprite s : enemySprites) {
-                        for (Enemy e : board.getEnemies()) {
-                            e.move();
+                    for (Enemy e : board.getEnemies()) {
+                        e.move();
+                        for (Sprite s : enemySprites) {
                             int[] coords = e.getCurrentCoords();
                             s.setX(coords[0]);
                             s.setY(coords[1]);
