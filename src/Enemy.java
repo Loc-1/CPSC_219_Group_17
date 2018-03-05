@@ -1,5 +1,5 @@
-import java.util.Random;
-import java.util.Arrays;
+
+import java.util.*;
 
 
 /**
@@ -16,54 +16,31 @@ public class Enemy {
     private int x_start, x_end;
     private int y_start, y_end;
     private int x_current, y_current;
+    private List<int[]> path;
     private int pathprogress;
-    
+ 
+   
     /**
-     * Constructor that creates an enemy and sets the start and end locations
+     * Moves the enemy from the start coordinates to the end coordinates, and back.
      */
-    public Enemy(int boardRows, int boardColumns) {
+    public void move() {
     	
-    	int xTravelDis = distanceToTravel();
-    	int yTravelDis = distanceToTravel();
-    	
-    	this.x_start = (int) (generateRandomDouble() * (boardRows-5) + 5); // Ensuring enemy path does not go off array bounds
-    	this.y_start = (int) (generateRandomDouble() * (boardColumns-5) + 5); // :TODO: Make this more intuitive
-    	
-    	
-    	// Determine end coordinates using movement constraints
-    	if (generateRandomDouble() > 0.50) {
-    	    this.x_end = x_start + xTravelDis;	
-    	} else {
-    		this.x_end = x_start - xTravelDis;
+    	// When enemy reaches end of its path, it moves back
+    	//if ((this.x_current == this.x_end) && (this.y_current == this.y_end)) {
+    	if (pathprogress == path.size()) {
+    		Collections.reverse(this.path);
+    		this.pathprogress = 0;
     	}
-    	
-    	if (generateRandomDouble() > 0.50) {
-    		this.y_end = y_start + yTravelDis;
-    	} else {
-    		this.y_end = y_start - yTravelDis;
-    	}
-    	
-    }
-    
-    /**
-     * Moves the enemy from the start coordinates to the end coordinates.
-     * @param startCoords row-column coordinates of starting location
-     * @param endCoords row-column coordinates of ending location
-     * @param stepNumber The current step or progress of the enemy
-     * @param blockedCoords 2D array with all locations that cannot be traversed
-     */
-    public void move(int[] startCoords, int[] endCoords, int stepNumber, int[][] blockedCoords) {
-    	
+
+    	this.x_current = this.path.get(pathprogress)[0];
+    	this.y_current = this.path.get(pathprogress)[1];
+    	this.pathprogress += 1;
     }
 
-    /**
-     * @param direction {'0': 'up', '1': 'down', '2', 'left', '3', 'right}
-     */
-    public void setDirection(int direction) {
-    }
 
     /**
-     * @param xy row-column coordinates of starting location.
+     * @param x row position of start location
+     * @param y column position of end location
      */
     public void setStartLocation(int x, int y) {
     	this.x_start = x;
@@ -71,7 +48,8 @@ public class Enemy {
     }
     
     /**
-     * @param xy row-column coordinates of ending location.
+     * @param x row position of end location
+     * @param y column position of end location
      */
     public void setEndLocation(int x, int y) {
     	this.x_end = x;
@@ -79,12 +57,20 @@ public class Enemy {
     }
     
     /**
-     * @param xy row-column coordinates of current location.
+     * @param x row position of current location
+     * @param y column position of current location
      */
 
     public void setCurrentLocation(int x, int y) {
     	this.x_current = x;
     	this.y_current = y;
+    }
+    
+    /**
+     * @param path int[] containing the path of the enemy.
+     */
+    public void setPath(List<int[]> apath) {
+    	this.path = apath;
     }
 
 
@@ -117,31 +103,44 @@ public class Enemy {
     	int [] endCoords = new int[] {this.x_end, this.y_end};
     	return endCoords;
     }
+    
     /**
-     * 
-     * @return a random double.
+     * @return The enemy's path
      */
-    public double generateRandomDouble() {
-        Random randomNum = new Random();
-        return randomNum.nextDouble();
+    public List<int[]> getPath() {
+    	return this.path;
     }
     
     /**
-     * 
-     * Randomly determines how far the enemies path will be.
-     * Changing constraint values will allow or restrict enemy movement
+     * @return Integer value for path progress
      */
-    public int distanceToTravel() {
-    	return (int) (generateRandomDouble() * 4 + 1);
+    public int getPathProgress() {
+    	return this.pathprogress;
     }
-    
-    //Testing
-    public static void main(String[] args) {
-    	Enemy enemy = new Enemy(20, 20);
 
-    	System.out.println(Arrays.toString(enemy.getStartCoords()));
-    	System.out.println(Arrays.toString(enemy.getEndCoords()));
+    
+    //Testing if enemy moves back and forth
+    public static void main(String[] args) {
+    	Enemy enemy = new Enemy();
+    	List<Integer> ints = new ArrayList<Integer>(Arrays.asList(1,2,3));
+    	List<int[]> path = new ArrayList<int[]>(Arrays.asList(new int[] {0,1}, new int[] {0,2}, new int[] {0,3}, new int[] {0,4}));
     	
+    	//System.out.println(Arrays.deepToString(path.toArray()));
+    	
+    	enemy.setStartLocation(0, 0);
+    	enemy.setCurrentLocation(0, 0);
+    	enemy.setEndLocation(0, 2);
+    	enemy.setPath(path);
+    	
+    	for (int i = 0; i < 10; i++) {
+    		System.out.print(Arrays.toString(enemy.getCurrentCoords()));
+    		//System.out.println(enemy.getPathProgress());
+    		//System.out.println(Arrays.deepToString(enemy.getPath().toArray()));
+        	enemy.move();
+        	
+    	}
+
+
     }
 
 }

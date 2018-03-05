@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -35,9 +36,11 @@ public class Board {
         this.obstacleMap = new ObstacleMap(this.rows, this.columns, this.difficulty);
         this.playerOne = setPlayer;
         
-        this.numOfEnemies = 1;
+        this.numOfEnemies = 2;
         this.enemies = new Enemy[numOfEnemies];
-        this.enemies[0] = new Enemy(this.rows, this.columns);
+        
+        
+
 
         if (this.rows < 0 || this.columns < 0) { // Temp error catching if.
             System.out.println("Width: " + setColumns);
@@ -55,20 +58,17 @@ public class Board {
 
             // Place the player
             this.board[playerOne.getRow()][playerOne.getCol()] = 'P';
+            
+            // Place all enemies
+            for (int enemyNum = 0; enemyNum < numOfEnemies; enemyNum++) {
+            	enemies[enemyNum] = new Enemy();
+            	enemyStart(enemies[enemyNum]);
+            	enemyEnd(enemies[enemyNum]);
+            	enemyPath(enemies[enemyNum]);
+            	
+            	this.board[enemies[enemyNum].getCurrentCoords()[0]][enemies[enemyNum].getCurrentCoords()[1]] = 'E';
+        }
 
-            // :TODO: Try multiple times to place an enemy, check that end coordinates are also not on an obstacle
-            
-            
-            //Place the enemies ensure they are not on an obstacle or the player
-            
-          
-            for (int i=0; i < numOfEnemies; i++) {
-                if (Arrays.asList(this.obstacleMap.obstacleLocations()).contains(this.enemies[i].getStartCoords())) {
-                    this.enemies[i] = new Enemy(this.rows, this.columns);
-                } else {
-                    this.board[this.enemies[i].getStartCoords()[0]][this.enemies[i].getStartCoords()[1]] = 'E';
-            }
-            }
         }
 
     }
@@ -132,16 +132,15 @@ public class Board {
                     this.board[row][col] = '.';
                 }
             }
-            // :TODO: Replace enemies start coordinates with current coordinates once enemy has a path
-            this.board[this.enemies[0].getStartCoords()[0]][this.enemies[0].getStartCoords()[1]] = 'E';
+            
+            
 
         }
-        // Obstacle collision condition
-        //if (!isValidMove(playerOne.getRow(),playerOne.getCol())) {
-        	//this.playerOne.setCol(playerOne.getLastcol());
-        	//this.playerOne.setRow(playerOne.getLastrow());
-            //this.board[this.playerOne.getY()][this.playerOne.getX()] = 'P';
-        //}
+        
+        for (int enemyNum = 0; enemyNum < numOfEnemies; enemyNum++) {
+        	enemies[enemyNum].move();
+            this.board[this.enemies[enemyNum].getCurrentCoords()[0]][this.enemies[enemyNum].getCurrentCoords()[1]] = 'E';
+        }
         
         // Kill conditions
         if ((this.enemies[0].getStartCoords()[0] == this.playerOne.getRow()) && (this.enemies[0].getStartCoords()[1] == this.playerOne.getCol())) {
@@ -198,30 +197,6 @@ public class Board {
 
     }
     
-    /**
-     * Check if all required enemies are on the board
-     * @return True if the map has all enemies
-     */
-    public boolean areEnemiesPlaced() {
-    	boolean allEnemiesPlaced = false;
-    	int placedEnemies = 0;
-    	
-    	board = this.board;
-    	for (int i = 0; i < board.length; i++) {
-    		for (int j = 0; j < board.length; j++) {
-    			if (board[i][j] == 'E') {
-    				placedEnemies += 1;
-    			}
-    		}
-    	}
-    	
-    	if (placedEnemies == this.numOfEnemies) {
-    		allEnemiesPlaced = true;
-    	}
-    	
-    	return allEnemiesPlaced;
-    	
-    }
 
     /**
      * @param oldMap the ObstacleMap to be overwritten
@@ -252,15 +227,44 @@ public class Board {
     
     /**
      * Determines a valid start position for enemies
+     * @param aenemy The enemy to set the start positions
      */
     public void enemyStart(Enemy aenemy) {
     	int[][] freeTiles = this.obstacleMap.nonObstacleLocations();
     	int[] randstartCoords = freeTiles[(int) (generateRandomDouble() * freeTiles.length)];
     	
     	aenemy.setStartLocation(randstartCoords[0], randstartCoords[1]);
+    	aenemy.setCurrentLocation(aenemy.getStartCoords()[0], aenemy.getStartCoords()[1]);
     }
     
+    /**
+     * Determines a valid end position for enemies based off the A* algorithm
+     * Changing the constraints of minTravelCost and maxTravelCost allow enemy to choose 
+     * further or closer end points
+     * @param aenemy The enemy to set the end position 
+     */
+    public void enemyEnd(Enemy aenemy) {
+    	int minTravelCost = 90;
+    	int maxTravelCost = 300;
+    	int[] endCoords = pathfinding.AStar.chooseDestination(this.rows, this.columns, aenemy.getStartCoords()[0], 
+    			aenemy.getStartCoords()[1],this.getPlayerOne().getRow(), this.getPlayerOne().getCol(), 
+    			this.getObstacleMap().obstacleLocations(), minTravelCost, maxTravelCost);
+    	
+    	aenemy.setEndLocation(endCoords[0], endCoords[1]);
+    }
     
+    /**
+     * Determines a valid path for the enemy based off start and end points and the board. 
+     * @param aenemy The enemy to set the path
+     * @param board The board where the enemy will be placed
+     */
+    public void enemyPath(Enemy aenemy) {
+    	List<int[]> enemyPath = pathfinding.AStar.pathfinding(this.getRows(), this.getColumns(), aenemy.getStartCoords()[0], 
+    			aenemy.getStartCoords()[1], aenemy.getEndCoords()[0], aenemy.getEndCoords()[1], 
+    			this.getObstacleMap().obstacleLocations());
+    	
+    	aenemy.setPath(enemyPath);
+    }
   
     /**
      * @param row         the row to set.
@@ -307,6 +311,10 @@ public class Board {
         return enemies;
     }
     
+    public int getNumOfEnemies() {
+    	return numOfEnemies; 
+    }
+    
     /**
      * 
      * @return a random double.
@@ -323,15 +331,28 @@ public class Board {
     	Board board = new Board(32, 26, 1, player);
     	
     	board.printBoard();
-    	System.out.println(Arrays.deepToString(board.getObstacleMap().obstacleLocations()));
+    	
+    	Enemy[] allEnemies = board.getEnemies();
+    	
+    	for (int i = 0; i < board.getNumOfEnemies(); i++) {
+    		List<int[]> paths = allEnemies[i].getPath();
+    		
+    		System.out.println(Arrays.deepToString(paths.toArray()));
+    	}
+    	
+    	//board.refresh();
+    	//board.printBoard();
+    	
+    	// Trying to move the enemies
+    	for (int i = 0; i < board.getNumOfEnemies(); i++) {
+    		
+    		for (int move = 0; move < 10; move++) {
+        		System.out.println(Arrays.toString(allEnemies[i].getCurrentCoords()));
+        		//System.out.println(Arrays.deepToString(allEnemies[i].getPath().toArray()));
+        		allEnemies[i].move();
+    		}
 
-    	System.out.println(Arrays.deepToString(board.getObstacleMap().nonObstacleLocations()));
-    	
-    	int[][] a = board.getObstacleMap().nonObstacleLocations();
-    	
-    	int[] randcoords = a[(int) (generateRandomDouble() * a.length)];
-    	System.out.println(Arrays.toString(randcoords));
-    	//System.out.println(Arrays.toString(enemy.getEndCoords()));
+    	}
     	
     }
 }

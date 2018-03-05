@@ -208,6 +208,56 @@ public class AStar {
     }
     
     /**
+     * Set up the A* Algorithm for all other methods.
+     * @param x the width of the Grid
+     * @param y the height of the Grid
+     * @param si the starting row location
+     * @param sj the starting column location
+     * @param ei the end row location
+     * @param ej the end column location
+     * @param blocked Array for coordinates of obstacles
+     */
+    public static void aStarSetUp(int x, int y, int si, int sj, int ei, int ej, int[][] blocked) {
+        
+   	//Reset
+       grid = new Cell[x][y];
+       closed = new boolean[x][y];
+       open = new PriorityQueue<>((Object o1, Object o2) -> {
+            Cell c1 = (Cell)o1;
+            Cell c2 = (Cell)o2;
+
+            return c1.finalCost<c2.finalCost?-1:
+                    c1.finalCost>c2.finalCost?1:0;
+        });
+       
+       //Set start position
+       setStartCell(si, sj); 
+       
+       //Set End Location
+       setEndCell(ei, ej); 
+       
+       for(int i=0;i<x;++i){
+          for(int j=0;j<y;++j){
+              grid[i][j] = new Cell(i, j);
+              grid[i][j].heuristicCost = Math.abs(i-endI)+Math.abs(j-endJ);
+          }
+       }
+       
+       grid[si][sj].finalCost = 0;
+       
+       /*
+         Set blocked cells. Simply set the cell values to null
+         for blocked cells.
+       */
+       for(int i=0;i<blocked.length;++i){
+           setBlocked(blocked[i][0], blocked[i][1]);
+       }
+       
+       AStar();
+    }
+    
+    
+    /**
      * @ Author: Lincoln inspired by the test method above
      * @param x the width of the Grid
      * @param y the height of the Grid
@@ -219,43 +269,7 @@ public class AStar {
      * @return The cost of traversing to the end location: 0 Indicates end location cannot be reached.
      */
     public static int aStarCost(int x, int y, int si, int sj, int ei, int ej, int[][] blocked){
-         
-    	//Reset
-        grid = new Cell[x][y];
-        closed = new boolean[x][y];
-        open = new PriorityQueue<>((Object o1, Object o2) -> {
-             Cell c1 = (Cell)o1;
-             Cell c2 = (Cell)o2;
-
-             return c1.finalCost<c2.finalCost?-1:
-                     c1.finalCost>c2.finalCost?1:0;
-         });
-        
-        //Set start position
-        setStartCell(si, sj); 
-        
-        //Set End Location
-        setEndCell(ei, ej); 
-        
-        for(int i=0;i<x;++i){
-           for(int j=0;j<y;++j){
-               grid[i][j] = new Cell(i, j);
-               grid[i][j].heuristicCost = Math.abs(i-endI)+Math.abs(j-endJ);
-           }
-        }
-        
-        grid[si][sj].finalCost = 0;
-        
-        /*
-          Set blocked cells. Simply set the cell values to null
-          for blocked cells.
-        */
-        for(int i=0;i<blocked.length;++i){
-            setBlocked(blocked[i][0], blocked[i][1]);
-        }
-        
-        AStar();
-       
+    	aStarSetUp(x, y, si, sj, ei, ej, blocked);
         if ( grid[ei][ej] == null) {
         	return 50000; // Returns large value for the cost of travelling to obstacles
         } else {
@@ -274,54 +288,19 @@ public class AStar {
      * @param blocked Array for coordinates of obstacles
      * @return 2D containing the coordinates of each point on the path of an object
      */
-    public static ArrayList<Integer> pathfinding(int x, int y, int si, int sj, int ei, int ej, int[][] blocked){
-    	ArrayList<Integer> path = new ArrayList<Integer>();
-        grid = new Cell[x][y];
-        closed = new boolean[x][y];
-        open = new PriorityQueue<>((Object o1, Object o2) -> {
-             Cell c1 = (Cell)o1;
-             Cell c2 = (Cell)o2;
-
-             return c1.finalCost<c2.finalCost?-1:
-                     c1.finalCost>c2.finalCost?1:0;
-         });
-        //Set start position
-        setStartCell(si, sj);  //Setting to 0,0 by default. Will be useful for the UI part
-        
-        //Set End Location
-        setEndCell(ei, ej); 
-        
-        for(int i=0;i<x;++i){
-           for(int j=0;j<y;++j){
-               grid[i][j] = new Cell(i, j);
-               grid[i][j].heuristicCost = Math.abs(i-endI)+Math.abs(j-endJ);
-           }
-        }
-        grid[si][sj].finalCost = 0;       
-        /*
-          Set blocked cells. Simply set the cell values to null
-          for blocked cells.
-        */
-        for(int i=0;i<blocked.length;++i){
-            setBlocked(blocked[i][0], blocked[i][1]);
-        }
-        
-        AStar();
-      
+    public static List<int[]> pathfinding(int x, int y, int si, int sj, int ei, int ej, int[][] blocked){
+    	List<int[]> path = new ArrayList<int[]>();
+    	int pathprogress = 0;
+    	
+        aStarSetUp(x, y, si, sj, ei, ej, blocked);
         if(closed[endI][endJ]){
-            //Trace back the path 
-             //System.out.println("Path: ");
              Cell current = grid[endI][endJ];
-             //System.out.print(current);
              while(current.parent!=null){
-            	 // :TODO: Return a 2D array containing coordinates of the path.
-            	 path.add(current.i);
-            	 path.add(current.j);
-                 //System.out.print(" -> "+current.parent);
+            	 int[] coords = {current.i, current.j};
+            	 path.add(pathprogress, coords);
                  current = current.parent;
              } 
-             //System.out.println();
-        }else System.out.println("No possible path");
+        }else return null;
         
         return path;
  }
@@ -338,46 +317,11 @@ public class AStar {
      * @param maxTravelCost The maximum cost of travel for chosen destination
      * @return int[] containing coordinates of a random choice of destination within travel costs.
      */
-    public static int[] chooseDestination(int x, int y, int si, int sj, int ei, int ej, int[][] blocked, int minTravelCost, int maxTravelCost){
-         //Reset
-        grid = new Cell[x][y];
-        closed = new boolean[x][y];
-        open = new PriorityQueue<>((Object o1, Object o2) -> {
-             Cell c1 = (Cell)o1;
-             Cell c2 = (Cell)o2;
-
-             return c1.finalCost<c2.finalCost?-1:
-                     c1.finalCost>c2.finalCost?1:0;
-         });
-        //Set start position
-        setStartCell(si, sj);  //Setting to 0,0 by default. Will be useful for the UI part
-        
-        //Set End Location
-        setEndCell(ei, ej); 
-        
-        for(int i=0;i<x;++i){
-           for(int j=0;j<y;++j){
-               grid[i][j] = new Cell(i, j);
-               grid[i][j].heuristicCost = Math.abs(i-endI)+Math.abs(j-endJ);
-//               System.out.print(grid[i][j].heuristicCost+" ");
-           }
-//           System.out.println();
-        }
-        grid[si][sj].finalCost = 0;
-        
-        /*
-          Set blocked cells. Simply set the cell values to null
-          for blocked cells.
-        */
-        for(int i=0;i<blocked.length;++i){
-            setBlocked(blocked[i][0], blocked[i][1]);
-        }
-        
-        AStar();
-        
+    public static int[] chooseDestination(int x, int y, int si, int sj, int ei, int ej, int[][] blocked, int minTravelCost, int maxTravelCost){        
         int numPossibleDestinations = 0;
         List<int[]> destinations = new ArrayList<int[]>();
         
+    	aStarSetUp(x, y, si, sj, ei, ej, blocked);
         for(int i = 0; i < x; ++i){
             for(int j = 0; j < y; ++j){
                 if((grid[i][j]!=null) && (grid[i][j].finalCost > minTravelCost) && (grid[i][j].finalCost < maxTravelCost)) {
@@ -386,7 +330,6 @@ public class AStar {
                 	
                 	numPossibleDestinations += 1;
                 }
-                	
                 }
         }
        
@@ -411,15 +354,17 @@ public class AStar {
      
     public static void main(String[] args) throws Exception{   
         //test(1, 7, 5, 0, 0, 6, 3, new int[][]{{6,2},{5,2},{4,3},{3,3},{3,4},{4,2}}); 
-        test(2, 5, 5, 0, 0, 4, 4, new int[][]{{0,4},{2,2},{3,1},{3,3}});   
+        test(2, 5, 5, 0, 0, 3, 2, new int[][]{{0,4},{2,2},{3,1},{3,3}});   
         //test(3, 7, 7, 2, 1, 5, 4, new int[][]{{4,1},{4,3},{5,3},{2,3}});
         
         //test(1, 5, 5, 0, 0, 4, 4, new int[][]{{3,4},{3,3},{4,3}});
         
-        ArrayList<Integer> lincolnTest = pathfinding(5,5,0,0,4,4, new int[][]{{0,4},{2,2},{3,1},{3,3}});
-        System.out.println(lincolnTest);
-        int[] endpoints = chooseDestination(5,5,0,0,4,4, new int[][]{{0,4},{2,2},{3,1},{3,3}}, 100, 909);
+
+        int[] endpoints = chooseDestination(5,5,0,0,3,2, new int[][]{{0,4},{2,2},{3,1},{3,3}}, 28, 909);
         System.out.println(Arrays.toString(endpoints));
+        
+        List<int[]> lincolnTest = pathfinding(5,5,0,0,endpoints[0],endpoints[1], new int[][]{{0,4},{2,2},{3,1},{3,3}});
+        System.out.println(Arrays.deepToString(lincolnTest.toArray()));
 
     }
 }
