@@ -264,7 +264,7 @@ public class BoardWindow extends Application {
      * Loads all the images into their instance vars. This speeds up the loads of subsequent background painting calls.
      */
     private void loadGame() {
-        playerImage = new Image("player/base/deep_elf_m.png");
+        playerImage = new Image("ch_right.png");
         backgroundImage = new Image("dc-dngn/floor/dirt0.png");
         wallImage = new Image("dc-dngn/wall/brick_dark0.png");
         enemyImage = new Image("dc-mon/centaur.png");
