@@ -31,7 +31,8 @@ public class BoardWindow extends Application {
     private Pane wallPane;
     private Pane scorePane;
 
-    private Image playerImage;
+    private Image playerLeftImage;
+    private Image playerRightImage;
     private Image backgroundImage;
     private Image wallImage;
     private Image enemyImage;
@@ -117,7 +118,7 @@ public class BoardWindow extends Application {
         this.playerSprite = new Sprite();
         this.playerSprite.setX(this.player.getCol());
         this.playerSprite.setY(this.player.getRow());
-        this.playerSprite.setImage(playerImage);
+        this.playerSprite.setImage(playerRightImage);
 
         // Draw the player sprite on the initial board.
         this.playerSprite.render(gc);
@@ -152,11 +153,13 @@ public class BoardWindow extends Application {
                 case LEFT:
                     if (this.board.isValidMove(player.getRow(), player.getCol() - 1)) {
                         player.moveLeft();
+                        this.playerSprite.setImage(playerLeftImage);
                     }
                     break;
                 case RIGHT:
                     if (this.board.isValidMove(player.getRow(), player.getCol() + 1)) {
                         player.moveRight();
+                        this.playerSprite.setImage(playerRightImage);
                     }
                     break;
                 case ESCAPE:
@@ -264,7 +267,8 @@ public class BoardWindow extends Application {
      * Loads all the images into their instance vars. This speeds up the loads of subsequent background painting calls.
      */
     private void loadGame() {
-        playerImage = new Image("ch_right.png");
+        playerLeftImage = new Image("ch_left.png");
+        playerRightImage = new Image("ch_right.png");
         backgroundImage = new Image("dc-dngn/floor/dirt0.png");
         wallImage = new Image("dc-dngn/wall/brick_dark0.png");
         enemyImage = new Image("dc-mon/centaur.png");
