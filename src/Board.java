@@ -250,7 +250,13 @@ public class Board {
     			aenemy.getStartCoords()[1],this.getPlayerOne().getRow(), this.getPlayerOne().getCol(), 
     			this.getObstacleMap().obstacleLocations(), minTravelCost, maxTravelCost);
     	
+    	// If there are no possible end coordinates to choose, rechoose the start coordinates.
+    	if (endCoords == null) {
+    		enemyStart(aenemy);
+    		enemyEnd(aenemy);
+    	} else {
     	aenemy.setEndLocation(endCoords[0], endCoords[1]);
+    	}
     }
     
     /**

@@ -320,6 +320,7 @@ public class AStar {
     public static int[] chooseDestination(int x, int y, int si, int sj, int ei, int ej, int[][] blocked, int minTravelCost, int maxTravelCost){        
         int numPossibleDestinations = 0;
         List<int[]> destinations = new ArrayList<int[]>();
+        int[] theDestination;
         
     	aStarSetUp(x, y, si, sj, ei, ej, blocked);
         for(int i = 0; i < x; ++i){
@@ -332,8 +333,12 @@ public class AStar {
                 }
                 }
         }
-       
-        int[] theDestination = destinations.get((int) (generateRandomDouble() * destinations.size()));
+        
+        if (destinations.isEmpty()) {
+        	theDestination = null;
+        } else {
+        	theDestination = destinations.get((int) (generateRandomDouble() * destinations.size()));
+        }
         
         return theDestination;
  }
@@ -360,7 +365,7 @@ public class AStar {
         //test(1, 5, 5, 0, 0, 4, 4, new int[][]{{3,4},{3,3},{4,3}});
         
 
-        int[] endpoints = chooseDestination(5,5,0,0,3,2, new int[][]{{0,4},{2,2},{3,1},{3,3}}, 28, 909);
+        int[] endpoints = chooseDestination(5,5,0,0,3,2, new int[][]{{0,4},{2,2},{3,1},{3,3}}, 200, 300);
         System.out.println(Arrays.toString(endpoints));
         
         List<int[]> lincolnTest = pathfinding(5,5,0,0,endpoints[0],endpoints[1], new int[][]{{0,4},{2,2},{3,1},{3,3}});
