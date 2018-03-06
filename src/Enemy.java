@@ -11,8 +11,8 @@ import java.util.*;
  */
 
 public class Enemy {
-    private int direction;
     private int speed;
+    private int enemyID;
     private int x_start, x_end;
     private int y_start, y_end;
     private int x_current, y_current;
@@ -72,7 +72,13 @@ public class Enemy {
     public void setPath(List<int[]> apath) {
     	this.path = apath;
     }
-
+    
+    /**
+     * Sets the enemy's ID
+     */
+    public void setEnemyID(int ID) {
+    	this.enemyID = ID;
+    }
 
     /**
      * @param velocity {'1.0': 'Top speed', '0.0': 'Stopped'}
@@ -116,6 +122,13 @@ public class Enemy {
      */
     public int getPathProgress() {
     	return this.pathprogress;
+    }
+    
+    /**
+     * @return An enemy's ID
+     */
+    public int getEnemyID() {
+    	return this.enemyID;
     }
 
     
