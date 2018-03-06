@@ -79,6 +79,10 @@ public class Enemy {
     public void setEnemyID(int ID) {
     	this.enemyID = ID;
     }
+    
+    public void setSpeed(int speed) {
+    	this.speed = speed; 
+    }
 
     /**
      * @param velocity {'1.0': 'Top speed', '0.0': 'Stopped'}
@@ -130,7 +134,13 @@ public class Enemy {
     public int getEnemyID() {
     	return this.enemyID;
     }
-
+    
+    /**
+     * @return The enemy's speed
+     */
+    public int getSpeed() {
+    	return this.speed;
+    }
     
     //Testing if enemy moves back and forth
     public static void main(String[] args) {
