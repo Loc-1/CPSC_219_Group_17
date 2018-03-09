@@ -39,6 +39,7 @@ class HighScores {
             this.highScores.add(new Score(playerHandle, score));
             this.save();
         }
+
     }
 
     /**
@@ -106,6 +107,7 @@ class HighScores {
         while (this.highScores.size() > 10) {
             this.highScores.remove(0); // Removes the lowest score from the list.
         }
+
     }
 
     /**
@@ -138,6 +140,7 @@ class HighScores {
         int getScore() {  // This getter is needed for the comparator.
             return score;
         }
+
     }
 
 }
