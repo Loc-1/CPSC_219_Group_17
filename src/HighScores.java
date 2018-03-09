@@ -1,70 +1,31 @@
-import java.io.*;
+import java.util.ArrayList;
 
 /**
- * Class Owner: Josh
- *
- * Stores high scores in a text files, reads the same file and returns a high score array (String[][]). Ten high scores
- * are saved (i.e. the "top 10").
+ * @author Josh
+ * <p>
+ * Handles the storage of Score objects.
  */
 public class HighScores {
-    private Object[][] highScores = new Object[10][2];
-    private String fileName = "scores.txt";
+    ArrayList<Score> highScores = new ArrayList<>();
 
-    public void main(String[] args) {
+    public void addHighScore(String playerHandle, int score) {
+        this.highScores.add(new Score(playerHandle, score));
+    }
 
+    public ArrayList<Score> getHighScores() {
+        return this.highScores;
     }
 
     /**
-     * @return the scores.txt file.
-     * @throws FileNotFoundException if the file doesn't exist.
+     * Inner class represents a new score object.
      */
-    private File getFile() throws FileNotFoundException {
-        File highScores = new File(this.fileName);
-        Boolean fileExists = highScores.exists();
+    public class Score {
+        String playerHandle;
+        int score;
 
-        if (fileExists) {
-            return highScores;
-        } else {
-            throw new FileNotFoundException();
+        Score(String playerHandle, int score) {
+            this.playerHandle = playerHandle;
+            this.score = score;
         }
-
-    }
-
-    /**
-     * Loads the file into an Object[][].
-     *
-     * @throws IOException If the file cannot be read.
-     */
-    private void loadFromFile() throws IOException {
-        String line = null;
-        File highScores = getFile();
-
-        FileReader fileReader = new FileReader(highScores);
-
-        try (BufferedReader reader = new BufferedReader(fileReader)) {
-            int counter = 0;
-            while ((line = reader.readLine()) != null) {
-                String[] playerScore = line.split(", ");
-                int score = Integer.parseInt(playerScore[1]);
-                this.highScores[counter][0] = playerScore[0]; // Name is always at this loc.
-                this.highScores[counter][1] = score;
-                counter++;
-            }
-        } catch (IOException ex) {
-            System.out.println(ex.toString());
-            System.out.println("Could not find file " + fileName);
-        }
-
-    }
-
-    public int[][] get() {
-        return null;
-    }
-
-    public void setScore(String user_name, int score) {
-    }
-
-    public Object[][] getHighScores() {
-        return highScores;
     }
 }
