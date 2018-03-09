@@ -1,10 +1,42 @@
 [
   {
+    "playerHandle": "test2",
+    "score": 5
+  },
+  {
+    "playerHandle": "test6",
+    "score": 13
+  },
+  {
     "playerHandle": "test",
     "score": 15
   },
   {
     "playerHandle": "test2",
+    "score": 16
+  },
+  {
+    "playerHandle": "test5",
+    "score": 17
+  },
+  {
+    "playerHandle": "test2",
     "score": 20
+  },
+  {
+    "playerHandle": "test4",
+    "score": 21
+  },
+  {
+    "playerHandle": "test2",
+    "score": 88
+  },
+  {
+    "playerHandle": "test2",
+    "score": 109
+  },
+  {
+    "playerHandle": "test2",
+    "score": 221
   }
 ]

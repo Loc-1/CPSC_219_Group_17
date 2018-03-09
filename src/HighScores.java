@@ -6,13 +6,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * @author Josh
  * <p>
- * Handles the storage, retrieval, and setting of Score objects.
+ * Handles the storage, retrieval, and setting of Score objects. Limits the total number of high scores to a max of 10.
  */
-public class HighScores {
+class HighScores {
     private ArrayList<Score> highScores = new ArrayList<>();
 
     /**
@@ -28,14 +29,16 @@ public class HighScores {
     }
 
     /**
-     * Adds a highscore to the Array of Scores.
+     * Adds a highscore to the Array of Scores if the score is actually a high score.
      *
      * @param playerHandle the player's handle as a string.
      * @param score        the player's score as a string.
      */
     void addHighScore(String playerHandle, int score) {
-        this.highScores.add(new Score(playerHandle, score));
-        this.save();
+        if (this.isHighScore(score)) {
+            this.highScores.add(new Score(playerHandle, score));
+            this.save();
+        }
     }
 
     /**
@@ -56,19 +59,21 @@ public class HighScores {
     }
 
     /**
-     * Checks if the score is a high score.
+     * Checks if the score is a high score. If the highScores array.size <= 10 all scores are high scores.
      *
      * @param score the Player's score.
      * @return True if score is a high score.
      */
-    @SuppressWarnings("unused")
-    public boolean isHighScore(int score) {
+    private boolean isHighScore(int score) {
         boolean isHighScore = false;
-
-        for (Score s : highScores) {
-            if (s.score > score) {
-                isHighScore = true;
+        if (this.highScores.size() >= 10) {
+            for (Score s : highScores) {
+                if (s.score > score) {
+                    isHighScore = true;
+                }
             }
+        } else {
+            isHighScore = true;
         }
 
         return isHighScore;
@@ -78,6 +83,7 @@ public class HighScores {
      * Saves the highscores to a .json file in the root.
      */
     private void save() {
+        this.sortScores();
         String json = new Gson().toJson(this.highScores);
 
         try {
@@ -88,6 +94,18 @@ public class HighScores {
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * This sorts the list in ascending order and ensure the list only contains a max of ten entries.
+     */
+    private void sortScores() {
+        Comparator<Score> scoreComparator = Comparator.comparingInt(Score::getScore);
+        this.highScores.sort(scoreComparator);
+
+        while (this.highScores.size() > 10) {
+            this.highScores.remove(0); // Removes the lowest score from the list.
+        }
     }
 
     /**
@@ -115,6 +133,10 @@ public class HighScores {
         Score(String playerHandle, int score) {
             this.playerHandle = playerHandle;
             this.score = score;
+        }
+
+        int getScore() {  // This getter is needed for the comparator.
+            return score;
         }
     }
 
