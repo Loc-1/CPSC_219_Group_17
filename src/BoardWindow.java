@@ -205,7 +205,7 @@ public class BoardWindow extends Application {
 
                 // :TODO: vary this by difficulty.
                 if (moveCount == 6) {
-                    moveCameraUp(parallelCamera);
+                    moveCameraUp(parallelCamera, primaryStage);
                     moveCount = 0;
                 } else {
                     moveCount++;
@@ -260,12 +260,20 @@ public class BoardWindow extends Application {
      *
      * @param camera the camera to move up.
      */
-    private void moveCameraUp(Camera camera) {
+    private void moveCameraUp(Camera camera, Stage stage) {
         Translate translate = new Translate();
         translate.setY(camera.getClip().getLayoutY() - 1);
         double maxY = camera.localToScene(camera.getBoundsInLocal()).getMaxY();
+
+        // the number of rows is subtracted by one so the player dies when the Sprite is 100% off the board.
+        double minY = camera.localToScene(camera.getLayoutBounds()).getMaxY() + (this.viewRows - 1) * tileWidthHeight;
         this.scorePane.setLayoutY(maxY + 5); // 5 is used to add the padding.
         camera.getTransforms().add(translate);
+
+        if (this.playerSprite.getBoundary().getMinY() > minY) {
+            this.player.kill();
+            stage.close();
+        }
 
     }
 

@@ -1,4 +1,5 @@
-import javafx.geometry.Rectangle2D;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -35,8 +36,8 @@ public class Sprite {
      *
      * @return a Rectangle bounding box.
      */
-    public Rectangle2D getBoundary() {
-        return new Rectangle2D(this.x * tileWidthHeight, this.y * tileWidthHeight, tileWidthHeight, tileWidthHeight);
+    public Bounds getBoundary() {
+        return new BoundingBox(this.x * tileWidthHeight - tileWidthHeight, this.y * tileWidthHeight - tileWidthHeight, tileWidthHeight, tileWidthHeight);
     }
 
     public void setImage(Image image) {
