@@ -1,7 +1,9 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.scene.Camera;
 import javafx.scene.Group;
+import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -10,8 +12,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -25,6 +29,9 @@ public class BoardWindow extends Application {
     private final Board board;
     private final Player player;
     private final ArrayList<Sprite> enemySprites = new ArrayList<>();
+
+    private int viewRows = 0;
+
     private Sprite playerSprite;
 
     private Pane floorPane;
@@ -56,8 +63,9 @@ public class BoardWindow extends Application {
      * is finished--if you so desire.
      */
     public BoardWindow() {
-        this.player = new Player(32 - 1, 26 / 2, 1, 1, "");
-        this.board = new Board(32, 26, 1, player);
+        this.viewRows = 32;
+        this.player = new Player(this.viewRows + 99, 26 / 2, 1, 1, "");
+        this.board = new Board(this.viewRows + 100, 26, 1, player);
     }
 
     public static void main(String[] args) {
@@ -72,10 +80,18 @@ public class BoardWindow extends Application {
     @Override
     public void start(Stage primaryStage) {
         Group root = new Group();
+        ParallelCamera parallelCamera = new ParallelCamera();
 
         // Set the scene size and add it to the primary stage.
         Scene scene = new Scene(root, this.board.getColumns() * tileWidthHeight,
-                this.board.getRows() * tileWidthHeight);
+                this.viewRows * tileWidthHeight);
+
+        // Add the camera and position it in the start zone.
+        scene.setCamera(parallelCamera);
+        parallelCamera.setClip(new Rectangle(this.board.getColumns() * tileWidthHeight,
+                this.viewRows * tileWidthHeight));
+
+        parallelCamera.relocate(0, (board.getRows() * tileWidthHeight) - (viewRows * tileWidthHeight));
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Run!!");
@@ -97,7 +113,7 @@ public class BoardWindow extends Application {
 
         // Add the padding to the background div.
         this.scorePane.setStyle("-fx-padding: 5;");
-        this.scorePane.setLayoutY(5);
+        this.scorePane.setLayoutY(parallelCamera.getLayoutY() + 5);
         this.scorePane.getChildren().add(scoreLabel);
 
         // Add everything to the root group of nodes.
@@ -170,6 +186,7 @@ public class BoardWindow extends Application {
 
         AnimationTimer gameLoop = new AnimationTimer() {
             int scoreCount = 0; // set score counter to 0 (each frame represents 1/60 of a second).
+            int moveCount = 0;
 
             /**
              * This handler handles the continuous drawing of player sprites. Refresh is at (about) 60 fps.
@@ -186,6 +203,14 @@ public class BoardWindow extends Application {
                 playerSprite.render(gc);
                 renderEnemySprites(gc);
 
+                // :TODO: vary this by difficulty.
+                if (moveCount == 6) {
+                    moveCameraUp(parallelCamera);
+                    moveCount = 0;
+                } else {
+                    moveCount++;
+                }
+
                 // setLayoutX is needed to keep the label from falling off the side of the board. Five is subtracted
                 // to account for the CSS padding already in place.
                 scorePane.setLayoutX((board.getColumns() * tileWidthHeight) - (scorePane.getWidth() - 5));
@@ -200,8 +225,8 @@ public class BoardWindow extends Application {
                     for (Enemy e : board.getEnemies()) {
                         e.move();
                     }
-                }
 
+                }
                 scoreCount++;
             }
 
@@ -228,6 +253,20 @@ public class BoardWindow extends Application {
         for (Sprite s : this.enemySprites) {
             s.render(gc);
         }
+    }
+
+    /**
+     * Moves the camera up one pixel. Keeps the score pane centered.
+     *
+     * @param camera the camera to move up.
+     */
+    private void moveCameraUp(Camera camera) {
+        Translate translate = new Translate();
+        translate.setY(camera.getClip().getLayoutY() - 1);
+        double maxY = camera.localToScene(camera.getBoundsInLocal()).getMaxY();
+        this.scorePane.setLayoutY(maxY + 5); // 5 is used to add the padding.
+        camera.getTransforms().add(translate);
+
     }
 
     /**
