@@ -57,13 +57,14 @@ public class GameWindow extends Application {
         launchGame.setAlignment(Pos.BOTTOM_RIGHT);
         launchGame.setOnAction(event -> {
             int rowNum = Integer.parseInt(rowsField.getText());
+            int bigRowNum = rowNum + 100;
             int colNum = Integer.parseInt(colsField.getText());
             int difficultyNum = Integer.parseInt(difficultyField.getText());
 
-            Player player = new Player(rowNum - 1, colNum / 2, 1, 1, "");
-            Board board = new Board(rowNum, colNum, difficultyNum, player);
+            Player player = new Player(bigRowNum - 1, colNum / 2, 1, 1, "");
+            Board board = new Board(bigRowNum, colNum, difficultyNum, player);
 
-            BoardWindow window = new BoardWindow(board, player);
+            BoardWindow window = new BoardWindow(board, player, rowNum);
 
             window.start(new Stage());
         });

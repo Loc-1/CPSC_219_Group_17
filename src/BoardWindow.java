@@ -52,7 +52,8 @@ public class BoardWindow extends Application {
      * @param board  the board to render.
      * @param player the player to render.
      */
-    BoardWindow(Board board, Player player) {
+    BoardWindow(Board board, Player player, int setViewRows) {
+        this.viewRows = setViewRows;
         this.board = board;
         this.player = player;
 
@@ -256,9 +257,11 @@ public class BoardWindow extends Application {
     }
 
     /**
-     * Moves the camera up one pixel. Keeps the score pane centered.
+     * Moves the camera up one pixel. Keeps the score pane centered and also deals with the player kill logic for
+     * falling of the board.
      *
      * @param camera the camera to move up.
+     * @param stage  the stage to close when the player dies.
      */
     private void moveCameraUp(Camera camera, Stage stage) {
         Translate translate = new Translate();
