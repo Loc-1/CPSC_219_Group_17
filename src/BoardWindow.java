@@ -14,7 +14,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
@@ -64,6 +63,7 @@ public class BoardWindow extends Application {
      * Default constructor renders a 32 * 26 tile board. Makes debugging a lot easier. Can be removed once debugging
      * is finished--if you so desire.
      */
+    @SuppressWarnings("unused")
     public BoardWindow() {
         this.viewRows = 32;
         this.player = new Player(this.viewRows + 99, 26 / 2, 1, 1, "");
@@ -110,7 +110,7 @@ public class BoardWindow extends Application {
         // You can use CSS to style things! There IS a God!
         Label scoreLabel = new Label(String.valueOf(this.player.getScore()));
         scoreLabel.setStyle("-fx-background-color: rgba(150, 150, 150, 0.55); -fx-background-radius: 10;");
-        scoreLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+        scoreLabel.setFont(Font.font("Verdana", 25));
         scoreLabel.setTextFill(Color.BLACK);
         scoreLabel.setPadding(new Insets(5));
 

@@ -13,7 +13,7 @@ import javafx.stage.Stage;
  * The game settings window.
  */
 public class GameWindow extends Application {
-    private final int extraRows = 100; // Adds a fixed number of rows to the top of the board array.
+    private final int extraRows = 200; // Adds a fixed number of rows to the top of the board array.
 
     public static void main(String[] args) {
         launch(args);
