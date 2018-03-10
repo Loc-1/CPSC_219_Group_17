@@ -287,6 +287,7 @@ public class BoardWindow extends Application {
 
         camera.getTransforms().add(translate);
 
+        // Yes, this is the easiest kill logic ever. :todo: make a pop up when the player dies.
         if (this.playerSprite.getBoundary().getMinY() > minY) {
             this.player.kill();
             stage.close();
