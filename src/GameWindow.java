@@ -13,6 +13,7 @@ import javafx.stage.Stage;
  * The game settings window.
  */
 public class GameWindow extends Application {
+    private final int extraRows = 100; // Adds a fixed number of rows to the top of the board array.
 
     public static void main(String[] args) {
         launch(args);
@@ -57,7 +58,7 @@ public class GameWindow extends Application {
         launchGame.setAlignment(Pos.BOTTOM_RIGHT);
         launchGame.setOnAction(event -> {
             int rowNum = Integer.parseInt(rowsField.getText());
-            int bigRowNum = rowNum + 100;
+            int bigRowNum = rowNum + this.extraRows;
             int colNum = Integer.parseInt(colsField.getText());
             int difficultyNum = Integer.parseInt(difficultyField.getText());
 

@@ -45,6 +45,7 @@ public class BoardWindow extends Application {
     private Image enemyImage;
 
     private final int tileWidthHeight = 32;
+    private boolean firstRun = true;
 
     /**
      * Custom constructor.
@@ -67,6 +68,7 @@ public class BoardWindow extends Application {
         this.viewRows = 32;
         this.player = new Player(this.viewRows + 99, 26 / 2, 1, 1, "");
         this.board = new Board(this.viewRows + 100, 26, 1, player);
+
     }
 
     public static void main(String[] args) {
@@ -271,6 +273,18 @@ public class BoardWindow extends Application {
         // the number of rows is subtracted by one so the player dies when the Sprite is 100% off the board.
         double minY = camera.localToScene(camera.getLayoutBounds()).getMaxY() + (this.viewRows - 1) * tileWidthHeight;
         this.scorePane.setLayoutY(maxY + 5); // 5 is used to add the padding.
+
+        // Gives the player 4 seconds to orient before the board starts moving.
+        if (this.firstRun) {
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                this.firstRun = false;
+            }
+        }
+
         camera.getTransforms().add(translate);
 
         if (this.playerSprite.getBoundary().getMinY() > minY) {
