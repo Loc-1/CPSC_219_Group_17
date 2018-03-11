@@ -322,6 +322,12 @@ public class Board {
     }
     
     /**
+     * @return the difficulty level
+     */
+    public int getDifficulty() {
+    	return this.difficulty;
+    }
+    /**
      * 
      * @return a random double.
      */
