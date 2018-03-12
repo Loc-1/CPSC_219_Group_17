@@ -1,19 +1,24 @@
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 /**
- * @author Josh
- * The game settings window.
+ * Class Owner: Lachlan
+ * 
+ * The game settings window and main menu.
  */
 public class GameWindow extends Application {
     private final int extraRows = 200; // Adds a fixed number of rows to the top of the board array.
+    private HighScores localHS = new HighScores();
 
     public static void main(String[] args) {
         launch(args);
@@ -31,46 +36,72 @@ public class GameWindow extends Application {
 
         gridPane.setOnKeyPressed(event -> {
             switch (event.getCode()) {
-                case ESCAPE:
-                    primaryStage.close();
+            case ESCAPE:
+                primaryStage.close();
             }
         });
 
-        Label rows = new Label("Rows:");
-        gridPane.add(rows, 0, 0);
+        Label nameLbl = new Label("Name:");
+        gridPane.add(nameLbl, 0, 0);
 
-        TextField rowsField = new TextField("26");
-        gridPane.add(rowsField, 1, 0);
+        TextField nameField = new TextField();
+        gridPane.add(nameField, 0, 1);
 
-        Label cols = new Label("Columns:");
-        gridPane.add(cols, 0, 1);
+        Label scoresLbl = new Label("High Scores:");
+        gridPane.add(scoresLbl, 0, 5);
 
-        TextField colsField = new TextField("22");
-        gridPane.add(colsField, 1, 1);
+        TextArea scoresArea = new TextArea("");
+        scoresArea.setText(localHS.toString());
+        gridPane.add(scoresArea, 0, 6);
 
-        Label difficulty = new Label("Difficulty:");
-        gridPane.add(difficulty, 0, 2);
+        Label difficultyLbl = new Label("Difficulty:");
+        gridPane.add(difficultyLbl, 0, 2);
 
-        TextField difficultyField = new TextField("1");
-        gridPane.add(difficultyField, 1, 2);
+        ComboBox<String> difficulty = new ComboBox<String>();
+        difficulty.setItems(FXCollections.observableArrayList("Easy", "Normal", "Hard"));
+        difficulty.setPromptText("Please pick a difficulty.");
+        gridPane.add(difficulty, 0, 3);
 
         Button launchGame = new Button("Launch!");
-        launchGame.setAlignment(Pos.BOTTOM_RIGHT);
         launchGame.setOnAction(event -> {
-            int rowNum = Integer.parseInt(rowsField.getText());
-            int bigRowNum = rowNum + this.extraRows;
-            int colNum = Integer.parseInt(colsField.getText());
-            int difficultyNum = Integer.parseInt(difficultyField.getText());
+            int rowNum = 32;
+            int colNum;
+            int difficultyNum;
+            String userDiff = difficulty.getValue();
+            String userName = nameField.getText();
 
-            Player player = new Player(bigRowNum - 1, colNum / 2, 1, 1, "");
+            switch (userDiff) {
+            case "Easy":
+                difficultyNum = 1;
+                colNum = 30;
+                break;
+            case "Normal":
+                difficultyNum = 2;
+                colNum = 25;
+                break;
+            case "Hard":
+                difficultyNum = 3;
+                colNum = 23;
+                break;
+            default:
+                difficultyNum = 1;
+                colNum = 30;
+                break;
+            }
+            int bigRowNum = rowNum + this.extraRows;
+
+            Player player = new Player(bigRowNum - 1, colNum / 2, 1, 1, userName);
             Board board = new Board(bigRowNum, colNum, difficultyNum, player);
 
             BoardWindow window = new BoardWindow(board, player, rowNum);
 
             window.start(new Stage());
+            
+            //localHS.addHighScore(userName, player.getScore());
+            //scoresArea.setText(localHS.toString());
         });
 
-        gridPane.add(launchGame, 1, 3);
+        gridPane.add(launchGame, 1, 4);
 
         Scene scene = new Scene(gridPane, 550, 700);
         primaryStage.setScene(scene);
