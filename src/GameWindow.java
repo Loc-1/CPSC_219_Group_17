@@ -45,6 +45,7 @@ public class GameWindow extends Application {
         gridPane.add(nameLbl, 0, 0);
 
         TextField nameField = new TextField();
+        nameField.setMaxWidth(300);
         gridPane.add(nameField, 0, 1);
 
         Label scoresLbl = new Label("High Scores:");
@@ -63,6 +64,8 @@ public class GameWindow extends Application {
         gridPane.add(difficulty, 0, 3);
 
         Button launchGame = new Button("Launch!");
+        launchGame.setPrefSize(Button.USE_PREF_SIZE, Button.USE_PREF_SIZE);
+        launchGame.setAlignment(Pos.BASELINE_CENTER);
         launchGame.setOnAction(event -> {
             int rowNum = 32;
             int colNum;
@@ -96,14 +99,14 @@ public class GameWindow extends Application {
             BoardWindow window = new BoardWindow(board, player, rowNum);
 
             window.start(new Stage());
-            
-            //localHS.addHighScore(userName, player.getScore());
-            //scoresArea.setText(localHS.toString());
+
+            // localHS.addHighScore(userName, player.getScore());
+            // scoresArea.setText(localHS.toString());
         });
+        launchGame.setMinWidth(100);
+        gridPane.add(launchGame, 0, 7);
 
-        gridPane.add(launchGame, 1, 4);
-
-        Scene scene = new Scene(gridPane, 550, 700);
+        Scene scene = new Scene(gridPane, 550, 575);
         primaryStage.setScene(scene);
         primaryStage.show();
 
