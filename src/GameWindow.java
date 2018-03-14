@@ -67,29 +67,34 @@ public class GameWindow extends Application {
         launchGame.setPrefSize(Button.USE_PREF_SIZE, Button.USE_PREF_SIZE);
         launchGame.setAlignment(Pos.BASELINE_CENTER);
         launchGame.setOnAction(event -> {
+            boolean gameRunning = true;
             int rowNum = 32;
             int colNum;
             int difficultyNum;
             String userDiff = difficulty.getValue();
             String userName = nameField.getText();
-
-            switch (userDiff) {
-            case "Easy":
+            try {
+                switch (userDiff) {
+                case "Easy":
+                    difficultyNum = 1;
+                    colNum = 30;
+                    break;
+                case "Normal":
+                    difficultyNum = 2;
+                    colNum = 25;
+                    break;
+                case "Hard":
+                    difficultyNum = 3;
+                    colNum = 23;
+                    break;
+                default:
+                    difficultyNum = 1;
+                    colNum = 30;
+                    break;
+                }
+            } catch (NullPointerException e) { // if the user forgets to select a difficulty
                 difficultyNum = 1;
                 colNum = 30;
-                break;
-            case "Normal":
-                difficultyNum = 2;
-                colNum = 25;
-                break;
-            case "Hard":
-                difficultyNum = 3;
-                colNum = 23;
-                break;
-            default:
-                difficultyNum = 1;
-                colNum = 30;
-                break;
             }
             int bigRowNum = rowNum + this.extraRows;
 
