@@ -19,7 +19,10 @@ import javafx.stage.Stage;
 public class GameWindow extends Application {
     private final int extraRows = 200; // Adds a fixed number of rows to the top of the board array.
     private HighScores localHS = new HighScores();
-
+/**
+ * 
+ * Launches GUI
+ */
     public static void main(String[] args) {
         launch(args);
     }

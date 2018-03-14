@@ -41,7 +41,8 @@ public class BoardWindow extends Application {
     private Image playerRightImage;
     private Image backgroundImage;
     private Image wallImage;
-    private Image enemyImage;
+    private Image enemyRightImage;
+    private Image enemyLeftImage;
 
     private final int tileWidthHeight = 32;
     private boolean firstRun = true;
@@ -148,7 +149,7 @@ public class BoardWindow extends Application {
             int[] coords = e.getStartCoords();
             sprite.setX(coords[0]);
             sprite.setY(coords[1]);
-            sprite.setImage(this.enemyImage);
+            sprite.setImage(this.enemyRightImage);
             this.enemySprites.add(sprite);
         }
 
@@ -336,7 +337,8 @@ public class BoardWindow extends Application {
         playerRightImage = new Image("ch_right.png");
         backgroundImage = new Image("dc-dngn/floor/dirt0.png");
         wallImage = new Image("dc-dngn/wall/brick_dark0.png");
-        enemyImage = new Image("dc-mon/centaur.png");
+        enemyLeftImage = new Image("en_left.png");
+        enemyRightImage = new Image("en_right.png");
     }
 
 }
