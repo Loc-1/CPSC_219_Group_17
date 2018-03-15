@@ -36,9 +36,11 @@ public class HighScoresTest {
     @Test
     public void getHighScores() throws Exception {
         HighScores highScores = new HighScores();
-        ArrayList<HighScores.Score> scores = highScores.getHighScores();
+        ArrayList<Score> scores = highScores.getHighScores();
 
-        System.out.println(scores);
+        for (Score s : scores) {
+            System.out.println(s.playerHandle + s.score);
+        }
     }
 
 }

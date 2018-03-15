@@ -1,10 +1,4 @@
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -17,7 +11,7 @@ class HighScores {
     private ArrayList<Score> highScores = new ArrayList<>();
 
     /**
-     * Default constructor automatically loads scores from the highscores.json file.
+     * Default constructor automatically loads scores from the highscores.ser file.
      */
     HighScores() {
         try {
@@ -85,12 +79,16 @@ class HighScores {
      */
     private void save() {
         this.sortScores();
-        String json = new Gson().toJson(this.highScores);
 
         try {
-            FileWriter file = new FileWriter("highscores.json");
-            file.write(json);
-            file.flush();
+            FileOutputStream fileOut = new FileOutputStream("highscores.ser");
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+
+            objectOut.writeObject(this.highScores);
+            objectOut.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,7 +96,7 @@ class HighScores {
     }
 
     /**
-     * This sorts the list in ascending order and ensure the list only contains a max of ten entries.
+     * This sorts the list in ascending order and ensures the list only contains a max of ten entries.
      */
     private void sortScores() {
         Comparator<Score> scoreComparator = Comparator.comparingInt(Score::getScore);
@@ -111,34 +109,25 @@ class HighScores {
     }
 
     /**
-     * Loads the highscores from a .json file.
+     * Loads the highscores from a .ser (serialized object) file.
      */
     private void loadHighScores() {
         try {
-            Gson gson = new Gson();
-            JsonReader reader = new JsonReader(new FileReader("highscores.json"));
-            this.highScores = gson.fromJson(reader, highScores.getClass());
+            FileInputStream fileIn = new FileInputStream("highscores.ser");
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+
+            ArrayList<Score> scoresIn = (ArrayList<Score>) objectIn.readObject();
+
+            for (Score s : scoresIn) {
+                this.addHighScore(s.playerHandle, s.score);
+            }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-
-    }
-
-    /**
-     * Inner class represents a new score object.
-     */
-    class Score {
-        @SuppressWarnings("unused")
-        final String playerHandle;
-        final int score;
-
-        Score(String playerHandle, int score) {
-            this.playerHandle = playerHandle;
-            this.score = score;
-        }
-
-        int getScore() {  // This getter is needed for the comparator.
-            return score;
+        } catch (ClassNotFoundException e) { // These two are needed to keep errors from throwing up (for no reason.)
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
