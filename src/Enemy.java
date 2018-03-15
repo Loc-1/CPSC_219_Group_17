@@ -18,6 +18,7 @@ public class Enemy {
     private int x_current, y_current;
     private List<int[]> path;
     private int pathprogress;
+    private String direction; 
  
    
     /**
@@ -31,10 +32,49 @@ public class Enemy {
     		Collections.reverse(this.path);
     		this.pathprogress = 0;
     	}
+    	// Determine the direction
+    	direction();
+
 
     	this.x_current = this.path.get(pathprogress)[0];
     	this.y_current = this.path.get(pathprogress)[1];
+    	
+
+    	
     	this.pathprogress += 1;
+    }
+    
+    /**
+     * Determines the direction the enemy will face
+     */
+    private void direction() {
+    	// base this off the enemies path, look at the next element in the path progress. Compare it with the current coordinates
+    	// If the next element has +1 in the y component, then the enemy is facing up. 
+    	// Special condition for end points that must be considered. Don't call this function on its own.
+    	int[] nextMove;
+  
+
+        nextMove = this.path.get(pathprogress);
+    	
+     
+    		
+    	if ((nextMove[0] == this.x_current + 1) && (nextMove[1] == this.y_current)) {
+    		this.direction = "Right"; 
+    	}
+    		
+    	if ((nextMove[0] == this.x_current - 1) && (nextMove[1] == this.y_current)) {
+    		this.direction = "Left";
+    	}
+    		
+    	if ((nextMove[0] == this.x_current) && (nextMove[1] == this.y_current + 1)) {
+    		this.direction = "Up";
+    	}
+    		
+    	if ((nextMove[0] == this.x_current) && (nextMove[1] == this.y_current - 1)) {
+    		this.direction = "Down";
+    	}
+    	
+    	
     }
 
 
@@ -142,6 +182,14 @@ public class Enemy {
     	return this.speed;
     }
     
+    /**
+     * 
+     * @return The enemy's direction
+     */
+    public String getDirection() {
+    	return this.direction;
+    }
+    
     //Testing if enemy moves back and forth
     public static void main(String[] args) {
     	Enemy enemy = new Enemy();
@@ -160,6 +208,8 @@ public class Enemy {
     		//System.out.println(enemy.getPathProgress());
     		//System.out.println(Arrays.deepToString(enemy.getPath().toArray()));
         	enemy.move();
+        	//enemy.direction();
+        	System.out.println(enemy.getDirection());
         	
     	}
 

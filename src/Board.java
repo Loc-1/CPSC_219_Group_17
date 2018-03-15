@@ -19,7 +19,8 @@ public class Board {
     private Player playerTwo;
     private Enemy[] enemies;
     private int numOfEnemies;
-
+    
+    private List <char[][]> quadrants; // Divide the board up into quadrants for enemy spawns? Think about how to do it.
     /**
      * Constructor creates a single player board.
      *
@@ -360,8 +361,10 @@ public class Board {
     		
     		for (int move = 0; move < 10; move++) {
         		System.out.println(Arrays.toString(allEnemies[i].getCurrentCoords()));
+        		
         		//System.out.println(Arrays.deepToString(allEnemies[i].getPath().toArray()));
         		allEnemies[i].move();
+        		System.out.println(allEnemies[i].getDirection());
     		}
 
     	}
