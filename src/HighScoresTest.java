@@ -39,7 +39,7 @@ public class HighScoresTest {
         ArrayList<Score> scores = highScores.getHighScores();
 
         for (Score s : scores) {
-            System.out.println(s.playerHandle + s.score);
+            System.out.println(s.playerHandle + ", " + s.score);
         }
     }
 

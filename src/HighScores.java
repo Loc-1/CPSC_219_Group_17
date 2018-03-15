@@ -122,6 +122,9 @@ class HighScores {
                 this.addHighScore(s.playerHandle, s.score);
             }
 
+            objectIn.close();
+            fileIn.close();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) { // These two are needed to keep errors from throwing up (for no reason.)
