@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -19,10 +21,12 @@ import javafx.stage.Stage;
 public class GameWindow extends Application {
     private final int extraRows = 200; // Adds a fixed number of rows to the top of the board array.
     private HighScores localHS = new HighScores();
-/**
- * 
- * Launches GUI
- */
+    private ArrayList<Score> scores = localHS.getHighScores();
+
+    /**
+     * 
+     * Launches GUI
+     */
     public static void main(String[] args) {
         launch(args);
     }
@@ -55,7 +59,7 @@ public class GameWindow extends Application {
         gridPane.add(scoresLbl, 0, 5);
 
         TextArea scoresArea = new TextArea("");
-        scoresArea.setText(localHS.toString());
+        scoresArea.setText(formatScores());
         gridPane.add(scoresArea, 0, 6);
 
         Label difficultyLbl = new Label("Difficulty:");
@@ -107,10 +111,8 @@ public class GameWindow extends Application {
             BoardWindow window = new BoardWindow(board, player, rowNum);
 
             window.start(new Stage());
-
-            // localHS.addHighScore(userName, player.getScore());
-            // scoresArea.setText(localHS.toString());
         });
+
         launchGame.setMinWidth(100);
         gridPane.add(launchGame, 0, 7);
 
@@ -118,6 +120,20 @@ public class GameWindow extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+    }
+
+    /**
+     * Formats the High Scores so they fit and make sense in the textArea
+     * 
+     * @return
+     */
+    String formatScores() {
+        String formatedSc = "";
+        for (int i = 0; i < this.scores.size(); i++) {
+            formatedSc = formatedSc + (i + 1) + " " + this.scores.get(i).playerHandle + ": " + this.scores.get(i).score
+                    + "\n";
+        }
+        return formatedSc;
     }
 
 }
