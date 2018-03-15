@@ -75,7 +75,7 @@ class HighScores {
     }
 
     /**
-     * Saves the highscores to a .json file in the root.
+     * Saves the highscores to a .ser (serialized object) file in the root.
      */
     private void save() {
         this.sortScores();
@@ -128,7 +128,7 @@ class HighScores {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) { // These two are needed to keep errors from throwing up (for no reason.)
-            e.printStackTrace();
+            e.printStackTrace();             // Both are technically covered under the FileNotFound exception.
         } catch (IOException e) {
             e.printStackTrace();
         }
