@@ -86,6 +86,7 @@ class HighScores {
 
             objectOut.writeObject(this.highScores);
             objectOut.close();
+            fileOut.close();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
