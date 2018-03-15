@@ -36,6 +36,7 @@ public class BoardWindow extends Application {
     private Pane floorPane;
     private Pane wallPane;
     private Pane scorePane;
+    private Pane countdownPane;
 
     private Image playerLeftImage;
     private Image playerRightImage;
@@ -45,7 +46,8 @@ public class BoardWindow extends Application {
     private Image enemyLeftImage;
 
     private final int tileWidthHeight = 32;
-    private boolean firstRun = true;
+    private Label countdownLabel;
+    private int countdownTimer = 3; // The amount of time to delay before the game starts.
 
     /**
      * Custom constructor.
@@ -105,6 +107,7 @@ public class BoardWindow extends Application {
         this.floorPane = new Pane(); // Create panes to store the background (i.e. things that don't need to update.)
         this.wallPane = new Pane();
         this.scorePane = new Pane(); // Create the score pane.
+        this.countdownPane = new Pane();
 
         this.fillBackground(); // Fills the background tiles with images.
 
@@ -120,10 +123,24 @@ public class BoardWindow extends Application {
         this.scorePane.setLayoutY(parallelCamera.getLayoutY() + 5);
         this.scorePane.getChildren().add(scoreLabel);
 
+        this.countdownPane.setStyle("-fx-padding: 5;");
+
+        // Center the countdown pane.
+        this.countdownPane.setLayoutY(parallelCamera.getLayoutY() + this.viewRows * tileWidthHeight / 2 - this.countdownPane.getHeight());
+        this.countdownPane.setLayoutX(this.board.getColumns() * tileWidthHeight / 2 + this.countdownPane.getWidth());
+
+        this.countdownLabel = new Label();
+        this.countdownLabel.setText(String.valueOf(this.countdownTimer));
+        this.countdownLabel.setStyle("-fx-background-color: white; -fx-background-radius: 10;");
+        this.countdownLabel.setFont(Font.font("Verdana", 45));
+        this.countdownLabel.setPadding(new Insets(5));
+        this.countdownPane.getChildren().add(countdownLabel);
+
         // Add everything to the root group of nodes.
         root.getChildren().add(this.floorPane);
         root.getChildren().add(this.wallPane);
         root.getChildren().add(this.scorePane);
+        root.getChildren().add(this.countdownPane);
 
         // Create a canvas and add it to the root group. This canvas is where the sprites are drawn.
         Canvas canvas = new Canvas(this.board.getColumns() * tileWidthHeight,
@@ -157,27 +174,27 @@ public class BoardWindow extends Application {
 
         primaryStage.show();
 
-        // Adds the key listeners and move validators.
+        // Adds the key listeners and move validators. Player can't move until the game begins.
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:
-                    if (this.board.isValidMove(player.getRow() - 1, player.getCol())) {
+                    if (this.board.isValidMove(player.getRow() - 1, player.getCol()) && countdownTimer <= 0) {
                         player.moveUp();
                     }
                     break;
                 case DOWN:
-                    if (this.board.isValidMove(player.getRow() + 1, player.getCol())) {
+                    if (this.board.isValidMove(player.getRow() + 1, player.getCol()) && countdownTimer <= 0) {
                         player.moveDown();
                     }
                     break;
                 case LEFT:
-                    if (this.board.isValidMove(player.getRow(), player.getCol() - 1)) {
+                    if (this.board.isValidMove(player.getRow(), player.getCol() - 1) && countdownTimer <= 0) {
                         player.moveLeft();
                         this.playerSprite.setImage(playerLeftImage);
                     }
                     break;
                 case RIGHT:
-                    if (this.board.isValidMove(player.getRow(), player.getCol() + 1)) {
+                    if (this.board.isValidMove(player.getRow(), player.getCol() + 1) && countdownTimer <= 0) {
                         player.moveRight();
                         this.playerSprite.setImage(playerRightImage);
                     }
@@ -209,7 +226,7 @@ public class BoardWindow extends Application {
 
                 // :TODO: vary this by difficulty.
                 if (moveCount == 6) {
-                    moveCameraUp(parallelCamera, primaryStage);
+                    moveCameraUp(parallelCamera, primaryStage, root);
                     moveCount = 0;
                 } else {
                     moveCount++;
@@ -219,11 +236,24 @@ public class BoardWindow extends Application {
                 // to account for the CSS padding already in place.
                 scorePane.setLayoutX((board.getColumns() * tileWidthHeight) - (scorePane.getWidth() - 5));
 
+                // This uses the score counter to manage the countdown timer. Pauses the game for ~4 seconds.
+                if (countdownTimer != -1 && scoreCount == 50) {
+                    scoreCount = 0;
+                    countdownLabel.setText(String.valueOf(countdownTimer - 1));
+                    if (countdownTimer == 0 || countdownTimer == 1) { // Recenter when the width changes.
+                        countdownLabel.setText("GO!");
+                        if (countdownTimer == 1) { // Prevents flickering.
+                            countdownPane.setLayoutX(countdownPane.getLayoutX() - countdownPane.getWidth() / 2);
+                        }
+                    }
+                    countdownTimer--;
+                }
+
                 // This adds one to the player score (roughly) every second.
                 if (scoreCount == 61) {
+                    scoreCount = 0;
                     player.setScore(player.getScore() + 1);
                     scoreLabel.setText(String.valueOf(player.getScore()));
-                    scoreCount = 0;
 
                     // Move the enemy sprites AFTER they've been rendered.
                     for (Enemy e : board.getEnemies()) {
@@ -266,32 +296,25 @@ public class BoardWindow extends Application {
      * @param camera the camera to move up.
      * @param stage  the stage to close when the player dies.
      */
-    private void moveCameraUp(Camera camera, Stage stage) {
-        Translate translate = new Translate();
-        translate.setY(camera.getClip().getLayoutY() - 1);
-        double maxY = camera.localToScene(camera.getBoundsInLocal()).getMaxY();
+    private void moveCameraUp(Camera camera, Stage stage, Group root) {
+        if (this.countdownTimer == -1) {
+            root.getChildren().remove(this.countdownPane);
 
-        // the number of rows is subtracted by one so the player dies when the Sprite is 100% off the board.
-        double minY = camera.localToScene(camera.getLayoutBounds()).getMaxY() + (this.viewRows - 1) * tileWidthHeight;
-        this.scorePane.setLayoutY(maxY + 5); // 5 is used to add the padding.
+            Translate translate = new Translate();
+            translate.setY(camera.getClip().getLayoutY() - 1);
+            double maxY = camera.localToScene(camera.getBoundsInLocal()).getMaxY();
 
-        // Gives the player 4 seconds to orient before the board starts moving.
-        if (this.firstRun) {
-            try {
-                Thread.sleep(4000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-                this.firstRun = false;
+            // the number of rows is subtracted by one so the player dies when the Sprite is 100% off the board.
+            double minY = camera.localToScene(camera.getLayoutBounds()).getMaxY() + (this.viewRows - 1) * tileWidthHeight;
+            this.scorePane.setLayoutY(maxY + 5); // 5 is used to add the padding.
+
+            camera.getTransforms().add(translate);
+
+            // Yes, this is the easiest kill logic ever. :todo: make a pop up when the player dies.
+            if (this.playerSprite.getBoundary().getMinY() > minY) {
+                this.player.kill();
+                stage.close();
             }
-        }
-
-        camera.getTransforms().add(translate);
-
-        // Yes, this is the easiest kill logic ever. :todo: make a pop up when the player dies.
-        if (this.playerSprite.getBoundary().getMinY() > minY) {
-            this.player.kill();
-            stage.close();
         }
 
     }
