@@ -32,7 +32,8 @@ public class Sprite {
     }
 
     /**
-     * This method will be used for collision detection and player killing.
+     * This method will be used for collision detection and player killing. One pixel is subtracted so the enemies
+     * don't kill until they've moved on-top of the player.
      *
      * @return a Rectangle bounding box.
      */
