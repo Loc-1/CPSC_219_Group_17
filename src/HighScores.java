@@ -7,8 +7,10 @@ import java.util.Comparator;
  * <p>
  * Handles the storage, retrieval, and setting of Score objects. Limits the total number of high scores to a max of 10.
  */
+@SuppressWarnings("TryWithIdenticalCatches")
+        // Needed for automated code review.
 class HighScores {
-    private ArrayList<Score> highScores = new ArrayList<>();
+    private final ArrayList<Score> highScores = new ArrayList<>();
 
     /**
      * Default constructor automatically loads scores from the highscores.ser file.
@@ -117,6 +119,7 @@ class HighScores {
             FileInputStream fileIn = new FileInputStream("highscores.ser");
             ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 
+            // noinspection unchecked (manual casting is valid in this case.)
             ArrayList<Score> scoresIn = (ArrayList<Score>) objectIn.readObject();
 
             for (Score s : scoresIn) {

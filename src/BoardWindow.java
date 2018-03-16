@@ -21,15 +21,15 @@ import java.util.ArrayList;
 
 
 /**
- * @author Josh
+ * @author Josh + Lachlan.
  * Renders the BoardWindow in JavaFX.
  */
 public class BoardWindow extends Application {
+    private final int tileWidthHeight = 32; // Changing this number will have serious consequences. CHANGE WITH CAUTION.
     private final Board board;
     private final Player player;
-    private final ArrayList<Sprite> enemySprites = new ArrayList<>();
-
-    private int viewRows = 0;
+    private final ArrayList<Sprite> enemySprites;
+    private int viewRows;
 
     private Sprite playerSprite;
 
@@ -37,7 +37,7 @@ public class BoardWindow extends Application {
     private Pane wallPane;
     private Pane scorePane;
     private Pane countdownPane;
-
+    // Load all the images into Image instances--for speed!
     private Image playerLeftImage;
     private Image playerRightImage;
     private Image backgroundImage;
@@ -53,7 +53,6 @@ public class BoardWindow extends Application {
     private Image enemyRightImage;
     private Image enemyLeftImage;
 
-    private final int tileWidthHeight = 32;
     private Label countdownLabel;
     private int countdownTimer = 3; // The amount of time to delay before the game starts.
 
@@ -65,8 +64,9 @@ public class BoardWindow extends Application {
      */
     BoardWindow(Board board, Player player, int setViewRows) {
         this.viewRows = setViewRows;
-        this.board = board;
         this.player = player;
+        this.board = board;
+        this.enemySprites = new ArrayList<>();
 
     }
 
@@ -79,6 +79,7 @@ public class BoardWindow extends Application {
         this.viewRows = 32;
         this.player = new Player(this.viewRows + 99, 26 / 2, 1, 1, "");
         this.board = new Board(this.viewRows + 100, 26, 1, player);
+        this.enemySprites = new ArrayList<>();
 
     }
 
@@ -104,7 +105,6 @@ public class BoardWindow extends Application {
         scene.setCamera(parallelCamera);
         parallelCamera.setClip(new Rectangle(this.board.getColumns() * tileWidthHeight,
                 this.viewRows * tileWidthHeight));
-
         parallelCamera.relocate(0, (board.getRows() * tileWidthHeight) - (viewRows * tileWidthHeight));
 
         primaryStage.setScene(scene);
@@ -112,9 +112,10 @@ public class BoardWindow extends Application {
 
         loadGame(); // Loads all the images.
 
+
         this.floorPane = new Pane(); // Create panes to store the background (i.e. things that don't need to update.)
         this.wallPane = new Pane();
-        this.scorePane = new Pane(); // Create the score pane.
+        this.scorePane = new Pane();
         this.countdownPane = new Pane();
 
         this.fillBackground(); // Fills the background tiles with images.
@@ -153,19 +154,16 @@ public class BoardWindow extends Application {
         // Create a canvas and add it to the root group. This canvas is where the sprites are drawn.
         Canvas canvas = new Canvas(this.board.getColumns() * tileWidthHeight,
                 this.board.getRows() * tileWidthHeight);
-
         root.getChildren().add(canvas);
 
         // Add the 2D graphicsContext to the canvas. Used to keep all the Sprites in the same context.
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        // Create a playerSprite and position it.
+        // Create a new playerSprite, position it, and render it on the board.
         this.playerSprite = new Sprite();
         this.playerSprite.setX(this.player.getCol());
         this.playerSprite.setY(this.player.getRow());
         this.playerSprite.setImage(playerRightImage);
-
-        // Draw the player sprite on the initial board.
         this.playerSprite.render(gc);
 
         // Create an enemy Sprite for all enemies on the board.
@@ -177,7 +175,6 @@ public class BoardWindow extends Application {
             sprite.setImage(this.enemyRightImage);
             this.enemySprites.add(sprite);
         }
-
         this.renderEnemySprites(gc);
 
         primaryStage.show();
@@ -296,10 +293,11 @@ public class BoardWindow extends Application {
         for (Sprite s : this.enemySprites) {
             s.render(gc);
         }
+
     }
 
     /**
-     * Runs to check if the playerSprite intersects with the enemy Sprits.
+     * Runs to check if the playerSprite intersects with the enemy Sprites.
      *
      * @param stage the primary stage.
      */
@@ -310,6 +308,7 @@ public class BoardWindow extends Application {
                 stage.close();
             }
         }
+
     }
 
     /**
