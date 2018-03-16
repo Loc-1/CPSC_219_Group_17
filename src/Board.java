@@ -19,6 +19,7 @@ public class Board {
     private Player playerTwo;
     private Enemy[] enemies;
     private int numOfEnemies;
+    private int visibleRows;
     
     private List <char[][]> quadrants; // Divide the board up into quadrants for enemy spawns? Think about how to do it.
     /**
@@ -40,7 +41,8 @@ public class Board {
         this.numOfEnemies = 2;
         this.enemies = new Enemy[numOfEnemies];
         
-        
+        // :TODO: Add the visible rows to the board arguments?
+        this.visibleRows = 32;
 
 
         if (this.rows < 0 || this.columns < 0) { // Temp error catching if.
@@ -295,7 +297,14 @@ public class Board {
     public int getRows() {
         return rows;
     }
-
+    
+    /**
+     * @return the number of visible rows.
+     */
+    public int getvisibleRows() {
+    	return visibleRows; 
+    }
+    
     /**
      * @return the number of cols as an it.
      */
