@@ -1,3 +1,6 @@
+import javafx.collections.transformation.SortedList;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -8,6 +11,9 @@ import java.util.Random;
  */
 public class ObstacleMap {
     private boolean[][] obstacleMap;
+    private int rows;
+    private int cols;
+    private int difficulty;
 
     /**
      * Creates a new obstacle map.
@@ -18,12 +24,14 @@ public class ObstacleMap {
      */
     public ObstacleMap(int setRows, int setColumns, int difficulty) {
         this.obstacleMap = new boolean[setRows][setColumns];
-
+        this.rows = setRows;
+        this.cols = setColumns;
+        this.difficulty = difficulty;
         final int safeZone = 2; // The number of rows without obstacles in the starting zone.
-        final int numberOfSteps = 100; // The number of times to run the simulation step.
+        final int numberOfSteps = 750; // The number of times to run the simulation step.
         final double difficultyModifier = calcDifficultyModifier(difficulty);
 
-        for (int row = 0; row < setRows - safeZone; row++) {
+        for (int row = 0; row < (setRows) - safeZone; row++) {
             for (int col = 0; col < setColumns; col++) {
                 if (generateRandomDouble() < difficultyModifier) {
                     this.obstacleMap[row][col] = true;
@@ -36,11 +44,22 @@ public class ObstacleMap {
             this.obstacleMap = doSimulationStep(this.obstacleMap);
         }
 
+
+
+      this.obstacleMap = makeTraverseable(this.obstacleMap);
+
+      for (int i = 0; i < 100; i++) {
+            this.obstacleMap = doSimulationStep(this.obstacleMap);
+        }
+
         // Ensures the edges of the board are always an obstacle.
-        for (int i = 0; i < setRows; i++) {
+        for (int i = 0; i < (setRows); i++) {
             this.obstacleMap[i][0] = true;
             this.obstacleMap[i][setColumns - 1] = true;
         }
+
+
+
 
     }
 
@@ -53,8 +72,8 @@ public class ObstacleMap {
      */
 
     public static boolean[][] doSimulationStep(boolean[][] oldMap) {
-        final double deathLimit = 3f; // These numbers are entirely arbitrary.
-        final double birthLimit = 5f;
+        final double deathLimit = 3; // These numbers are entirely arbitrary.
+        final double birthLimit = 5;
 
         boolean[][] newMap = new boolean[oldMap.length][oldMap[0].length];
 
@@ -75,57 +94,63 @@ public class ObstacleMap {
         return newMap;
     }
 
-    /**
-     *
-     * @param type      the type of overwrite action (0 == clear; 1 == regenerate)
-     */
 
-    public void resetObstacleMap(int type){
 
-        if(type == 0) {
-            for (int rowCount = 0; rowCount < 26; rowCount++) {
-                for (int colCount = 0; colCount < 32; colCount++) {
-                    this.setObstacle(rowCount, colCount, false);
+
+
+
+
+
+
+    public boolean[][] makeTraverseable(boolean[][] oldMap) {
+        boolean[][] newMap = this.obstacleMap;
+
+
+
+        int x = newMap.length - 3;
+
+
+        while (x >= 5) {
+            x--;
+            for (int y = 5; y < newMap[0].length - 5; y++){
+                if ((newMap[x][y] && !newMap[x+1][y] && newMap[x+1][y-1] && newMap[x+1][y+1])
+                        || (!newMap[x][y] && !newMap[x][y+1] && newMap[x+1][y] && newMap[x+1][y+1])) {
+
+
+
+
+                    for (int t = 1; t <= 4;t++) {
+                        for(int c = 1; c <= t; c++){
+                            newMap[x-t][y+c] = false;
+                            newMap[x-t][c] = false;
+                            newMap[x-t][y-c] = false;
+                        }
+                    }
+
+                    newMap[x][y] = false;
+                    newMap[x][y+1] = false;
+
+
+
+                    y++;
+
+                }
+                else if (!newMap[x][y] && newMap[x][y+1] && newMap[x][y-1] && newMap[x+1][y]) {
+                    newMap[x+2][y+1] = false;
+                    newMap[x+2][y-1] = false;
+                    newMap[x+2][y+2] = false;
+                    newMap[x+2][y-2] = false;
+                    newMap[x+1][y+1] = false;
+                    newMap[x+1][y-1] = false;
+                    newMap[x+1][y] = false;
+                    newMap[x+2][y] = false;
+                    newMap[x][y] = false;
+                    newMap[x][y+1] = false;
                 }
             }
-
         }
-        if(type == 1) {
-            for (int rowCount = 0; rowCount < 26; rowCount++) {
-                for (int colCount = 0; colCount < 32; colCount++) {
-                    this.setObstacle(rowCount, colCount, false);
-                    this.setObstacle(rowCount, colCount, this.generateRandomDouble() < this.calcDifficultyModifier(1));
-                }
-            }
-
-
-            // This recursively runs the cellular simulation per the int in numberOfSteps.
-            for (int i = 0; i < 100; i++) {
-                this.obstacleMap = doSimulationStep(this.obstacleMap);
-            }
-
-
-            //creates safe zone in updated map
-            for (int i = 0; i < 32; i++) {
-                this.obstacleMap[25][i] = false;
-                this.obstacleMap[24][i] = false;
-            }
-
-
-            // Ensures the edges of the board are always an obstacle.
-            for (int i = 0; i < 26; i++) {
-                this.obstacleMap[i][0] = true;
-                this.obstacleMap[i][32 - 1] = true;
-            }
-
-
-
-
-        }
-
+        return newMap;
     }
-
-
 
 
 
@@ -262,9 +287,9 @@ public class ObstacleMap {
         double difficultyModifier = 0.00;
 
         if (setDifficulty == 1) {
-            difficultyModifier = 0.45;
+            difficultyModifier = 0.40;
         } else if (setDifficulty == 2) {
-            difficultyModifier = 0.47;
+            difficultyModifier = 0.45;
         } else if (setDifficulty == 3) {
             difficultyModifier = 0.50;
         }

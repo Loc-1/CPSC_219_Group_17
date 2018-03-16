@@ -20,6 +20,7 @@ public class Board {
     private Enemy[] enemies;
     private int numOfEnemies;
     private int visibleRows;
+    private AstarMap traversability;
     
     private List <char[][]> quadrants; // Divide the board up into quadrants for enemy spawns? Think about how to do it.
     /**
@@ -36,6 +37,7 @@ public class Board {
         this.difficulty = setDifficulty;
         this.board = new char[rows][columns];
         this.obstacleMap = new ObstacleMap(this.rows, this.columns, this.difficulty);
+        this.traversability = new AstarMap();
         this.playerOne = setPlayer;
         
         this.numOfEnemies = 2;
@@ -44,35 +46,40 @@ public class Board {
         // :TODO: Add the visible rows to the board arguments?
         this.visibleRows = 32;
 
-
-        if (this.rows < 0 || this.columns < 0) { // Temp error catching if.
-            System.out.println("Width: " + setColumns);
-            System.out.println("Height: " + setRows);
-            System.out.println("Width and height arguments must be greater than 0."); // :TODO: not this.
-        } else {
-            for (int row = 0; row < rows; row++) { // Fill board with 0's
-                for (int col = 0; col < columns; col++) {
-                    this.board[row][col] = '.';
-                    if (this.obstacleMap.isObstacle(row, col)) {
-                        this.board[row][col] = 'X';
+        //makes sure map is traversable before acting on it
+        while(traversability.test(this.rows, this.columns, playerOne.getRow(), playerOne.getCol(), 0,this.columns/2, this.obstacleMap.obstacleLocations()) < 0) {
+            this.obstacleMap = new ObstacleMap(this.rows, this.columns, this.difficulty);
+        }
+            if (this.rows < 0 || this.columns < 0) { // Temp error catching if.
+                System.out.println("Width: " + setColumns);
+                System.out.println("Height: " + setRows);
+                System.out.println("Width and height arguments must be greater than 0."); // :TODO: not this.
+            } else {
+                for (int row = 0; row < rows; row++) { // Fill board with 0's
+                    for (int col = 0; col < columns; col++) {
+                        this.board[row][col] = '.';
+                        if (this.obstacleMap.isObstacle(row, col)) {
+                            this.board[row][col] = 'X';
+                        }
                     }
                 }
+
+                // Place the player
+                this.board[playerOne.getRow()][playerOne.getCol()] = 'P';
+
+                // Place all enemies
+                for (int enemyNum = 0; enemyNum < numOfEnemies; enemyNum++) {
+                    enemies[enemyNum] = new Enemy();
+                    enemyStart(enemies[enemyNum]);
+                    enemyEnd(enemies[enemyNum]);
+                    enemyPath(enemies[enemyNum]);
+
+                    this.board[enemies[enemyNum].getCurrentCoords()[0]][enemies[enemyNum].getCurrentCoords()[1]] = 'E';
+                }
+
             }
 
-            // Place the player
-            this.board[playerOne.getRow()][playerOne.getCol()] = 'P';
-            
-            // Place all enemies
-            for (int enemyNum = 0; enemyNum < numOfEnemies; enemyNum++) {
-            	enemies[enemyNum] = new Enemy();
-            	enemyStart(enemies[enemyNum]);
-            	enemyEnd(enemies[enemyNum]);
-            	enemyPath(enemies[enemyNum]);
-            	
-            	this.board[enemies[enemyNum].getCurrentCoords()[0]][enemies[enemyNum].getCurrentCoords()[1]] = 'E';
-        }
 
-        }
 
     }
 
@@ -199,34 +206,7 @@ public class Board {
         return isTraversable;
 
     }
-    
 
-    /**
-     * @param oldMap the ObstacleMap to be overwritten
-     * @param type   the type of overwrite action (0 == clear; 1 == regenerate)
-     */
-
-    public void resetObstacleMap(ObstacleMap oldMap, int type) {
-
-        if (type == 0) {
-            for (int rowCount = 0; rowCount < rows; rowCount++) {
-                for (int colCount = 0; colCount < columns; colCount++) {
-                    this.obstacleMap.setObstacle(rowCount, colCount, false);
-                }
-            }
-            this.refresh();
-        }
-        if (type == 1) {
-            for (int rowCount = 0; rowCount < rows; rowCount++) {
-                for (int colCount = 0; colCount < columns; colCount++) {
-                    this.obstacleMap.setObstacle(rowCount, colCount, false);
-                    this.obstacleMap.setObstacle(rowCount, colCount, oldMap.generateRandomDouble() < ObstacleMap.calcDifficultyModifier(this.difficulty));
-                }
-            }
-            this.refresh();
-        }
-
-    }
     
     /**
      * Determines a valid start position for enemies
