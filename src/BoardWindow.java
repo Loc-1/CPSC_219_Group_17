@@ -42,6 +42,14 @@ public class BoardWindow extends Application {
     private Image playerRightImage;
     private Image backgroundImage;
     private Image wallImage;
+    private Image wallNImage;
+    private Image wallNEImage;
+    private Image wallNWImage;
+    private Image wallSImage;
+    private Image wallSEImage;
+    private Image wallSWImage;
+    private Image wallEImage;
+    private Image wallWImage;
     private Image enemyRightImage;
     private Image enemyLeftImage;
 
@@ -252,6 +260,7 @@ public class BoardWindow extends Application {
                 // This adds one to the player score (roughly) every second.
                 if (scoreCount == 61) {
                     scoreCount = 0;
+                    checkCollisions(primaryStage);
                     player.setScore(player.getScore() + 1);
                     scoreLabel.setText(String.valueOf(player.getScore()));
 
@@ -286,6 +295,20 @@ public class BoardWindow extends Application {
         // This is separate to prevent the 'flickering' of the enemy sprites.
         for (Sprite s : this.enemySprites) {
             s.render(gc);
+        }
+    }
+
+    /**
+     * Runs to check if the playerSprite intersects with the enemy Sprits.
+     *
+     * @param stage the primary stage.
+     */
+    private void checkCollisions(Stage stage) {
+        for (Sprite s : this.enemySprites) {
+            if (s.getBoundary().intersects(this.playerSprite.getBoundary())) {
+                this.player.kill();
+                stage.close();
+            }
         }
     }
 
@@ -356,12 +379,23 @@ public class BoardWindow extends Application {
      * Loads all the images into their instance vars. This speeds up the loads of subsequent background painting calls.
      */
     private void loadGame() {
-        playerLeftImage = new Image("ch_left.png");
-        playerRightImage = new Image("ch_right.png");
-        backgroundImage = new Image("dc-dngn/floor/dirt0.png");
-        wallImage = new Image("dc-dngn/wall/brick_dark0.png");
-        enemyLeftImage = new Image("en_left.png");
-        enemyRightImage = new Image("en_right.png");
+        this.playerLeftImage = new Image("ch_left.png");
+        this.playerRightImage = new Image("ch_right.png");
+        this.backgroundImage = new Image("dirt0.png");
+        this.wallImage = new Image("brick_dark0.png");
+
+        // Load wall images by exposed face.
+        this.wallNImage = new Image("n_background.png");
+        this.wallNEImage = new Image("ne_background.png");
+        this.wallEImage = new Image("e_background.png");
+        this.wallSEImage = new Image("se_background.png");
+        this.wallSImage = new Image("s_background.png");
+        this.wallSWImage = new Image("sw_background.png");
+        this.wallWImage = new Image("w_background.png");
+        this.wallNWImage = new Image("nw_background.png");
+
+        this.enemyLeftImage = new Image("en_left.png");
+        this.enemyRightImage = new Image("en_right.png");
     }
 
 }

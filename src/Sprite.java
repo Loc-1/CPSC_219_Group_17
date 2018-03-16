@@ -28,7 +28,7 @@ public class Sprite {
      * @param gc the graphics context to draw in.
      */
     public void render(GraphicsContext gc) {
-        gc.drawImage(this.image, this.x * tileWidthHeight, this.y * tileWidthHeight);
+        gc.drawImage(this.image, this.x * tileWidthHeight - 1, this.y * tileWidthHeight - 1);
     }
 
     /**
@@ -37,7 +37,8 @@ public class Sprite {
      * @return a Rectangle bounding box.
      */
     public Bounds getBoundary() {
-        return new BoundingBox(this.x * tileWidthHeight - tileWidthHeight, this.y * tileWidthHeight - tileWidthHeight, tileWidthHeight, tileWidthHeight);
+        return new BoundingBox(this.x * tileWidthHeight - tileWidthHeight,
+                this.y * tileWidthHeight - tileWidthHeight, tileWidthHeight, tileWidthHeight);
     }
 
     public void setImage(Image image) {

@@ -1,3 +1,0 @@
-lincoln, 1000000
-ashton, 100000
-josh, 100000
