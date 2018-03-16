@@ -254,7 +254,7 @@ public class BoardWindow extends Application {
                     countdownTimer--;
                 }
 
-                // This adds one to the player score (roughly) every second.
+                // This adds one to the player score (roughly) every second and checks for enemy/player collisions.
                 if (scoreCount == 61) {
                     scoreCount = 0;
                     checkCollisions(primaryStage);
