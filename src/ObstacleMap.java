@@ -209,8 +209,8 @@ public class ObstacleMap {
     }
     
     /**
-     * Determine coordinates of obstacles in the map
-     * @return A int array containing coordinates of the obstacles [row, column]
+     * Determine coordinates of non obstacles in the map
+     * @return A int array containing coordinates of the nonobstacles [row, column]
      */
     public int[][] nonObstacleLocations(){
     	
@@ -238,6 +238,37 @@ public class ObstacleMap {
     }
     
     /**
+     * Determines coordinates of non obstacles obstacles in a specified section of the map (start row, end Row]
+     * @param startRows		The starting row
+     * @param endRows		The ending row
+     * @return
+     */
+    public int[][] nonObstacleLocations(int startRows, int endRows) {
+    	boolean[][] checkMap = this.obstacleMap;
+    	
+    	int numObstacles = checkNumObstacles(startRows, endRows);
+    	int totalTiles = checkMap[0].length * (endRows - startRows);
+    	int numFreeSpace = totalTiles - numObstacles;
+    	
+    	int freeSpaceNum = 0;
+    	
+    	int[][] locations = new int[numFreeSpace][2];
+    	
+    	for (int i = startRows; i < endRows; i++) {
+    		for (int j = 0; j < checkMap[0].length; j++) {
+    			if (!checkMap[i][j]) { 				
+    				locations[freeSpaceNum][0] = i;
+    				locations[freeSpaceNum][1] = j;
+    				freeSpaceNum += 1;
+
+    			}
+    			
+    		}
+    	}
+        return locations;
+    }
+    
+    /**
      * Determines the amount of obstacles in the map
      */
     public int checkNumObstacles() {
@@ -246,6 +277,29 @@ public class ObstacleMap {
     	int numObstacles = 0;
     	
     	for (int i = 0; i < checkMap.length; i++) {
+    		for (int j = 0; j < checkMap[0].length; j++) {
+    			if (checkMap[i][j]) {
+    				numObstacles += 1;
+    			}
+    		}
+    	}
+    	
+    	return numObstacles;
+    }
+    
+    /**
+     * Determines the number of obstacles within specified start and end rows
+     * @param startRows 	The starting row
+     * @param startCols		The starting column
+     * @param endRows		The end rows
+     * @param endCols		The end column
+     * @return
+     */
+    public int checkNumObstacles(int startRows, int endRows) {
+    	int numObstacles = 0;
+    	boolean[][] checkMap = this.obstacleMap;
+    	
+    	for (int i = startRows; i < endRows; i++) {
     		for (int j = 0; j < checkMap[0].length; j++) {
     			if (checkMap[i][j]) {
     				numObstacles += 1;

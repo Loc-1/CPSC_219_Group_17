@@ -217,7 +217,7 @@ public class AStar {
      * @param ej the end column location
      * @param blocked Array for coordinates of obstacles
      */
-    public static void aStarSetUp(int x, int y, int si, int sj, int ei, int ej, int[][] blocked) {
+    private static void aStarSetUp(int x, int y, int si, int sj, int ei, int ej, int[][] blocked) {
         
    	//Reset
        grid = new Cell[x][y];
@@ -259,6 +259,7 @@ public class AStar {
     
     /**
      * @ Author: Lincoln inspired by the test method above
+     * Determines the cost of travelling to a specified location on a map.
      * @param x the width of the Grid
      * @param y the height of the Grid
      * @param si the starting row location
@@ -279,6 +280,7 @@ public class AStar {
     
     /**
      * @author Lincoln
+     * Gives the most traversable path of an object on a map.
      * @param x the width of the Grid
      * @param y the height of the Grid
      * @param si the starting row location
@@ -306,6 +308,7 @@ public class AStar {
  }
     /**
      * @author Lincoln
+     * Chooses a random coordinate within the travel cost for a specified map.
      * @param x the width of the Grid
      * @param y the height of the Grid
      * @param si the starting row location
