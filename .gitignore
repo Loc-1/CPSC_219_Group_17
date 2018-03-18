@@ -69,3 +69,4 @@ fabric.properties
 *.ser
 
 # End of https://www.gitignore.io/api/intellij
+/bin/

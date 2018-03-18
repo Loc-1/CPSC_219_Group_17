@@ -77,6 +77,8 @@ public class Board {
                         enemyStart(enemies[enemyNum], visibleBoardStart, visibleBoardEnd);
                         enemyEnd(enemies[enemyNum], visibleBoardStart, visibleBoardEnd);
                         enemyPath(enemies[enemyNum]);
+                        
+                        
 
                         this.board[enemies[enemyNum].getCurrentCoords()[0]][enemies[enemyNum].getCurrentCoords()[1]] = 'E';
                     }
@@ -101,8 +103,7 @@ public class Board {
         this.obstacleMap = new ObstacleMap(this.rows, this.columns, this.difficulty);
         this.traversability = new AstarMap();
         this.playerOne = setPlayer;
-        this.numOfEnemies = setDifficulty; // Creates 1, 2, or 3 enemies for each visible board.
-        this.enemies = new Enemy[numOfEnemies];
+
         
         
         // I want to set the total rows as a constant multiple of visible rows to make looping through each visible board easier. 
@@ -110,7 +111,10 @@ public class Board {
         int numOfVisibleBoards = (setRows / setVisibleRows); 
         this.visibleRows = setRows / numOfVisibleBoards;
         
-
+        int numOfVisibleEnemies = setDifficulty;
+        this.numOfEnemies = numOfVisibleEnemies * numOfVisibleBoards; // Creates 1, 2, or 3 enemies for each visible board.
+        Enemy[] enemies = new Enemy[numOfEnemies];
+        Enemy[] savedenemies = new Enemy[numOfEnemies];
 
         //makes sure map is traversable before acting on it
         while(traversability.test(this.rows, this.columns, playerOne.getRow(), playerOne.getCol(), 0,this.columns/2, this.obstacleMap.obstacleLocations()) < 0) {
@@ -140,16 +144,21 @@ public class Board {
                 	int visibleBoardStart = visibleBoardIndx * visibleRows;
                 	int visibleBoardEnd = (visibleBoardIndx+1) * visibleRows;
 
-                    for (int enemyNum = 0; enemyNum < numOfEnemies; enemyNum++) {
+                    for (int enemyNum = 0; enemyNum < numOfVisibleEnemies; enemyNum++) {
                         enemies[enemyNum] = new Enemy();
                         enemyStart(enemies[enemyNum], visibleBoardStart, visibleBoardEnd);
                         enemyEnd(enemies[enemyNum], visibleBoardStart, visibleBoardEnd);
                         enemyPath(enemies[enemyNum]);
+                        
+                        savedenemies[enemyNum] = enemies[enemyNum];
+                        System.out.println(Arrays.deepToString(enemies[enemyNum].getPath().toArray()));
 
                         this.board[enemies[enemyNum].getCurrentCoords()[0]][enemies[enemyNum].getCurrentCoords()[1]] = 'E';
                     }
                 }
-
+                for (int test=0; test < numOfEnemies; test++) {
+                    System.out.println(Arrays.deepToString(savedenemies[test].getPath().toArray()));
+                }
             }
             
     }
@@ -408,7 +417,13 @@ public class Board {
     	//System.out.println(Arrays.deepToString(board.getObstacleMap().nonObstacleLocations(2, 12)));
 
     	Enemy[] allEnemies = board.getEnemies();
-  	
+    	
+    	System.out.println(board.getNumOfEnemies());
+    	
+    	System.out.println(allEnemies.length);
+    	
+    	System.out.println(Arrays.toString(allEnemies[1].getCurrentCoords()));
+    	
     	for (int i = 0; i < board.getNumOfEnemies(); i++) {
     		List<int[]> paths = allEnemies[i].getPath();
     		
