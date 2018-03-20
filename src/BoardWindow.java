@@ -118,7 +118,6 @@ public class BoardWindow extends Application {
 
         loadGame(); // Loads all the images.
 
-
         this.floorPane = new Pane(); // Create panes to store the background (i.e. things that don't need to update.)
         this.wallPane = new Pane();
         this.scorePane = new Pane();
@@ -126,7 +125,6 @@ public class BoardWindow extends Application {
 
         this.fillBackground(); // Fills the background tiles with images.
 
-        // You can use CSS to style things! There IS a God!
         Label scoreLabel = new Label(String.valueOf(this.player.getScore()));
         scoreLabel.setStyle("-fx-background-color: rgba(150, 150, 150, 0.55); -fx-background-radius: 10;");
         scoreLabel.setFont(Font.font("Verdana", 25));
@@ -138,11 +136,10 @@ public class BoardWindow extends Application {
         this.scorePane.setLayoutY(parallelCamera.getLayoutY() + 5);
         this.scorePane.getChildren().add(scoreLabel);
 
-        this.countdownPane.setStyle("-fx-padding: 5;");
-
         // Center the countdown pane.
         this.countdownPane.setLayoutY(parallelCamera.getLayoutY() + this.viewRows * tileWidthHeight / 2 - this.countdownPane.getHeight());
         this.countdownPane.setLayoutX(this.board.getColumns() * tileWidthHeight / 2 + this.countdownPane.getWidth());
+        this.countdownPane.setStyle("-fx-padding: 5;");
 
         this.countdownLabel = new Label();
         this.countdownLabel.setText(String.valueOf(this.countdownTimer));
@@ -161,8 +158,6 @@ public class BoardWindow extends Application {
         Canvas canvas = new Canvas(this.board.getColumns() * tileWidthHeight,
                 this.board.getRows() * tileWidthHeight);
         root.getChildren().add(canvas);
-
-        // Add the 2D graphicsContext to the canvas. Used to keep all the Sprites in the same context.
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // Create a new playerSprite, position it, and render it on the board.
@@ -227,13 +222,11 @@ public class BoardWindow extends Application {
                 case ESCAPE:
                     primaryStage.close();
             }
-
         });
 
         AnimationTimer gameLoop = new AnimationTimer() {
             int scoreCount = 0; // set score counter to 0 (each frame represents 1/60 of a second).
-            int moveCount = 0;
-            int moveOverTime = 0;
+            int moveCount = 0; // sets the counter to manage to rate of moveUp calls.
 
             /**
              * This handler handles the continuous drawing of player sprites. Refresh is at (about) 60 fps.
@@ -243,19 +236,19 @@ public class BoardWindow extends Application {
             @Override
             public void handle(long now) {
                 // :TODO: add the modal popup here.
-                if (!player.isAlive()) { // Kills the gameLoop when the player dies.
+                if (!player.isAlive()) { // Kills the gameLoop and closes the stage when the player dies.
                     primaryStage.close();
                     this.stop();
                 }
 
                 // Clears the graphics context before drawing the new positions.
-                gc.clearRect(0, 0, board.getColumns() * tileWidthHeight,
-                        board.getRows() * tileWidthHeight);
+                gc.clearRect(0, 0, board.getColumns() * tileWidthHeight, board.getRows() * tileWidthHeight);
                 playerSprite.setY(player.getRow());
                 playerSprite.setX(player.getCol());
                 playerSprite.render(gc);
                 renderEnemySprites(gc);
 
+                // This is needed to manage the moveRate by difficulty.
                 if (moveCount == moveRate) {
                     if (countdownTimer == -1) {
                         moveCameraUp(parallelCamera, root);
@@ -266,12 +259,6 @@ public class BoardWindow extends Application {
                     moveCount++;
                 }
 
-                if (moveOverTime == 60) {
-                    moveRate++;
-                    moveOverTime = 0;
-                    System.out.println("Yay!");
-                }
-
                 // setLayoutX is needed to keep the label from falling off the side of the board. Five is subtracted
                 // to account for the CSS padding already in place.
                 scorePane.setLayoutX((board.getColumns() * tileWidthHeight) - (scorePane.getWidth() - 5));
@@ -279,7 +266,6 @@ public class BoardWindow extends Application {
                 // This uses the score counter to manage the countdown timer. Pauses the game for ~4 seconds.
                 if (countdownTimer != -1 && scoreCount == 60) {
                     scoreCount = 0;
-                    moveOverTime++; // This increases the speed of the camera as the game progresses.
                     countdownLabel.setText(String.valueOf(countdownTimer - 1));
                     if (countdownTimer == 0 || countdownTimer == 1) { // Recenter when the width changes.
                         countdownLabel.setText("GO!");
@@ -295,15 +281,18 @@ public class BoardWindow extends Application {
                     scoreCount = 0;
                     player.setScore(player.getScore() + 1);
                     scoreLabel.setText(String.valueOf(player.getScore()));
-
+                    // This increases the move rate every ~2 min.
+                    if (player.getScore() % 120 == 0 && moveRate != 0) {
+                        moveRate++;
+                    }
                     // Move the enemy sprites AFTER they've been rendered.
                     for (Enemy e : board.getEnemies()) {
                         e.move();
                         renderEnemySprites(gc);
                     }
-
+                } else {
+                    scoreCount++;
                 }
-                scoreCount++;
             }
         };
         gameLoop.start();

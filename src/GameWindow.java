@@ -79,7 +79,7 @@ public class GameWindow extends Application {
         GridPane.setMargin(boardSize, new Insets(0, 20, 0, 0));
 
         // This generates and positions a Label for each score in localHS.getHighScores(). The styling is super complex
-        // I suggest you don't change it unless you have a solid grip on CSS styling.
+        // and I suggest you don't change it unless you have a solid grip on procedural CSS styling.
         int rowIndex = 0;
         Label[][] names = new Label[localHS.getHighScores().size()][2];
         for (Score s : localHS.getHighScores()) {
