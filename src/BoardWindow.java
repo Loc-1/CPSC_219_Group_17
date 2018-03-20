@@ -178,8 +178,7 @@ public class BoardWindow extends Application {
         }
         this.renderEnemySprites(gc);
 
-        // Vary the camera move rate by difficulty. Smaller numbers represent smaller intervals between moveCameraUp
-        // calls.
+        // Vary the camera move rate by difficulty.
         switch (difficulty) {
             case 1:
                 this.moveRate = 0.5;
@@ -226,7 +225,6 @@ public class BoardWindow extends Application {
 
         AnimationTimer gameLoop = new AnimationTimer() {
             int scoreCount = 0; // set score counter to 0 (each frame represents 1/60 of a second).
-            int moveCount = 0; // sets the counter to manage to rate of moveUp calls.
 
             /**
              * This handler handles the continuous drawing of player sprites. Refresh is at (about) 60 fps.
@@ -304,10 +302,10 @@ public class BoardWindow extends Application {
                     int[] coords = e.getCurrentCoords();
                     s.setY(coords[0]);
                     s.setX(coords[1]);
+                    s.render(gc);
                     if (s.getBoundary().intersects(playerSprite.getBoundary())) {
                         this.player.kill();
                     }
-                    s.render(gc);
                 }
             }
         } catch (Exception e) {
