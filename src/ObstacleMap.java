@@ -341,11 +341,11 @@ public class ObstacleMap {
         double difficultyModifier = 0.00;
 
         if (setDifficulty == 1) {
-            difficultyModifier = 0.40;
+            difficultyModifier = 0.42;
         } else if (setDifficulty == 2) {
-            difficultyModifier = 0.45;
+            difficultyModifier = 0.47;
         } else if (setDifficulty == 3) {
-            difficultyModifier = 0.50;
+            difficultyModifier = 0.52;
         }
 
         return difficultyModifier;
