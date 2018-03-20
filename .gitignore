@@ -65,8 +65,5 @@ fabric.properties
 # Sonarlint plugin
 .idea/sonarlint
 
-# Serialized files
-*.ser
-
 # End of https://www.gitignore.io/api/intellij
 /bin/
