@@ -175,6 +175,7 @@ public class BoardWindow extends Application {
             sprite.setY(coords[1]);
             sprite.setImage(this.enemyRightImage);
             this.enemySprites.add(sprite);
+            this.board.printBoard();
         }
         this.renderEnemySprites(gc);
 
@@ -287,12 +288,8 @@ public class BoardWindow extends Application {
                 int[] coords = e.getCurrentCoords();
                 s.setY(coords[0]);
                 s.setX(coords[1]);
+                s.render(gc);
             }
-        }
-
-        // This is separate to prevent the 'flickering' of the enemy sprites.
-        for (Sprite s : this.enemySprites) {
-            s.render(gc);
         }
 
     }
@@ -324,7 +321,7 @@ public class BoardWindow extends Application {
             root.getChildren().remove(this.countdownPane);
 
             Translate translate = new Translate();
-            translate.setY(camera.getClip().getLayoutY() - 1);
+            translate.setY(camera.getClip().getLayoutY() - 10);
             double maxY = camera.localToScene(camera.getBoundsInLocal()).getMaxY();
 
             // the number of rows is subtracted by one so the player dies when the Sprite is 100% off the board.
