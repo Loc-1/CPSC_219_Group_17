@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -113,8 +114,8 @@ public class Board {
         
         int numOfVisibleEnemies = setDifficulty;
         this.numOfEnemies = numOfVisibleEnemies * numOfVisibleBoards; // Creates 1, 2, or 3 enemies for each visible board.
-        Enemy[] enemies = new Enemy[numOfEnemies];
-        Enemy[] savedenemies = new Enemy[numOfEnemies];
+        List<Enemy> enemies = new ArrayList<Enemy>();
+
 
         //makes sure map is traversable before acting on it
         while(traversability.test(this.rows, this.columns, playerOne.getRow(), playerOne.getCol(), 0,this.columns/2, this.obstacleMap.obstacleLocations()) < 0) {
@@ -145,22 +146,20 @@ public class Board {
                 	int visibleBoardEnd = (visibleBoardIndx+1) * visibleRows;
 
                     for (int enemyNum = 0; enemyNum < numOfVisibleEnemies; enemyNum++) {
-                        enemies[enemyNum] = new Enemy();
-                        enemyStart(enemies[enemyNum], visibleBoardStart, visibleBoardEnd);
-                        enemyEnd(enemies[enemyNum], visibleBoardStart, visibleBoardEnd);
-                        enemyPath(enemies[enemyNum]);
+                        Enemy aenemy = new Enemy();
+                        enemyStart(aenemy, visibleBoardStart, visibleBoardEnd);
+                        enemyEnd(aenemy, visibleBoardStart, visibleBoardEnd);
+                        enemyPath(aenemy);
                         
-                        savedenemies[enemyNum] = enemies[enemyNum];
-                        System.out.println(Arrays.deepToString(enemies[enemyNum].getPath().toArray()));
+                        enemies.add(enemyNum,aenemy);
 
-                        this.board[enemies[enemyNum].getCurrentCoords()[0]][enemies[enemyNum].getCurrentCoords()[1]] = 'E';
+                        this.board[enemies.get(enemyNum).getCurrentCoords()[0]][enemies.get(enemyNum).getCurrentCoords()[1]] = 'E';
                     }
                 }
-                for (int test=0; test < numOfEnemies; test++) {
-                    System.out.println(Arrays.deepToString(savedenemies[test].getPath().toArray()));
+                
+                Enemy[] enemyArr = new Enemy[enemies.size()];
+                this.enemies = enemies.toArray(enemyArr);
                 }
-            }
-            
     }
 
     /**
@@ -414,35 +413,23 @@ public class Board {
     	Board board = new Board(32, 26, 1, player, 8);
     	
     	board.printBoard();
-    	//System.out.println(Arrays.deepToString(board.getObstacleMap().nonObstacleLocations(2, 12)));
-
     	Enemy[] allEnemies = board.getEnemies();
     	
-    	System.out.println(board.getNumOfEnemies());
-    	
-    	System.out.println(allEnemies.length);
-    	
-    	System.out.println(Arrays.toString(allEnemies[1].getCurrentCoords()));
     	
     	for (int i = 0; i < board.getNumOfEnemies(); i++) {
     		List<int[]> paths = allEnemies[i].getPath();
     		
-    		System.out.println(Arrays.deepToString(paths.toArray()));
+    		System.out.println("Enemy #" + Integer.toString(i) + "'s Path: " + Arrays.deepToString(paths.toArray()));
     	}
     	
-    	board.refresh();
-    	board.printBoard();
-    	
+    	System.out.println("The above shows the initial board");
+    	System.out.println("---------------------------------");
     	// Trying to move the enemies
-    	for (int i = 0; i < board.getNumOfEnemies(); i++) {
-    		
-    		for (int move = 0; move < 10; move++) {
-        		System.out.println(Arrays.toString(allEnemies[i].getCurrentCoords()));
-        		
-        		//System.out.println(Arrays.deepToString(allEnemies[i].getPath().toArray()));
-        		allEnemies[i].move();
-        		System.out.println(allEnemies[i].getDirection());
-    		}
+    	for (int move = 0; move < 5; move++)  {
+    	
+    	    board.refresh();
+    	    board.printBoard();
+    	    System.out.println("\n");
 
     	}
     	

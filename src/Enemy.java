@@ -209,7 +209,7 @@ public class Enemy {
     		//System.out.println(Arrays.deepToString(enemy.getPath().toArray()));
         	enemy.move();
         	//enemy.direction();
-        	System.out.println(enemy.getDirection());
+        	//System.out.println(enemy.getDirection());
         	
     	}
 
