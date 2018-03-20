@@ -201,7 +201,17 @@ public class BoardWindow extends Application {
                         player.moveUp();
                     }
                     break;
+                case W:
+                    if (this.board.isValidMove(player.getRow() - 1, player.getCol()) && countdownTimer <= 0) {
+                        player.moveUp();
+                    }
+                    break;
                 case DOWN:
+                    if (this.board.isValidMove(player.getRow() + 1, player.getCol()) && countdownTimer <= 0) {
+                        player.moveDown();
+                    }
+                    break;
+                case S:
                     if (this.board.isValidMove(player.getRow() + 1, player.getCol()) && countdownTimer <= 0) {
                         player.moveDown();
                     }
@@ -212,7 +222,19 @@ public class BoardWindow extends Application {
                         this.playerSprite.setImage(playerLeftImage);
                     }
                     break;
+                case A:
+                    if (this.board.isValidMove(player.getRow(), player.getCol() - 1) && countdownTimer <= 0) {
+                        player.moveLeft();
+                        this.playerSprite.setImage(playerLeftImage);
+                    }
+                    break;
                 case RIGHT:
+                    if (this.board.isValidMove(player.getRow(), player.getCol() + 1) && countdownTimer <= 0) {
+                        player.moveRight();
+                        this.playerSprite.setImage(playerRightImage);
+                    }
+                    break;
+                case D:
                     if (this.board.isValidMove(player.getRow(), player.getCol() + 1) && countdownTimer <= 0) {
                         player.moveRight();
                         this.playerSprite.setImage(playerRightImage);
