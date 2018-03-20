@@ -70,3 +70,6 @@ fabric.properties
 
 # Removing config xml
 .idea/*.xml
+
+# Remove src.zip
+src.zip
