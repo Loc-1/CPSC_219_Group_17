@@ -112,8 +112,8 @@ public class Board {
         int numOfVisibleBoards = (setRows / setVisibleRows); 
         this.visibleRows = setRows / numOfVisibleBoards;
         
-        int numOfVisibleEnemies = setDifficulty;
-        this.numOfEnemies = numOfVisibleEnemies * numOfVisibleBoards; // Creates 1, 2, or 3 enemies for each visible board.
+        int numOfVisibleEnemies = setDifficulty * 5;
+        this.numOfEnemies = numOfVisibleEnemies * numOfVisibleBoards; // Creates 1, 2, or 3 enemies for each visible board, times a scaling factor
         List<Enemy> enemies = new ArrayList<Enemy>();
 
 
@@ -305,8 +305,8 @@ public class Board {
      * @param endRows 		The maximum rows where the enemy should spawn
      */
     public void enemyEnd(Enemy aenemy, int startRows, int endRows) {
-    	int minTravelCost = 90;
-    	int maxTravelCost = 300;
+    	int minTravelCost = 150;
+    	int maxTravelCost = 400;
     	
 
     	int[] endCoords = pathfinding.AStar.chooseDestination(this.rows, this.columns, aenemy.getStartCoords()[0], 
@@ -410,7 +410,7 @@ public class Board {
     //Testing
     public static void main(String[] args) {
     	Player player = new Player(32- 1, 26 / 2, 1, 1, "");
-    	Board board = new Board(32, 26, 1, player, 8);
+    	Board board = new Board(32, 26, 1, player, 32);
     	
     	board.printBoard();
     	Enemy[] allEnemies = board.getEnemies();
