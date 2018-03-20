@@ -16,8 +16,8 @@ import java.util.ArrayList;
  */
 public class GameWindow extends Application {
     private final int extraRows = 200; // Adds a fixed number of rows to the top of the board array.
-    private HighScores localHS = new HighScores();
-    private ArrayList<Score> scores = localHS.getHighScores();
+    private final HighScores localHS = new HighScores();
+    private final ArrayList<Score> scores = localHS.getHighScores();
 
     /**
      * 
@@ -61,7 +61,7 @@ public class GameWindow extends Application {
         Label difficultyLbl = new Label("Difficulty:");
         gridPane.add(difficultyLbl, 0, 2);
 
-        ComboBox<String> difficulty = new ComboBox<String>();
+        ComboBox<String> difficulty = new ComboBox<>();
         difficulty.setItems(FXCollections.observableArrayList("Easy", "Normal", "Hard"));
         difficulty.setPromptText("Please pick a difficulty.");
         gridPane.add(difficulty, 0, 3);
@@ -70,7 +70,6 @@ public class GameWindow extends Application {
         launchGame.setPrefSize(Button.USE_PREF_SIZE, Button.USE_PREF_SIZE);
         launchGame.setAlignment(Pos.BASELINE_CENTER);
         launchGame.setOnAction(event -> {
-            boolean gameRunning = true;
             int rowNum = 32;
             int colNum;
             int difficultyNum;
@@ -119,17 +118,16 @@ public class GameWindow extends Application {
     }
 
     /**
-     * Formats the High Scores so they fit and make sense in the textArea
-     * 
-     * @return
+     * @return a formatted String of all the highscores.
      */
-    String formatScores() {
-        String formatedSc = "";
+    private String formatScores() {
+        String formattedSC = "";
         for (int i = 0; i < this.scores.size(); i++) {
-            formatedSc = formatedSc + (i + 1) + " " + this.scores.get(i).playerHandle + ": " + this.scores.get(i).score
+            //noinspection StringConcatenationInLoop
+            formattedSC = formattedSC + (i + 1) + " " + this.scores.get(i).playerHandle + ": " + this.scores.get(i).score
                     + "\n";
         }
-        return formatedSc;
+        return formattedSC;
     }
 
 }

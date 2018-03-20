@@ -24,6 +24,7 @@ import java.util.ArrayList;
  * @author Josh + Lachlan.
  * Renders the BoardWindow in JavaFX.
  */
+@SuppressWarnings("FieldCanBeLocal")
 public class BoardWindow extends Application {
     private final int tileWidthHeight = 32; // Changing this number will have serious consequences. CHANGE WITH CAUTION.
     private final Board board;
@@ -175,9 +176,8 @@ public class BoardWindow extends Application {
             sprite.setY(coords[1]);
             sprite.setImage(this.enemyRightImage);
             this.enemySprites.add(sprite);
-            this.board.printBoard();
         }
-        this.renderEnemySprites(gc);
+        this.renderEnemySprites(gc, primaryStage);
 
         primaryStage.show();
 
@@ -229,10 +229,10 @@ public class BoardWindow extends Application {
                 playerSprite.setY(player.getRow());
                 playerSprite.setX(player.getCol());
                 playerSprite.render(gc);
-                renderEnemySprites(gc);
+                renderEnemySprites(gc, primaryStage);
 
                 // :TODO: vary this by difficulty.
-                if (moveCount == 6) {
+                if (moveCount == 3) {
                     moveCameraUp(parallelCamera, primaryStage, root);
                     moveCount = 0;
                 } else {
@@ -259,13 +259,13 @@ public class BoardWindow extends Application {
                 // This adds one to the player score (roughly) every second and checks for enemy/player collisions.
                 if (scoreCount == 61) {
                     scoreCount = 0;
-                    checkCollisions(primaryStage);
                     player.setScore(player.getScore() + 1);
                     scoreLabel.setText(String.valueOf(player.getScore()));
 
                     // Move the enemy sprites AFTER they've been rendered.
                     for (Enemy e : board.getEnemies()) {
                         e.move();
+                        renderEnemySprites(gc, primaryStage);
                     }
 
                 }
@@ -282,28 +282,18 @@ public class BoardWindow extends Application {
      *
      * @param gc the canvas GraphicsContext where the Sprites are drawn.
      */
-    private void renderEnemySprites(GraphicsContext gc) {
+    private void renderEnemySprites(GraphicsContext gc, Stage stage) {
         for (Enemy e : this.board.getEnemies()) {
             for (Sprite s : this.enemySprites) {
                 int[] coords = e.getCurrentCoords();
                 s.setY(coords[0]);
                 s.setX(coords[1]);
+                if (s.getBoundary().intersects(playerSprite.getBoundary())) {
+                    player.kill();
+                    System.out.println("Yay!");
+                    stage.close();
+                }
                 s.render(gc);
-            }
-        }
-
-    }
-
-    /**
-     * Runs to check if the playerSprite intersects with the enemy Sprites.
-     *
-     * @param stage the primary stage.
-     */
-    private void checkCollisions(Stage stage) {
-        for (Sprite s : this.enemySprites) {
-            if (s.getBoundary().intersects(this.playerSprite.getBoundary())) {
-                this.player.kill();
-                stage.close();
             }
         }
 
@@ -321,7 +311,7 @@ public class BoardWindow extends Application {
             root.getChildren().remove(this.countdownPane);
 
             Translate translate = new Translate();
-            translate.setY(camera.getClip().getLayoutY() - 10);
+            translate.setY(camera.getClip().getLayoutY() - 1);
             double maxY = camera.localToScene(camera.getBoundsInLocal()).getMaxY();
 
             // the number of rows is subtracted by one so the player dies when the Sprite is 100% off the board.

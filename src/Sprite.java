@@ -37,8 +37,8 @@ class Sprite {
      * @return a Rectangle bounding box.
      */
     Bounds getBoundary() {
-        return new BoundingBox(this.x * tileWidthHeight - tileWidthHeight,
-                this.y * tileWidthHeight - tileWidthHeight, tileWidthHeight, tileWidthHeight);
+        return new BoundingBox(this.x * tileWidthHeight - tileWidthHeight - 1,
+                this.y * tileWidthHeight - tileWidthHeight - 1, tileWidthHeight - 1, tileWidthHeight - 1);
     }
 
     void setImage(Image image) {

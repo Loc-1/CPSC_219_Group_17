@@ -1,4 +1,4 @@
-import java.util.*;
+import java.util.PriorityQueue;
 
 /**
  * Class Owner: Ashton
@@ -8,10 +8,7 @@ import java.util.*;
  */
 
 
-
-
-public class AstarMap {
-
+public class AStarMap {
     public static final int DiaCost = 14;
     public static final int SideCost = 10;
 

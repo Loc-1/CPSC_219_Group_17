@@ -6,13 +6,15 @@
  */
 public class Player {
     private Boolean isAlive;
+    @SuppressWarnings("FieldCanBeLocal")
     private int userID;
     private String userHandle;
     
     private int col;
     private int row;
     private int score = 0;
-    private int sprite; // :TODO: Change to a sprite class once one is implemented.
+    @SuppressWarnings("FieldCanBeLocal")
+    private int sprite; // :TODO: ASHTON OR LINCOLN - PLEASE REMOVE ALL REFS TO THIS AS IT IS NO LONGER NEEDED.
 
     /***
      * Constructor to add player sprite to the board.
@@ -22,7 +24,7 @@ public class Player {
      * @param setUserID either 0 for a single player game or 1 for a two player game.
      * @param setUserHandle player's chosen handle.
      */
-    public Player(int setRow, int setCol, int setSprite, int setUserID, String setUserHandle) {
+    Player(int setRow, int setCol, int setSprite, int setUserID, String setUserHandle) {
         this.isAlive = true; // New players start off alive.
         this.row = setRow;
         this.col = setCol;
@@ -34,55 +36,57 @@ public class Player {
     /**
      * A call to this method will 'kill' the player.
      */
-    public void kill() {
+    void kill() {
         this.isAlive = false;
     }
 
-    public int getCol() {
+    int getCol() {
         return col;
     }
 
-    public int getRow() {
-        return row;
-    }
-    
+    @SuppressWarnings("unused")
     public void setCol(int col) {
         this.col = col;
     }
-    
+
+    int getRow() {
+        return row;
+    }
+
+    @SuppressWarnings("unused")
     public void setRow(int row) {
         this.row = row;
     }
-    
 
-    public Boolean isAlive() {
+    Boolean isAlive() {
         return isAlive;
     }
 
-    public int getScore() {
+    int getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    void setScore(int score) {
         this.score = score;
     }
 
-    public void moveUp() {
+    void moveUp() {
         this.row -= 1;
     }
 
-    public void moveDown() {
+    void moveDown() {
         this.row += 1;
     }
 
-    public void moveRight() {
+    void moveRight() {
         this.col += 1;
     }
 
-    public void moveLeft() {
+    void moveLeft() {
         this.col -= 1;
     }
 
+    @SuppressWarnings("unused")
     public String getUserHandle() {
         return userHandle;
     }
