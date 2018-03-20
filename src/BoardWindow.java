@@ -272,8 +272,6 @@ public class BoardWindow extends Application {
                     System.out.println("Yay!");
                 }
 
-                System.out.println(moveRate);
-
                 // setLayoutX is needed to keep the label from falling off the side of the board. Five is subtracted
                 // to account for the CSS padding already in place.
                 scorePane.setLayoutX((board.getColumns() * tileWidthHeight) - (scorePane.getWidth() - 5));

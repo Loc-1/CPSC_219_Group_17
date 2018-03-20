@@ -63,7 +63,7 @@ public class GameWindow extends Application {
         difficulty.setPrefWidth(200.0);
         difficulty.setStyle("-fx-font-size: 14px;");
         gridPane.add(difficulty, 0, 3);
-        GridPane.setMargin(gridPane, new Insets(0, 20, 0, 0));
+        GridPane.setMargin(difficulty, new Insets(0, 20, 0, 0));
 
         Label boardSizeLabel = new Label("Board Size:");
         boardSizeLabel.setStyle("-fx-font-size: 14px;");
