@@ -37,6 +37,7 @@ public class BoardWindow extends Application {
     private Pane wallPane;
     private Pane scorePane;
     private Pane countdownPane;
+
     // Load all the images into Image instances--for speed!
     private Image playerLeftImage;
     private Image playerRightImage;
@@ -78,7 +79,7 @@ public class BoardWindow extends Application {
     public BoardWindow() {
         this.viewRows = 32;
         this.player = new Player(this.viewRows + 99, 26 / 2, 1, 1, "");
-        this.board = new Board(this.viewRows + 100, 26, 1, player);
+        this.board = new Board(this.viewRows + 100, 26, 1, player, this.viewRows);
         this.enemySprites = new ArrayList<>();
 
     }

@@ -1,17 +1,13 @@
-import java.util.ArrayList;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 /**
  * Class Owner: Lachlan
@@ -106,7 +102,7 @@ public class GameWindow extends Application {
             int bigRowNum = rowNum + this.extraRows;
 
             Player player = new Player(bigRowNum - 1, colNum / 2, 1, 1, userName);
-            Board board = new Board(bigRowNum, colNum, difficultyNum, player);
+            Board board = new Board(bigRowNum, colNum, difficultyNum, player, rowNum);
 
             BoardWindow window = new BoardWindow(board, player, rowNum);
 
