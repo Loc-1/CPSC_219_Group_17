@@ -29,6 +29,7 @@ public class BoardWindow extends Application {
     private final int tileWidthHeight = 32; // Changing this number will have serious consequences. CHANGE WITH CAUTION.
     private final Board board;
     private final Player player;
+    private int difficulty;
     private final ArrayList<Sprite> enemySprites;
     private int viewRows;
 
@@ -57,6 +58,7 @@ public class BoardWindow extends Application {
 
     private Label countdownLabel;
     private int countdownTimer = 3; // The amount of time to delay before the game starts.
+    private int moveRate;
 
     /**
      * Custom constructor.
@@ -64,10 +66,11 @@ public class BoardWindow extends Application {
      * @param board  the board to render.
      * @param player the player to render.
      */
-    BoardWindow(Board board, Player player, int setViewRows) {
+    BoardWindow(Board board, Player player, int setViewRows, int difficulty) {
         this.viewRows = setViewRows;
         this.player = player;
         this.board = board;
+        this.difficulty = difficulty;
         this.enemySprites = new ArrayList<>();
 
     }
@@ -78,9 +81,10 @@ public class BoardWindow extends Application {
      */
     @SuppressWarnings("unused")
     public BoardWindow() {
-        this.viewRows = 32;
+        this.viewRows = 26;
+        this.difficulty = 2;
         this.player = new Player(this.viewRows + 99, 26 / 2, 1, 1, "");
-        this.board = new Board(this.viewRows + 100, 26, 1, player, this.viewRows);
+        this.board = new Board(this.viewRows + 100, 22, this.difficulty, player, this.viewRows);
         this.enemySprites = new ArrayList<>();
 
     }
@@ -177,7 +181,21 @@ public class BoardWindow extends Application {
             sprite.setImage(this.enemyRightImage);
             this.enemySprites.add(sprite);
         }
-        this.renderEnemySprites(gc, primaryStage);
+        this.renderEnemySprites(gc);
+
+        // Vary the camera move rate by difficulty. Smaller numbers represent smaller intervals between moveCameraUp
+        // calls.
+        switch (difficulty) {
+            case 1:
+                this.moveRate = 7;
+                break;
+            case 2:
+                this.moveRate = 5;
+                break;
+            case 3:
+                this.moveRate = 3;
+                break;
+        }
 
         primaryStage.show();
 
@@ -215,6 +233,7 @@ public class BoardWindow extends Application {
         AnimationTimer gameLoop = new AnimationTimer() {
             int scoreCount = 0; // set score counter to 0 (each frame represents 1/60 of a second).
             int moveCount = 0;
+            int moveOverTime = 0;
 
             /**
              * This handler handles the continuous drawing of player sprites. Refresh is at (about) 60 fps.
@@ -223,29 +242,46 @@ public class BoardWindow extends Application {
              */
             @Override
             public void handle(long now) {
+                // :TODO: add the modal popup here.
+                if (!player.isAlive()) { // Kills the gameLoop when the player dies.
+                    primaryStage.close();
+                    this.stop();
+                }
+
                 // Clears the graphics context before drawing the new positions.
                 gc.clearRect(0, 0, board.getColumns() * tileWidthHeight,
                         board.getRows() * tileWidthHeight);
                 playerSprite.setY(player.getRow());
                 playerSprite.setX(player.getCol());
                 playerSprite.render(gc);
-                renderEnemySprites(gc, primaryStage);
+                renderEnemySprites(gc);
 
-                // :TODO: vary this by difficulty.
-                if (moveCount == 3) {
-                    moveCameraUp(parallelCamera, primaryStage, root);
-                    moveCount = 0;
+                if (moveCount == moveRate) {
+                    if (countdownTimer == -1) {
+                        moveCameraUp(parallelCamera, root);
+                    } else {
+                        moveCount = 0;
+                    }
                 } else {
                     moveCount++;
                 }
+
+                if (moveOverTime == 60) {
+                    moveRate++;
+                    moveOverTime = 0;
+                    System.out.println("Yay!");
+                }
+
+                System.out.println(moveRate);
 
                 // setLayoutX is needed to keep the label from falling off the side of the board. Five is subtracted
                 // to account for the CSS padding already in place.
                 scorePane.setLayoutX((board.getColumns() * tileWidthHeight) - (scorePane.getWidth() - 5));
 
                 // This uses the score counter to manage the countdown timer. Pauses the game for ~4 seconds.
-                if (countdownTimer != -1 && scoreCount == 50) {
+                if (countdownTimer != -1 && scoreCount == 60) {
                     scoreCount = 0;
+                    moveOverTime++; // This increases the speed of the camera as the game progresses.
                     countdownLabel.setText(String.valueOf(countdownTimer - 1));
                     if (countdownTimer == 0 || countdownTimer == 1) { // Recenter when the width changes.
                         countdownLabel.setText("GO!");
@@ -265,16 +301,15 @@ public class BoardWindow extends Application {
                     // Move the enemy sprites AFTER they've been rendered.
                     for (Enemy e : board.getEnemies()) {
                         e.move();
-                        renderEnemySprites(gc, primaryStage);
+                        renderEnemySprites(gc);
                     }
 
                 }
                 scoreCount++;
             }
-
         };
-
         gameLoop.start();
+
     }
 
     /**
@@ -282,19 +317,21 @@ public class BoardWindow extends Application {
      *
      * @param gc the canvas GraphicsContext where the Sprites are drawn.
      */
-    private void renderEnemySprites(GraphicsContext gc, Stage stage) {
-        for (Enemy e : this.board.getEnemies()) {
-            for (Sprite s : this.enemySprites) {
-                int[] coords = e.getCurrentCoords();
-                s.setY(coords[0]);
-                s.setX(coords[1]);
-                if (s.getBoundary().intersects(playerSprite.getBoundary())) {
-                    player.kill();
-                    System.out.println("Yay!");
-                    stage.close();
+    private void renderEnemySprites(GraphicsContext gc) {
+        try {
+            for (Enemy e : this.board.getEnemies()) {
+                for (Sprite s : this.enemySprites) {
+                    int[] coords = e.getCurrentCoords();
+                    s.setY(coords[0]);
+                    s.setX(coords[1]);
+                    if (s.getBoundary().intersects(playerSprite.getBoundary())) {
+                        this.player.kill();
+                    }
+                    s.render(gc);
                 }
-                s.render(gc);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -304,12 +341,10 @@ public class BoardWindow extends Application {
      * falling of the board.
      *
      * @param camera the camera to move up.
-     * @param stage  the stage to close when the player dies.
      */
-    private void moveCameraUp(Camera camera, Stage stage, Group root) {
-        if (this.countdownTimer == -1) {
+    private void moveCameraUp(Camera camera, Group root) {
+        try {
             root.getChildren().remove(this.countdownPane);
-
             Translate translate = new Translate();
             translate.setY(camera.getClip().getLayoutY() - 1);
             double maxY = camera.localToScene(camera.getBoundsInLocal()).getMaxY();
@@ -321,10 +356,11 @@ public class BoardWindow extends Application {
             camera.getTransforms().add(translate);
 
             // Yes, this is the easiest kill logic ever. :todo: make a pop up when the player dies.
-            if (this.playerSprite.getBoundary().getMinY() > minY) {
+            if (this.playerSprite.getBoundary().getMinY() > minY || this.playerSprite.getBoundary().getMaxY() < maxY) {
                 this.player.kill();
-                stage.close();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }

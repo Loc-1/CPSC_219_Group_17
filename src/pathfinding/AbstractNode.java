@@ -341,10 +341,7 @@ public abstract class AbstractNode {
         if (this.xPosition != other.xPosition) {
             return false;
         }
-        if (this.yPosition != other.yPosition) {
-            return false;
-        }
-        return true;
+        return this.yPosition == other.yPosition;
     }
 
     /**

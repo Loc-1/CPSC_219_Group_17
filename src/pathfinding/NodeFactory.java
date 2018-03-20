@@ -39,6 +39,6 @@ public interface NodeFactory {
      * @param y position on the y-axis
      * @return
      */
-    public AbstractNode createNode(int x, int y);
+    AbstractNode createNode(int x, int y);
 
 }
