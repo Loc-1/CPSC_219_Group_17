@@ -58,7 +58,7 @@ public class BoardWindow extends Application {
 
     private Label countdownLabel;
     private int countdownTimer = 3; // The amount of time to delay before the game starts.
-    private int moveRate;
+    private double moveRate;
 
     /**
      * Custom constructor.
@@ -82,7 +82,7 @@ public class BoardWindow extends Application {
     @SuppressWarnings("unused")
     public BoardWindow() {
         this.viewRows = 26;
-        this.difficulty = 2;
+        this.difficulty = 1;
         this.player = new Player(this.viewRows + 99, 26 / 2, 1, 1, "");
         this.board = new Board(this.viewRows + 100, 22, this.difficulty, player, this.viewRows);
         this.enemySprites = new ArrayList<>();
@@ -182,13 +182,13 @@ public class BoardWindow extends Application {
         // calls.
         switch (difficulty) {
             case 1:
-                this.moveRate = 7;
+                this.moveRate = 0.5;
                 break;
             case 2:
-                this.moveRate = 5;
+                this.moveRate = 0.75;
                 break;
             case 3:
-                this.moveRate = 3;
+                this.moveRate = 1;
                 break;
         }
 
@@ -248,15 +248,8 @@ public class BoardWindow extends Application {
                 playerSprite.render(gc);
                 renderEnemySprites(gc);
 
-                // This is needed to manage the moveRate by difficulty.
-                if (moveCount == moveRate) {
-                    if (countdownTimer == -1) {
-                        moveCameraUp(parallelCamera, root);
-                    } else {
-                        moveCount = 0;
-                    }
-                } else {
-                    moveCount++;
+                if (countdownTimer == -1) {
+                    moveCameraUp(parallelCamera, root);
                 }
 
                 // setLayoutX is needed to keep the label from falling off the side of the board. Five is subtracted
@@ -281,9 +274,9 @@ public class BoardWindow extends Application {
                     scoreCount = 0;
                     player.setScore(player.getScore() + 1);
                     scoreLabel.setText(String.valueOf(player.getScore()));
-                    // This increases the move rate every ~2 min.
-                    if (player.getScore() % 120 == 0 && moveRate != 0) {
-                        moveRate++;
+                    // This increases the move rate every ~1 min.
+                    if (player.getScore() % 60 == 0 && moveRate != 0) {
+                        moveRate += .25;
                     }
                     // Move the enemy sprites AFTER they've been rendered.
                     for (Enemy e : board.getEnemies()) {
@@ -333,8 +326,8 @@ public class BoardWindow extends Application {
         try {
             root.getChildren().remove(this.countdownPane);
             Translate translate = new Translate();
-            translate.setY(camera.getClip().getLayoutY() - 1);
-            double maxY = camera.localToScene(camera.getBoundsInLocal()).getMaxY();
+            translate.setY(camera.getClip().getLayoutY() - this.moveRate);
+            double maxY = camera.localToScene(camera.getBoundsInLocal()).getMinY();
 
             // the number of rows is subtracted by one so the player dies when the Sprite is 100% off the board.
             double minY = camera.localToScene(camera.getLayoutBounds()).getMaxY() + (this.viewRows - 1) * tileWidthHeight;
