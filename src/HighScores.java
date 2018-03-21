@@ -61,7 +61,7 @@ class HighScores {
      * @param score the Player's score.
      * @return True if score is a high score.
      */
-    private boolean isHighScore(int score) {
+    public boolean isHighScore(int score) {
         boolean isHighScore = false;
         if (this.highScores.size() >= 10) {
             for (Score s : highScores) {
@@ -70,6 +70,7 @@ class HighScores {
                 }
             }
         } else {
+            System.out.println("Boo!");
             isHighScore = true;
         }
 

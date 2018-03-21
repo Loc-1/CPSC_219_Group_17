@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 /**
  * Class Owner: Lachlan
- * 
+ * <p>
  * The game settings window and main menu.
  */
 public class GameWindow extends Application {
@@ -21,7 +21,6 @@ public class GameWindow extends Application {
     private final HighScores localHS = new HighScores();
 
     /**
-     * 
      * Launches GUI
      */
     public static void main(String[] args) {
@@ -39,8 +38,8 @@ public class GameWindow extends Application {
 
         gridPane.setOnKeyPressed(event -> {
             switch (event.getCode()) {
-            case ESCAPE:
-                primaryStage.close();
+                case ESCAPE:
+                    primaryStage.close();
             }
         });
 
@@ -127,18 +126,18 @@ public class GameWindow extends Application {
             String userName = nameField.getText();
             try {
                 switch (userDiff) {
-                case "Easy":
-                    difficultyNum = 1;
-                    break;
-                case "Normal":
-                    difficultyNum = 2;
-                    break;
-                case "Hard":
-                    difficultyNum = 3;
-                    break;
-                default:
-                    difficultyNum = 1;
-                    break;
+                    case "Easy":
+                        difficultyNum = 1;
+                        break;
+                    case "Normal":
+                        difficultyNum = 2;
+                        break;
+                    case "Hard":
+                        difficultyNum = 3;
+                        break;
+                    default:
+                        difficultyNum = 1;
+                        break;
                 }
             } catch (NullPointerException e) { // if the user forgets to select a difficulty
                 difficultyNum = 1;
@@ -170,9 +169,10 @@ public class GameWindow extends Application {
             int bigRowNum = rowNum + this.extraRows;
 
             // Launch game.
-            Player player = new Player(bigRowNum - 1, colNum / 2, 1, 1, userName);
+            Player player = new Player(bigRowNum - 1, colNum / 2, userName);
             Board board = new Board(bigRowNum, colNum, difficultyNum, player, rowNum);
             BoardWindow window = new BoardWindow(board, player, rowNum, difficultyNum);
+            primaryStage.close();
             window.start(new Stage());
         });
 

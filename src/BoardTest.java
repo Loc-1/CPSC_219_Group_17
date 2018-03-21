@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 public class BoardTest {
     @Test
     public void isValidMove() throws Exception {
-        Player testPlayer = new Player(0, 0, 1, 1, "");
+        Player testPlayer = new Player(0, 0, "");
         Board testBoard = new Board(5, 5, 1, testPlayer);
 
         // Set an arbitrary tile to X.
@@ -26,7 +26,7 @@ public class BoardTest {
 
     @Test
     public void setBoard() throws Exception {
-        Player testPlayer = new Player(0, 0, 1, 1, "");
+        Player testPlayer = new Player(0, 0, "");
         Board testBoard = new Board(5, 5, 1, testPlayer);
 
         testBoard.setBoard(0, 0, '.');
@@ -39,7 +39,7 @@ public class BoardTest {
 
     @Test
     public void movePlayer() throws Exception {
-        Player testPlayer = new Player(5, 3, 1, 1, "");
+        Player testPlayer = new Player(5, 3, "");
         Board testBoard = new Board(6, 6, 1, testPlayer);
 
         // Clear all obstacles from the board.

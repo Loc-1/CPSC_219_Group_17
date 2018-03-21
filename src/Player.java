@@ -1,35 +1,27 @@
 /**
  * Class Owner: Ashton / Lincoln
- *
+ * <p>
  * The player class handles the player's location on the board, as well as tracking the player's id, handle, and
  * current score. Player movement is handled via move methods defined in this class.
  */
 public class Player {
     private Boolean isAlive;
-    @SuppressWarnings("FieldCanBeLocal")
-    private int userID;
     private String userHandle;
-    
+
     private int col;
     private int row;
     private int score = 0;
-    @SuppressWarnings("FieldCanBeLocal")
-    private int sprite; // :TODO: ASHTON OR LINCOLN - PLEASE REMOVE ALL REFS TO THIS AS IT IS NO LONGER NEEDED.
 
     /***
      * Constructor to add player sprite to the board.
      * @param setRow player's starting x coordinate.
      * @param setCol player's starting y coordinate.
-     * @param setSprite player's character sprite.
-     * @param setUserID either 0 for a single player game or 1 for a two player game.
      * @param setUserHandle player's chosen handle.
      */
-    Player(int setRow, int setCol, int setSprite, int setUserID, String setUserHandle) {
+    Player(int setRow, int setCol, String setUserHandle) {
         this.isAlive = true; // New players start off alive.
         this.row = setRow;
         this.col = setCol;
-        this.sprite = setSprite;
-        this.userID = setUserID;
         this.userHandle = setUserHandle;
     }
 
@@ -38,6 +30,13 @@ public class Player {
      */
     void kill() {
         this.isAlive = false;
+    }
+
+    /**
+     * This is used to set a default handle for when the player doesn't input one.
+     */
+    void setAnonUserHandle() {
+        this.userHandle = "Anon";
     }
 
     int getCol() {
@@ -86,9 +85,8 @@ public class Player {
         this.col -= 1;
     }
 
-    @SuppressWarnings("unused")
-    public String getUserHandle() {
+    String getUserHandle() {
         return userHandle;
     }
-    
+
 }

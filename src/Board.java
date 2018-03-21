@@ -187,7 +187,7 @@ public class Board {
     // Testing
     //Testing
     public static void main(String[] args) {
-        Player player = new Player(32 - 1, 26 / 2, 1, 1, "");
+        Player player = new Player(32 - 1, 26 / 2, "");
         Board board = new Board(32, 26, 1, player, 32);
 
         board.printBoard();

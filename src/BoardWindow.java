@@ -1,16 +1,20 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -18,6 +22,7 @@ import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 /**
@@ -83,7 +88,7 @@ public class BoardWindow extends Application {
     public BoardWindow() {
         this.viewRows = 26;
         this.difficulty = 1;
-        this.player = new Player(this.viewRows + 99, 26 / 2, 1, 1, "");
+        this.player = new Player(this.viewRows + 99, 26 / 2, "");
         this.board = new Board(this.viewRows + 100, 22, this.difficulty, player, this.viewRows);
         this.enemySprites = new ArrayList<>();
 
@@ -257,8 +262,10 @@ public class BoardWindow extends Application {
             public void handle(long now) {
                 // :TODO: add the modal popup here.
                 if (!player.isAlive()) { // Kills the gameLoop and closes the stage when the player dies.
-                    primaryStage.close();
                     this.stop();
+                    primaryStage.close();
+                    endGamePopup();
+
                 }
 
                 // Clears the graphics context before drawing the new positions.
@@ -310,6 +317,50 @@ public class BoardWindow extends Application {
         };
         gameLoop.start();
 
+    }
+
+    /**
+     * Snazzy pop-up shows player score and handle, used to not jarringly just close the game. Adds score to high
+     * scores (it only sticks if the score is actually a high score.)
+     */
+    private void endGamePopup() {
+        final Stage endGame = new Stage();
+        final HighScores highScores = new HighScores();
+
+        highScores.addHighScore(this.player.getUserHandle(), this.player.getScore());
+
+        VBox dialogBox = new VBox(10);
+        dialogBox.setAlignment(Pos.CENTER);
+
+        if (Objects.equals(this.player.getUserHandle(), "")) {
+            this.player.setAnonUserHandle();
+        }
+
+        Label playerName = new Label("Sorry, " + this.player.getUserHandle() + ", you died.");
+        playerName.setStyle("-fx-font-size: 16px;");
+        dialogBox.getChildren().add(playerName);
+
+        Label playerScore = new Label("Your score was: " + this.player.getScore());
+        playerScore.setStyle("-fx-font-size: 16px;");
+        dialogBox.getChildren().add(playerScore);
+
+        Region separator = new Region();
+        separator.setMinHeight(10);
+        dialogBox.getChildren().add(separator);
+
+        Button close = new Button("Try Again");
+        close.setStyle("-fx-font-size: 16px;");
+        close.setPrefWidth(100);
+        close.setOnAction(event -> {
+            endGame.close();
+            GameWindow gameWindow = new GameWindow();
+            gameWindow.start(new Stage());
+        });
+        dialogBox.getChildren().add(close);
+
+        Scene endGameScene = new Scene(dialogBox, 300, 200);
+        endGame.setScene(endGameScene);
+        endGame.show();
     }
 
     /**
