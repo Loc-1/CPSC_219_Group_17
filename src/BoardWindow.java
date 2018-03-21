@@ -455,7 +455,7 @@ public class BoardWindow extends Application {
     private void loadGame() {
         this.playerLeftImage = new Image("ch_left.png");
         this.playerRightImage = new Image("ch_right.png");
-        this.backgroundImage = new Image("dirt0.png");
+        this.backgroundImage = new Image("floor.png");
         this.wallImage = new Image("brick_dark0.png");
 
         // Load wall images by exposed face.
