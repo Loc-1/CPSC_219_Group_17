@@ -357,7 +357,7 @@ public class BoardWindow extends Application {
             isHighScore.setText("Sorry, that's not a new high score.");
         }
 
-        isHighScore.setStyle("-fx-font-size: 16px;");
+        isHighScore.setStyle("-fx-font-size: 16px; -fx-text-fill: #DEDEDE");
         dialogBox.getChildren().add(isHighScore);
 
         Region separator = new Region();
