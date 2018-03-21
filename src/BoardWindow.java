@@ -333,7 +333,6 @@ public class BoardWindow extends Application {
     private void endGamePopup() {
         final Stage endGame = new Stage();
 
-        System.out.println(this.player.getScore());
         if (HighScores.isHighScore(this.player.getScore())) {
             HighScores.addHighScore(this.player.getUserHandle(), this.player.getScore());
         }
