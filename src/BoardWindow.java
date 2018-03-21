@@ -66,10 +66,8 @@ public class BoardWindow extends Application {
     /**
      * Custom constructor.
      *
-     * @param board
-     *            the board to render.
-     * @param player
-     *            the player to render.
+     * @param board  the board to render.
+     * @param player the player to render.
      */
     BoardWindow(Board board, Player player, int setViewRows, int difficulty) {
         this.viewRows = setViewRows;
@@ -104,8 +102,7 @@ public class BoardWindow extends Application {
     /**
      * The actual render code.
      *
-     * @param primaryStage
-     *            can be passed, if not constructor creates one.
+     * @param primaryStage can be passed, if not constructor creates one.
      */
     @Override
     public void start(Stage primaryStage) {
@@ -189,15 +186,15 @@ public class BoardWindow extends Application {
 
         // Vary the camera move rate by difficulty.
         switch (difficulty) {
-        case 1:
-            this.moveRate = 0.5;
-            break;
-        case 2:
-            this.moveRate = 0.75;
-            break;
-        case 3:
-            this.moveRate = 1;
-            break;
+            case 1:
+                this.moveRate = 0.5;
+                break;
+            case 2:
+                this.moveRate = 0.75;
+                break;
+            case 3:
+                this.moveRate = 1;
+                break;
         }
 
         primaryStage.show();
@@ -206,52 +203,52 @@ public class BoardWindow extends Application {
         // begins.
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
-            case UP:
-                if (this.board.isValidMove(player.getRow() - 1, player.getCol()) && countdownTimer <= 0) {
-                    player.moveUp();
-                }
-                break;
-            case W:
-                if (this.board.isValidMove(player.getRow() - 1, player.getCol()) && countdownTimer <= 0) {
-                    player.moveUp();
-                }
-                break;
-            case DOWN:
-                if (this.board.isValidMove(player.getRow() + 1, player.getCol()) && countdownTimer <= 0) {
-                    player.moveDown();
-                }
-                break;
-            case S:
-                if (this.board.isValidMove(player.getRow() + 1, player.getCol()) && countdownTimer <= 0) {
-                    player.moveDown();
-                }
-                break;
-            case LEFT:
-                if (this.board.isValidMove(player.getRow(), player.getCol() - 1) && countdownTimer <= 0) {
-                    player.moveLeft();
-                    this.playerSprite.setImage(playerLeftImage);
-                }
-                break;
-            case A:
-                if (this.board.isValidMove(player.getRow(), player.getCol() - 1) && countdownTimer <= 0) {
-                    player.moveLeft();
-                    this.playerSprite.setImage(playerLeftImage);
-                }
-                break;
-            case RIGHT:
-                if (this.board.isValidMove(player.getRow(), player.getCol() + 1) && countdownTimer <= 0) {
-                    player.moveRight();
-                    this.playerSprite.setImage(playerRightImage);
-                }
-                break;
-            case D:
-                if (this.board.isValidMove(player.getRow(), player.getCol() + 1) && countdownTimer <= 0) {
-                    player.moveRight();
-                    this.playerSprite.setImage(playerRightImage);
-                }
-                break;
-            case ESCAPE:
-                primaryStage.close();
+                case UP:
+                    if (this.board.isValidMove(player.getRow() - 1, player.getCol()) && countdownTimer <= 0) {
+                        player.moveUp();
+                    }
+                    break;
+                case W:
+                    if (this.board.isValidMove(player.getRow() - 1, player.getCol()) && countdownTimer <= 0) {
+                        player.moveUp();
+                    }
+                    break;
+                case DOWN:
+                    if (this.board.isValidMove(player.getRow() + 1, player.getCol()) && countdownTimer <= 0) {
+                        player.moveDown();
+                    }
+                    break;
+                case S:
+                    if (this.board.isValidMove(player.getRow() + 1, player.getCol()) && countdownTimer <= 0) {
+                        player.moveDown();
+                    }
+                    break;
+                case LEFT:
+                    if (this.board.isValidMove(player.getRow(), player.getCol() - 1) && countdownTimer <= 0) {
+                        player.moveLeft();
+                        this.playerSprite.setImage(playerLeftImage);
+                    }
+                    break;
+                case A:
+                    if (this.board.isValidMove(player.getRow(), player.getCol() - 1) && countdownTimer <= 0) {
+                        player.moveLeft();
+                        this.playerSprite.setImage(playerLeftImage);
+                    }
+                    break;
+                case RIGHT:
+                    if (this.board.isValidMove(player.getRow(), player.getCol() + 1) && countdownTimer <= 0) {
+                        player.moveRight();
+                        this.playerSprite.setImage(playerRightImage);
+                    }
+                    break;
+                case D:
+                    if (this.board.isValidMove(player.getRow(), player.getCol() + 1) && countdownTimer <= 0) {
+                        player.moveRight();
+                        this.playerSprite.setImage(playerRightImage);
+                    }
+                    break;
+                case ESCAPE:
+                    primaryStage.close();
             }
         });
 
@@ -385,8 +382,7 @@ public class BoardWindow extends Application {
     /**
      * Renders all the enemy sprites from the Enemy[] on the board.
      *
-     * @param gc
-     *            the canvas GraphicsContext where the Sprites are drawn.
+     * @param gc the canvas GraphicsContext where the Sprites are drawn.
      */
     private void renderEnemySprites(GraphicsContext gc) {
         try {
@@ -411,8 +407,7 @@ public class BoardWindow extends Application {
      * Moves the camera up one pixel. Keeps the score pane centered and also deals
      * with the player kill logic for falling of the board.
      *
-     * @param camera
-     *            the camera to move up.
+     * @param camera the camera to move up.
      */
     private void moveCameraUp(Camera camera, Group root) {
         try {
@@ -451,22 +446,22 @@ public class BoardWindow extends Application {
                 i.setY(row * tileWidthHeight);
 
                 switch (this.board.getTile(row, col)) {
-                case '.': // Floor
-                    i.setImage(this.backgroundImage);
-                    this.floorPane.getChildren().add(i);
-                    break;
-                case 'X': // Wall
-                    i.setImage(this.wallImage);
-                    this.wallPane.getChildren().add(i);
-                    break;
-                case 'P': // Player tiles still have floor backgrounds.
-                    i.setImage(this.backgroundImage);
-                    this.floorPane.getChildren().add(i);
-                    break;
-                case 'E': // Enemy tiles still have floor backgrounds.
-                    i.setImage(this.backgroundImage);
-                    this.floorPane.getChildren().add(i);
-                    break;
+                    case '.': // Floor
+                        i.setImage(this.backgroundImage);
+                        this.floorPane.getChildren().add(i);
+                        break;
+                    case 'X': // Wall
+                        i.setImage(this.wallImage);
+                        this.wallPane.getChildren().add(i);
+                        break;
+                    case 'P': // Player tiles still have floor backgrounds.
+                        i.setImage(this.backgroundImage);
+                        this.floorPane.getChildren().add(i);
+                        break;
+                    case 'E': // Enemy tiles still have floor backgrounds.
+                        i.setImage(this.backgroundImage);
+                        this.floorPane.getChildren().add(i);
+                        break;
                 }
             }
         }
