@@ -24,10 +24,8 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
 /**
- * @author Josh + Lachlan.
- * Renders the BoardWindow in JavaFX.
+ * @author Josh + Lachlan. Renders the BoardWindow in JavaFX.
  */
 @SuppressWarnings("FieldCanBeLocal")
 public class BoardWindow extends Application {
@@ -68,8 +66,10 @@ public class BoardWindow extends Application {
     /**
      * Custom constructor.
      *
-     * @param board  the board to render.
-     * @param player the player to render.
+     * @param board
+     *            the board to render.
+     * @param player
+     *            the player to render.
      */
     BoardWindow(Board board, Player player, int setViewRows, int difficulty) {
         this.viewRows = setViewRows;
@@ -81,8 +81,8 @@ public class BoardWindow extends Application {
     }
 
     /**
-     * Default constructor renders a 32 * 26 tile board. Makes debugging a lot easier. Can be removed once debugging
-     * is finished--if you so desire.
+     * Default constructor renders a 32 * 26 tile board. Makes debugging a lot
+     * easier. Can be removed once debugging is finished--if you so desire.
      */
     @SuppressWarnings("unused")
     public BoardWindow() {
@@ -101,7 +101,8 @@ public class BoardWindow extends Application {
     /**
      * The actual render code.
      *
-     * @param primaryStage can be passed, if not constructor creates one.
+     * @param primaryStage
+     *            can be passed, if not constructor creates one.
      */
     @Override
     public void start(Stage primaryStage) {
@@ -109,17 +110,16 @@ public class BoardWindow extends Application {
         ParallelCamera parallelCamera = new ParallelCamera();
 
         // Set the scene size and add it to the primary stage.
-        Scene scene = new Scene(root, this.board.getColumns() * tileWidthHeight,
-                this.viewRows * tileWidthHeight);
+        Scene scene = new Scene(root, this.board.getColumns() * tileWidthHeight, this.viewRows * tileWidthHeight);
 
         // Add the camera and position it in the start zone.
         scene.setCamera(parallelCamera);
-        parallelCamera.setClip(new Rectangle(this.board.getColumns() * tileWidthHeight,
-                this.viewRows * tileWidthHeight));
+        parallelCamera
+                .setClip(new Rectangle(this.board.getColumns() * tileWidthHeight, this.viewRows * tileWidthHeight));
         parallelCamera.relocate(0, (board.getRows() * tileWidthHeight) - (viewRows * tileWidthHeight));
 
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Run!!");
+        primaryStage.setTitle("Ascend");
 
         loadGame(); // Loads all the images.
 
@@ -142,7 +142,8 @@ public class BoardWindow extends Application {
         this.scorePane.getChildren().add(scoreLabel);
 
         // Center the countdown pane.
-        this.countdownPane.setLayoutY(parallelCamera.getLayoutY() + this.viewRows * tileWidthHeight / 2 - this.countdownPane.getHeight());
+        this.countdownPane.setLayoutY(
+                parallelCamera.getLayoutY() + this.viewRows * tileWidthHeight / 2 - this.countdownPane.getHeight());
         this.countdownPane.setLayoutX(this.board.getColumns() * tileWidthHeight / 2 + this.countdownPane.getWidth());
         this.countdownPane.setStyle("-fx-padding: 5;");
 
@@ -159,9 +160,9 @@ public class BoardWindow extends Application {
         root.getChildren().add(this.scorePane);
         root.getChildren().add(this.countdownPane);
 
-        // Create a canvas and add it to the root group. This canvas is where the sprites are drawn.
-        Canvas canvas = new Canvas(this.board.getColumns() * tileWidthHeight,
-                this.board.getRows() * tileWidthHeight);
+        // Create a canvas and add it to the root group. This canvas is where the
+        // sprites are drawn.
+        Canvas canvas = new Canvas(this.board.getColumns() * tileWidthHeight, this.board.getRows() * tileWidthHeight);
         root.getChildren().add(canvas);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
@@ -185,68 +186,69 @@ public class BoardWindow extends Application {
 
         // Vary the camera move rate by difficulty.
         switch (difficulty) {
-            case 1:
-                this.moveRate = 0.5;
-                break;
-            case 2:
-                this.moveRate = 0.75;
-                break;
-            case 3:
-                this.moveRate = 1;
-                break;
+        case 1:
+            this.moveRate = 0.5;
+            break;
+        case 2:
+            this.moveRate = 0.75;
+            break;
+        case 3:
+            this.moveRate = 1;
+            break;
         }
 
         primaryStage.show();
 
-        // Adds the key listeners and move validators. Player can't move until the game begins.
+        // Adds the key listeners and move validators. Player can't move until the game
+        // begins.
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
-                case UP:
-                    if (this.board.isValidMove(player.getRow() - 1, player.getCol()) && countdownTimer <= 0) {
-                        player.moveUp();
-                    }
-                    break;
-                case W:
-                    if (this.board.isValidMove(player.getRow() - 1, player.getCol()) && countdownTimer <= 0) {
-                        player.moveUp();
-                    }
-                    break;
-                case DOWN:
-                    if (this.board.isValidMove(player.getRow() + 1, player.getCol()) && countdownTimer <= 0) {
-                        player.moveDown();
-                    }
-                    break;
-                case S:
-                    if (this.board.isValidMove(player.getRow() + 1, player.getCol()) && countdownTimer <= 0) {
-                        player.moveDown();
-                    }
-                    break;
-                case LEFT:
-                    if (this.board.isValidMove(player.getRow(), player.getCol() - 1) && countdownTimer <= 0) {
-                        player.moveLeft();
-                        this.playerSprite.setImage(playerLeftImage);
-                    }
-                    break;
-                case A:
-                    if (this.board.isValidMove(player.getRow(), player.getCol() - 1) && countdownTimer <= 0) {
-                        player.moveLeft();
-                        this.playerSprite.setImage(playerLeftImage);
-                    }
-                    break;
-                case RIGHT:
-                    if (this.board.isValidMove(player.getRow(), player.getCol() + 1) && countdownTimer <= 0) {
-                        player.moveRight();
-                        this.playerSprite.setImage(playerRightImage);
-                    }
-                    break;
-                case D:
-                    if (this.board.isValidMove(player.getRow(), player.getCol() + 1) && countdownTimer <= 0) {
-                        player.moveRight();
-                        this.playerSprite.setImage(playerRightImage);
-                    }
-                    break;
-                case ESCAPE:
-                    primaryStage.close();
+            case UP:
+                if (this.board.isValidMove(player.getRow() - 1, player.getCol()) && countdownTimer <= 0) {
+                    player.moveUp();
+                }
+                break;
+            case W:
+                if (this.board.isValidMove(player.getRow() - 1, player.getCol()) && countdownTimer <= 0) {
+                    player.moveUp();
+                }
+                break;
+            case DOWN:
+                if (this.board.isValidMove(player.getRow() + 1, player.getCol()) && countdownTimer <= 0) {
+                    player.moveDown();
+                }
+                break;
+            case S:
+                if (this.board.isValidMove(player.getRow() + 1, player.getCol()) && countdownTimer <= 0) {
+                    player.moveDown();
+                }
+                break;
+            case LEFT:
+                if (this.board.isValidMove(player.getRow(), player.getCol() - 1) && countdownTimer <= 0) {
+                    player.moveLeft();
+                    this.playerSprite.setImage(playerLeftImage);
+                }
+                break;
+            case A:
+                if (this.board.isValidMove(player.getRow(), player.getCol() - 1) && countdownTimer <= 0) {
+                    player.moveLeft();
+                    this.playerSprite.setImage(playerLeftImage);
+                }
+                break;
+            case RIGHT:
+                if (this.board.isValidMove(player.getRow(), player.getCol() + 1) && countdownTimer <= 0) {
+                    player.moveRight();
+                    this.playerSprite.setImage(playerRightImage);
+                }
+                break;
+            case D:
+                if (this.board.isValidMove(player.getRow(), player.getCol() + 1) && countdownTimer <= 0) {
+                    player.moveRight();
+                    this.playerSprite.setImage(playerRightImage);
+                }
+                break;
+            case ESCAPE:
+                primaryStage.close();
             }
         });
 
@@ -254,9 +256,11 @@ public class BoardWindow extends Application {
             int scoreCount = 0; // set score counter to 0 (each frame represents 1/60 of a second).
 
             /**
-             * This handler handles the continuous drawing of player sprites. Refresh is at (about) 60 fps.
+             * This handler handles the continuous drawing of player sprites. Refresh is at
+             * (about) 60 fps.
              *
-             * @param now the time.
+             * @param now
+             *            the time.
              */
             @Override
             public void handle(long now) {
@@ -278,11 +282,13 @@ public class BoardWindow extends Application {
                     moveCameraUp(parallelCamera, root);
                 }
 
-                // setLayoutX is needed to keep the label from falling off the side of the board. Five is subtracted
+                // setLayoutX is needed to keep the label from falling off the side of the
+                // board. Five is subtracted
                 // to account for the CSS padding already in place.
                 scorePane.setLayoutX((board.getColumns() * tileWidthHeight) - (scorePane.getWidth() - 5));
 
-                // This uses the score counter to manage the countdown timer. Pauses the game for ~4 seconds.
+                // This uses the score counter to manage the countdown timer. Pauses the game
+                // for ~4 seconds.
                 if (countdownTimer != -1 && scoreCount == 60) {
                     scoreCount = 0;
                     countdownLabel.setText(String.valueOf(countdownTimer - 1));
@@ -295,7 +301,8 @@ public class BoardWindow extends Application {
                     countdownTimer--;
                 }
 
-                // This adds one to the player score (roughly) every second and checks for enemy/player collisions.
+                // This adds one to the player score (roughly) every second and checks for
+                // enemy/player collisions.
                 if (scoreCount == 61) {
                     scoreCount = 0;
                     player.setScore(player.getScore() + 1);
@@ -319,8 +326,9 @@ public class BoardWindow extends Application {
     }
 
     /**
-     * Snazzy pop-up shows player score and handle, used to not jarringly just close the game. Adds score to high
-     * scores (it only sticks if the score is actually a high score.)
+     * Snazzy pop-up shows player score and handle, used to not jarringly just close
+     * the game. Adds score to high scores (it only sticks if the score is actually
+     * a high score.)
      */
     private void endGamePopup() {
         final Stage endGame = new Stage();
@@ -366,7 +374,8 @@ public class BoardWindow extends Application {
     /**
      * Renders all the enemy sprites from the Enemy[] on the board.
      *
-     * @param gc the canvas GraphicsContext where the Sprites are drawn.
+     * @param gc
+     *            the canvas GraphicsContext where the Sprites are drawn.
      */
     private void renderEnemySprites(GraphicsContext gc) {
         try {
@@ -388,10 +397,11 @@ public class BoardWindow extends Application {
     }
 
     /**
-     * Moves the camera up one pixel. Keeps the score pane centered and also deals with the player kill logic for
-     * falling of the board.
+     * Moves the camera up one pixel. Keeps the score pane centered and also deals
+     * with the player kill logic for falling of the board.
      *
-     * @param camera the camera to move up.
+     * @param camera
+     *            the camera to move up.
      */
     private void moveCameraUp(Camera camera, Group root) {
         try {
@@ -400,8 +410,10 @@ public class BoardWindow extends Application {
             translate.setY(camera.getClip().getLayoutY() - this.moveRate);
             double maxY = camera.localToScene(camera.getBoundsInLocal()).getMinY();
 
-            // the number of rows is subtracted by one so the player dies when the Sprite is 100% off the board.
-            double minY = camera.localToScene(camera.getLayoutBounds()).getMaxY() + (this.viewRows - 1) * tileWidthHeight;
+            // the number of rows is subtracted by one so the player dies when the Sprite is
+            // 100% off the board.
+            double minY = camera.localToScene(camera.getLayoutBounds()).getMaxY()
+                    + (this.viewRows - 1) * tileWidthHeight;
             this.scorePane.setLayoutY(maxY + 5); // 5 is used to add the padding.
 
             camera.getTransforms().add(translate);
@@ -417,7 +429,8 @@ public class BoardWindow extends Application {
     }
 
     /**
-     * Fills the background with tile images that can be traversed. (i.e. they show 'under' the sprites.)
+     * Fills the background with tile images that can be traversed. (i.e. they show
+     * 'under' the sprites.)
      */
     private void fillBackground() {
         for (int col = 0; col < this.board.getColumns(); col++) {
@@ -427,22 +440,22 @@ public class BoardWindow extends Application {
                 i.setY(row * tileWidthHeight);
 
                 switch (this.board.getTile(row, col)) {
-                    case '.': // Floor
-                        i.setImage(this.backgroundImage);
-                        this.floorPane.getChildren().add(i);
-                        break;
-                    case 'X': // Wall
-                        i.setImage(this.wallImage);
-                        this.wallPane.getChildren().add(i);
-                        break;
-                    case 'P': // Player tiles still have floor backgrounds.
-                        i.setImage(this.backgroundImage);
-                        this.floorPane.getChildren().add(i);
-                        break;
-                    case 'E': // Enemy tiles still have floor backgrounds.
-                        i.setImage(this.backgroundImage);
-                        this.floorPane.getChildren().add(i);
-                        break;
+                case '.': // Floor
+                    i.setImage(this.backgroundImage);
+                    this.floorPane.getChildren().add(i);
+                    break;
+                case 'X': // Wall
+                    i.setImage(this.wallImage);
+                    this.wallPane.getChildren().add(i);
+                    break;
+                case 'P': // Player tiles still have floor backgrounds.
+                    i.setImage(this.backgroundImage);
+                    this.floorPane.getChildren().add(i);
+                    break;
+                case 'E': // Enemy tiles still have floor backgrounds.
+                    i.setImage(this.backgroundImage);
+                    this.floorPane.getChildren().add(i);
+                    break;
                 }
             }
         }
@@ -450,7 +463,8 @@ public class BoardWindow extends Application {
     }
 
     /**
-     * Loads all the images into their instance vars. This speeds up the loads of subsequent background painting calls.
+     * Loads all the images into their instance vars. This speeds up the loads of
+     * subsequent background painting calls.
      */
     private void loadGame() {
         this.playerLeftImage = new Image("ch_left.png");
