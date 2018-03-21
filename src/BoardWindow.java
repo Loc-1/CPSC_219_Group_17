@@ -78,6 +78,9 @@ public class BoardWindow extends Application {
         this.difficulty = difficulty;
         this.enemySprites = new ArrayList<>();
 
+        if (Objects.equals(this.player.getUserHandle(), "")) {
+            this.player.setAnonUserHandle();
+        }
     }
 
     /**
@@ -88,7 +91,7 @@ public class BoardWindow extends Application {
     public BoardWindow() {
         this.viewRows = 26;
         this.difficulty = 1;
-        this.player = new Player(this.viewRows + 99, 26 / 2, "");
+        this.player = new Player(this.viewRows + 99, 22 / 2, "");
         this.board = new Board(this.viewRows + 100, 22, this.difficulty, player, this.viewRows);
         this.enemySprites = new ArrayList<>();
 
@@ -332,17 +335,15 @@ public class BoardWindow extends Application {
      */
     private void endGamePopup() {
         final Stage endGame = new Stage();
-        final HighScores highScores = new HighScores();
 
-        highScores.addHighScore(this.player.getUserHandle(), this.player.getScore());
+        System.out.println(this.player.getScore());
+        if (HighScores.isHighScore(this.player.getScore())) {
+            HighScores.addHighScore(this.player.getUserHandle(), this.player.getScore());
+        }
 
         VBox dialogBox = new VBox(10);
         dialogBox.setAlignment(Pos.CENTER);
         dialogBox.setStyle("-fx-background-color: #2F2F2F;");
-
-        if (Objects.equals(this.player.getUserHandle(), "")) {
-            this.player.setAnonUserHandle();
-        }
 
         Label playerName = new Label("Sorry, " + this.player.getUserHandle() + ", you died.");
         playerName.setStyle("-fx-font-size: 16px;-fx-text-fill: #DEDEDE;");
@@ -351,6 +352,16 @@ public class BoardWindow extends Application {
         Label playerScore = new Label("Your score was: " + this.player.getScore());
         playerScore.setStyle("-fx-font-size: 16px;-fx-text-fill: #DEDEDE;");
         dialogBox.getChildren().add(playerScore);
+
+        Label isHighScore = new Label();
+        if (HighScores.isHighScore(this.player.getScore())) {
+            isHighScore.setText("You set a new high score!");
+        } else {
+            isHighScore.setText("Sorry, that's not a new high score.");
+        }
+
+        isHighScore.setStyle("-fx-font-size: 16px;");
+        dialogBox.getChildren().add(isHighScore);
 
         Region separator = new Region();
         separator.setMinHeight(10);

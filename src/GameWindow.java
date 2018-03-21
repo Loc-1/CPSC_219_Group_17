@@ -11,6 +11,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 /**
  * Class Owner: Lachlan
  * <p>
@@ -18,7 +20,6 @@ import javafx.stage.Stage;
  */
 public class GameWindow extends Application {
     private final int extraRows = 100; // Adds a fixed number of rows to the top of the board array.
-    private final HighScores localHS = new HighScores();
 
     /**
      * Launches GUI
@@ -82,8 +83,14 @@ public class GameWindow extends Application {
         // and I suggest you don't change it unless you have a solid grip on procedural
         // CSS styling.
         int rowIndex = 0;
-        Label[][] names = new Label[localHS.getHighScores().size()][2];
-        for (Score s : localHS.getHighScores()) {
+        Label[][] names = new Label[HighScores.getHighScores().size()][2];
+
+        ArrayList<Score> reversedArray = new ArrayList<>();
+        for (int i = HighScores.getHighScores().size() - 1; i >= 0; i--) {
+            reversedArray.add(HighScores.getHighScores().get(i));
+        }
+
+        for (Score s : reversedArray) {
             names[rowIndex][0] = new Label(s.playerHandle + ":");
             names[rowIndex][1] = new Label(String.valueOf(s.score));
             names[rowIndex][0].setStyle("-fx-font-size: 14px;-fx-text-fill: #DEDEDE;");
