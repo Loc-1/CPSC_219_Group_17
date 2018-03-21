@@ -35,63 +35,65 @@ public class GameWindow extends Application {
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setVgap(5);
         gridPane.setPadding(new Insets(1));
+        gridPane.setStyle("-fx-background-color: #2F2F2F;");
 
         gridPane.setOnKeyPressed(event -> {
             switch (event.getCode()) {
-                case ESCAPE:
-                    primaryStage.close();
+            case ESCAPE:
+                primaryStage.close();
             }
         });
 
         Label nameLbl = new Label("Player Nickname:");
-        nameLbl.setStyle("-fx-font-size: 14px;");
+        nameLbl.setStyle("-fx-font-size: 14px;-fx-text-fill: #DEDEDE;");
         gridPane.add(nameLbl, 0, 0);
 
         TextField nameField = new TextField();
-        nameField.setStyle("-fx-font-size: 14px;");
+        nameField.setStyle("-fx-font-size: 14px;-fx-background-color: #666666;");
         gridPane.add(nameField, 0, 1);
         GridPane.setMargin(nameField, new Insets(0, 20, 0, 0));
 
         Label difficultyLbl = new Label("Difficulty:");
-        difficultyLbl.setStyle("-fx-font-size: 14px;");
+        difficultyLbl.setStyle("-fx-font-size: 14px;-fx-text-fill: #DEDEDE;");
         gridPane.add(difficultyLbl, 0, 2);
 
         ComboBox<String> difficulty = new ComboBox<>();
         difficulty.setItems(FXCollections.observableArrayList("Easy", "Normal", "Hard"));
         difficulty.setPromptText("Select a difficulty.");
         difficulty.setPrefWidth(200.0);
-        difficulty.setStyle("-fx-font-size: 14px;");
+        difficulty.setStyle("-fx-font-size: 14px;-fx-background-color: #666666;-fx-text-fill: #DEDEDE;");
         gridPane.add(difficulty, 0, 3);
         GridPane.setMargin(difficulty, new Insets(0, 20, 0, 0));
 
         Label boardSizeLabel = new Label("Board Size:");
-        boardSizeLabel.setStyle("-fx-font-size: 14px;");
+        boardSizeLabel.setStyle("-fx-font-size: 14px;-fx-text-fill: #DEDEDE;");
         gridPane.add(boardSizeLabel, 0, 4);
 
         ComboBox<String> boardSize = new ComboBox<>();
-        boardSize.setItems(FXCollections.observableArrayList("Small (26 x 22)", "Medium (30 x 26)",
-                "Large (34 x 28)"));
+        boardSize.setItems(FXCollections.observableArrayList("Small (26 x 22)", "Medium (30 x 26)", "Large (34 x 28)"));
         boardSize.setPromptText("Select a board size.");
         boardSize.setPrefWidth(200);
-        boardSize.setStyle("-fx-font-size: 14px;");
+        boardSize.setStyle("-fx-font-size: 14px;-fx-background-color: #666666;-fx-text-fill: #DEDEDE;");
         gridPane.add(boardSize, 0, 5);
         GridPane.setMargin(boardSize, new Insets(0, 20, 0, 0));
 
-        // This generates and positions a Label for each score in localHS.getHighScores(). The styling is super complex
-        // and I suggest you don't change it unless you have a solid grip on procedural CSS styling.
+        // This generates and positions a Label for each score in
+        // localHS.getHighScores(). The styling is super complex
+        // and I suggest you don't change it unless you have a solid grip on procedural
+        // CSS styling.
         int rowIndex = 0;
         Label[][] names = new Label[localHS.getHighScores().size()][2];
         for (Score s : localHS.getHighScores()) {
             names[rowIndex][0] = new Label(s.playerHandle + ":");
             names[rowIndex][1] = new Label(String.valueOf(s.score));
-            names[rowIndex][0].setStyle("-fx-font-size: 14px;");
+            names[rowIndex][0].setStyle("-fx-font-size: 14px;-fx-text-fill: #DEDEDE;");
             names[rowIndex][0].setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
                     BorderStrokeStyle.NONE, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
                     CornerRadii.EMPTY, new BorderWidths(1), Insets.EMPTY)));
             names[rowIndex][0].setPadding(new Insets(0, 5, 5, 5));
             names[rowIndex][0].setAlignment(Pos.CENTER_LEFT);
             names[rowIndex][0].setPrefWidth(100.0);
-            names[rowIndex][1].setStyle("-fx-font-size: 14px; ");
+            names[rowIndex][1].setStyle("-fx-font-size: 14px;-fx-text-fill: #DEDEDE;");
             names[rowIndex][1].setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
                     BorderStrokeStyle.NONE, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
                     CornerRadii.EMPTY, new BorderWidths(1), Insets.EMPTY)));
@@ -102,10 +104,11 @@ public class GameWindow extends Application {
         }
 
         Label highscores = new Label("Highscores:");
-        highscores.setStyle("-fx-font-size: 14px;");
+        highscores.setStyle("-fx-font-size: 14px;-fx-text-fill: #DEDEDE;");
         gridPane.add(highscores, 1, 0);
 
-        // This adds all the score labels to the board and accounts for the offset of the highscore label.
+        // This adds all the score labels to the board and accounts for the offset of
+        // the highscore label.
         int offset = 1;
         for (Label[] name : names) {
             gridPane.add(name[0], 1, offset);
@@ -113,11 +116,11 @@ public class GameWindow extends Application {
             offset++;
         }
 
-        Button launchGame = new Button("Launch!");
+        Button launchGame = new Button("Start!");
         gridPane.add(launchGame, 0, 11); // position rel the bottom of the high scores.
         launchGame.setPrefSize(Button.USE_PREF_SIZE, Button.USE_PREF_SIZE);
         launchGame.setAlignment(Pos.BASELINE_CENTER);
-        launchGame.setStyle("-fx-font-size: 14px;");
+        launchGame.setStyle("-fx-font-size: 14px;-fx-text-fill: #DADADA;-fx-background-color: #44AE52;");
         launchGame.setOnAction(event -> {
             int rowNum;
             int colNum;
@@ -126,18 +129,18 @@ public class GameWindow extends Application {
             String userName = nameField.getText();
             try {
                 switch (userDiff) {
-                    case "Easy":
-                        difficultyNum = 1;
-                        break;
-                    case "Normal":
-                        difficultyNum = 2;
-                        break;
-                    case "Hard":
-                        difficultyNum = 3;
-                        break;
-                    default:
-                        difficultyNum = 1;
-                        break;
+                case "Easy":
+                    difficultyNum = 1;
+                    break;
+                case "Normal":
+                    difficultyNum = 2;
+                    break;
+                case "Hard":
+                    difficultyNum = 3;
+                    break;
+                default:
+                    difficultyNum = 1;
+                    break;
                 }
             } catch (NullPointerException e) { // if the user forgets to select a difficulty
                 difficultyNum = 1;
@@ -145,21 +148,21 @@ public class GameWindow extends Application {
 
             try {
                 switch (boardSize.getValue()) {
-                    case "Small (26 x 22)":
-                        rowNum = 26;
-                        colNum = 22;
-                        break;
-                    case "Medium (30 x 26)":
-                        rowNum = 30;
-                        colNum = 26;
-                        break;
-                    case "Large (34 x 28)":
-                        rowNum = 34;
-                        colNum = 28;
-                        break;
-                    default:
-                        rowNum = 30;
-                        colNum = 26;
+                case "Small (26 x 22)":
+                    rowNum = 26;
+                    colNum = 22;
+                    break;
+                case "Medium (30 x 26)":
+                    rowNum = 30;
+                    colNum = 26;
+                    break;
+                case "Large (34 x 28)":
+                    rowNum = 34;
+                    colNum = 28;
+                    break;
+                default:
+                    rowNum = 30;
+                    colNum = 26;
                 }
             } catch (NullPointerException e) {
                 rowNum = 30;
