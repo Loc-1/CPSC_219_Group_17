@@ -330,17 +330,18 @@ public class BoardWindow extends Application {
 
         VBox dialogBox = new VBox(10);
         dialogBox.setAlignment(Pos.CENTER);
+        dialogBox.setStyle("-fx-background-color: #2F2F2F;");
 
         if (Objects.equals(this.player.getUserHandle(), "")) {
             this.player.setAnonUserHandle();
         }
 
         Label playerName = new Label("Sorry, " + this.player.getUserHandle() + ", you died.");
-        playerName.setStyle("-fx-font-size: 16px;");
+        playerName.setStyle("-fx-font-size: 16px;-fx-text-fill: #DEDEDE;");
         dialogBox.getChildren().add(playerName);
 
         Label playerScore = new Label("Your score was: " + this.player.getScore());
-        playerScore.setStyle("-fx-font-size: 16px;");
+        playerScore.setStyle("-fx-font-size: 16px;-fx-text-fill: #DEDEDE;");
         dialogBox.getChildren().add(playerScore);
 
         Region separator = new Region();
@@ -348,7 +349,7 @@ public class BoardWindow extends Application {
         dialogBox.getChildren().add(separator);
 
         Button close = new Button("Try Again");
-        close.setStyle("-fx-font-size: 16px;");
+        close.setStyle("-fx-font-size: 16px;-fx-text-fill: #DADADA;-fx-background-color: #44AE52;");
         close.setPrefWidth(100);
         close.setOnAction(event -> {
             endGame.close();
