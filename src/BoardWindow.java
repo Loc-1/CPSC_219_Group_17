@@ -260,7 +260,6 @@ public class BoardWindow extends Application {
              */
             @Override
             public void handle(long now) {
-                // :TODO: add the modal popup here.
                 if (!player.isAlive()) { // Kills the gameLoop and closes the stage when the player dies.
                     this.stop();
                     primaryStage.close();
@@ -406,7 +405,7 @@ public class BoardWindow extends Application {
 
             camera.getTransforms().add(translate);
 
-            // Yes, this is the easiest kill logic ever. :todo: make a pop up when the player dies.
+            // Yes, this is the easiest kill logic ever.
             if (this.playerSprite.getBoundary().getMinY() > minY || this.playerSprite.getBoundary().getMaxY() < maxY) {
                 this.player.kill();
             }
