@@ -322,6 +322,10 @@ public class BoardWindow extends Application {
 
     }
 
+    private void shiftCameraOnReload(Camera camera) {
+
+    }
+
     /**
      * Snazzy pop-up shows player score and handle, used to not jarringly just close
      * the game. Adds score to high scores (it only sticks if the score is actually

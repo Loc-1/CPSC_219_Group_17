@@ -310,15 +310,8 @@ public class Board {
      *
      */
     public void updateBoard() {
-
-        for(int i = 0; i < (this.difficulty * 5) * 3; i++) {
-            this.enemies[i].updateLocation();
-        }
-
-        this.playerOne.setRow(this.playerOne.getRow() + 100);
-
-        this.obstacleMap.updateMap(this.obstacleMap.getObstacleMap(),this.difficulty);
-
+        char[][] oldBoard = Arrays.copyOf(this.board, this.board.length - 50);
+        System.out.println(Arrays.deepToString(oldBoard));
     }
 
 
