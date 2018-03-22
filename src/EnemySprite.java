@@ -3,6 +3,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
+ * @author Josh
  * An extension of the general Sprite class that includes a movement timer. This allows a sprite to move automatically.
  */
 class EnemySprite extends Sprite {
@@ -44,7 +45,6 @@ class EnemySprite extends Sprite {
         int[] coords = this.enemy.getCurrentCoords();
         super.setY(coords[0]);
         super.setX(coords[1]);
-        System.out.println(super.getBoundary());
     }
 
     /**
