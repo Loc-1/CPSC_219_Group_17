@@ -310,7 +310,7 @@ public class Board {
      *
      *
      */
-    public void updateBoard(){
+    public void updateBoard() {
         this.obstacleMap.updateMap(this.obstacleMap.getObstacleMap(),this.difficulty);
 
     }

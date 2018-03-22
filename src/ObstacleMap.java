@@ -160,7 +160,7 @@ public class ObstacleMap {
      * @param oldMap the old obstacleMap to update
      * @param diff the difficulty of the game
      */
-    public void updateMap(boolean[][] oldMap, int diff) {
+    public void updateMap (boolean[][] oldMap, int diff) {
 
         ObstacleMap newPortion = new ObstacleMap(100,oldMap[0].length, diff);
 
