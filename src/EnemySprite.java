@@ -10,14 +10,26 @@ class EnemySprite extends Sprite {
     private final Enemy enemy;
     private long moveTimer;
     private Timer timer;
+    private long difficultyMod;
 
     EnemySprite(int difficulty, Enemy setEnemy) {
         this.enemy = setEnemy;
         this.updatePosition();
         Random r = new Random();
 
+        switch (difficulty) {
+            case 1:
+                difficultyMod = 3;
+                break;
+            case 2:
+                difficultyMod = 2;
+                break;
+            case 3:
+                difficultyMod = 1;
+        }
+
         while (this.moveTimer < 100) {
-            this.moveTimer = (r.nextInt(1000) * difficulty);
+            this.moveTimer = (r.nextInt(1000) * difficultyMod);
         }
         this.run();
 
