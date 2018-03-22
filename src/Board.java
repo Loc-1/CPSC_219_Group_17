@@ -304,6 +304,17 @@ public class Board {
 
     }
 
+
+    /**
+     * Updates the Boards ObstacleMap with new traversable map on top and chops off the bottom part of the board
+     *
+     *
+     */
+    public void updateBoard(){
+        this.obstacleMap.updateMap(this.obstacleMap.getObstacleMap(),this.difficulty);
+
+    }
+
     /**
      * @param row         the row to set.
      * @param col         the col to set.

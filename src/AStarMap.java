@@ -103,11 +103,11 @@ public class AStarMap {
 
 
 
-    public static int test( int x, int y, int si, int sj, int ei, int ej, int[][] blocked){
+    public static int test( int rows, int cols, int si, int sj, int ei, int ej, int[][] blocked){
 
 
-        grid = new Cell[x][y];
-        closed = new boolean[x][y];
+        grid = new Cell[rows][cols];
+        closed = new boolean[rows][cols];
         open = new PriorityQueue<>((Object o1, Object o2) -> {
             Cell c1 = (Cell)o1;
             Cell c2 = (Cell)o2;
@@ -120,8 +120,8 @@ public class AStarMap {
         setStartCell(si, sj);
         setEndCell(ei, ej);
 
-        for(int i = 0; i < x; ++i){
-            for(int j = 0; j < y; ++j){
+        for(int i = 0; i < rows; ++i){
+            for(int j = 0; j < cols; ++j){
                 grid[i][j] = new Cell(i,j);
                 grid[i][j].HCost = Math.abs(i - endI)+Math.abs(j - endJ);
             }

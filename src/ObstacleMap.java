@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -153,6 +154,49 @@ public class ObstacleMap {
         return difficultyModifier;
     }
 
+    /**
+     * Updates ObstacleMap with newly generated map on top and chops off bottom of map
+     *
+     * @param oldMap the old obstacleMap to update
+     * @param diff the difficulty of the game
+     */
+    public void updateMap(boolean[][] oldMap, int diff) {
+
+        ObstacleMap newPortion = new ObstacleMap(100,oldMap[0].length, diff);
+
+        while(AStarMap.test(newPortion.rows, newPortion.cols, 99,newPortion.cols/2, 0,newPortion.cols/2, newPortion.obstacleLocations()) < 0){
+            newPortion = new ObstacleMap(100,oldMap[0].length, diff);
+        }
+
+        boolean[][] newMap = new boolean[150][oldMap[0].length];
+
+        boolean[][] newPortion1 = newPortion.getObstacleMap();
+
+        boolean[][] keepOldMap = Arrays.copyOf(oldMap, oldMap.length-100);
+
+       for(int q = 0; q < 150; q++){
+           for(int w = 0; w < newMap[0].length; w++){
+            if(q < 100) {
+                newMap[q][w] = newPortion1[q][w];
+            }
+            else{
+                newMap[q][w] = oldMap[q-100][w];
+            }
+
+           }
+
+       }
+       this.obstacleMap = Arrays.copyOf(newMap,newMap.length);
+
+    }
+
+
+    /**
+     * Performs some generic logic to increase chances of ObstacleMap being traversable
+     *
+     * @param oldMap the obstacleMap to perform logic on
+     * @return the new ObstacleMap
+     */
     private boolean[][] makeTraverseable(boolean[][] oldMap) {
         boolean[][] newMap = this.obstacleMap;
         int x = newMap.length - 3;
