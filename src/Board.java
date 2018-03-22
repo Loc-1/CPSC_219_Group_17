@@ -24,6 +24,10 @@ public class Board {
     @SuppressWarnings("unused")
     private AStarMap traversability;
 
+    public Board() {
+        // nothing
+    }
+
     /**
      * Constructor creates a single player board.
      *
@@ -310,7 +314,8 @@ public class Board {
      *
      */
     public void updateBoard() {
-        char[][] oldBoard = Arrays.copyOf(this.board, this.board.length - 50);
+        System.out.println("Yay!");
+        char[][] oldBoard = Arrays.copyOf(this.board, this.board.length - 18);
         System.out.println(Arrays.deepToString(oldBoard));
     }
 
@@ -495,7 +500,7 @@ public class Board {
         return rows;
     }
 
-    private ObstacleMap getObstacleMap() {
+    public ObstacleMap getObstacleMap() {
         return obstacleMap;
     }
 
@@ -511,4 +516,7 @@ public class Board {
         return numOfEnemies;
     }
 
+    public void setBoard(char[][] board) {
+        this.board = board;
+    }
 }
