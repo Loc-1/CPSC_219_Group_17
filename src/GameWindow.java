@@ -79,15 +79,15 @@ public class GameWindow extends Application {
         GridPane.setMargin(boardSize, new Insets(0, 20, 0, 0));
 
         // This generates and positions a Label for each score in
-        // localHS.getHighScores(). The styling is super complex
+        // localHS.get(). The styling is super complex
         // and I suggest you don't change it unless you have a solid grip on procedural
         // CSS styling.
         int rowIndex = 0;
-        Label[][] names = new Label[HighScores.getHighScores().size()][2];
+        Label[][] names = new Label[HighScores.get().size()][2];
 
         ArrayList<Score> reversedArray = new ArrayList<>();
-        for (int i = HighScores.getHighScores().size() - 1; i >= 0; i--) {
-            reversedArray.add(HighScores.getHighScores().get(i));
+        for (int i = HighScores.get().size() - 1; i >= 0; i--) {
+            reversedArray.add(HighScores.get().get(i));
         }
 
         for (Score s : reversedArray) {

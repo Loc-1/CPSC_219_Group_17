@@ -16,7 +16,7 @@ abstract class HighScores {
      * @param playerHandle the player's handle as a string.
      * @param score        the player's score as a string.
      */
-    static void addHighScore(String playerHandle, int score) {
+    static void add(String playerHandle, int score) {
         highScores.add(new Score(playerHandle, score));
         save();
     }
@@ -24,8 +24,8 @@ abstract class HighScores {
     /**
      * @return an ArrayList<Score> containing all the HighScores after loading them from disk.
      */
-    static ArrayList<Score> getHighScores() {
-        loadHighScores();
+    static ArrayList<Score> get() {
+        load();
 
         return highScores;
     }
@@ -33,7 +33,7 @@ abstract class HighScores {
     /**
      * Clears the high score array and saves it.
      */
-    static void clearHighScores() {
+    static void clear() {
         highScores.clear();
         save();
 
@@ -68,7 +68,7 @@ abstract class HighScores {
         try {
             FileOutputStream fileOut = new FileOutputStream("highscores.ser");
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-            sortScores();
+            sort();
             objectOut.writeObject(highScores);
             objectOut.close();
             fileOut.close();
@@ -81,7 +81,7 @@ abstract class HighScores {
     /**
      * This sorts the list in ascending order and ensures the list only contains a max of ten entries.
      */
-    private static void sortScores() {
+    private static void sort() {
         Comparator<Score> scoreComparator = Comparator.comparingInt(Score::getScore);
         highScores.sort(scoreComparator);
         while (highScores.size() > 10) {
@@ -93,7 +93,7 @@ abstract class HighScores {
     /**
      * Loads the highscores from a .ser (serialized object) file.
      */
-    private static void loadHighScores() {
+    private static void load() {
         try {
             if (highScores.isEmpty()) { // Prevent load if highScores isn't empty.
                 FileInputStream fileIn = new FileInputStream("highscores.ser");
@@ -105,7 +105,7 @@ abstract class HighScores {
                 highScores.addAll(scoresIn);
                 objectIn.close();
                 fileIn.close();
-                sortScores();
+                sort();
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

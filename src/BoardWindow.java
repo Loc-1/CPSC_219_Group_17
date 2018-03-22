@@ -33,7 +33,7 @@ public class BoardWindow extends Application {
     private final Board board;
     private final Player player;
     private int difficulty;
-    private final ArrayList<Sprite> enemySprites;
+    private final ArrayList<EnemySprite> enemySprites;
     private int viewRows;
 
     private Sprite playerSprite;
@@ -175,14 +175,10 @@ public class BoardWindow extends Application {
 
         // Create an enemy Sprite for all enemies on the board.
         for (Enemy e : this.board.getEnemies()) {
-            Sprite sprite = new Sprite();
-            int[] coords = e.getStartCoords();
-            sprite.setX(coords[0]);
-            sprite.setY(coords[1]);
+            EnemySprite sprite = new EnemySprite(difficulty, e);
             sprite.setImage(this.enemyRightImage);
             this.enemySprites.add(sprite);
         }
-        this.renderEnemySprites(gc);
 
         // Vary the camera move rate by difficulty.
         switch (difficulty) {
@@ -249,6 +245,9 @@ public class BoardWindow extends Application {
                     break;
                 case ESCAPE:
                     primaryStage.close();
+                    for (EnemySprite e : enemySprites) {
+                        e.stop();
+                    }
             }
         });
 
@@ -267,6 +266,9 @@ public class BoardWindow extends Application {
                 if (!player.isAlive()) { // Kills the gameLoop and closes the stage when the player dies.
                     this.stop();
                     primaryStage.close();
+                    for (EnemySprite e : enemySprites) {
+                        e.stop();
+                    }
                     endGamePopup();
 
                 }
@@ -311,11 +313,6 @@ public class BoardWindow extends Application {
                     if (player.getScore() % 60 == 0 && moveRate != 0) {
                         moveRate += .25;
                     }
-                    // Move the enemy sprites AFTER they've been rendered.
-                    for (Enemy e : board.getEnemies()) {
-                        e.move();
-                        renderEnemySprites(gc);
-                    }
                 } else {
                     scoreCount++;
                 }
@@ -333,7 +330,7 @@ public class BoardWindow extends Application {
     private void endGamePopup() {
         final Stage endGame = new Stage();
 
-        HighScores.addHighScore(this.player.getUserHandle(), this.player.getScore());
+        HighScores.add(this.player.getUserHandle(), this.player.getScore());
 
         VBox dialogBox = new VBox(10);
         dialogBox.setAlignment(Pos.CENTER);
@@ -366,6 +363,9 @@ public class BoardWindow extends Application {
         close.setPrefWidth(100);
         close.setOnAction(event -> {
             endGame.close();
+            for (EnemySprite e : enemySprites) {
+                e.stop();
+            }
             GameWindow gameWindow = new GameWindow();
             gameWindow.start(new Stage());
         });
@@ -382,20 +382,14 @@ public class BoardWindow extends Application {
      * @param gc the canvas GraphicsContext where the Sprites are drawn.
      */
     private void renderEnemySprites(GraphicsContext gc) {
-        try {
-            for (Enemy e : this.board.getEnemies()) {
-                for (Sprite s : this.enemySprites) {
-                    int[] coords = e.getCurrentCoords();
-                    s.setY(coords[0]);
-                    s.setX(coords[1]);
-                    s.render(gc);
-                    if (s.getBoundary().intersects(playerSprite.getBoundary())) {
-                        this.player.kill();
-                    }
+        for (EnemySprite s : this.enemySprites) {
+            s.render(gc);
+            if (s.getBoundary().intersects(playerSprite.getBoundary())) {
+                this.player.kill();
+                for (EnemySprite s2 : this.enemySprites) {
+                    s2.stop();
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
     }
