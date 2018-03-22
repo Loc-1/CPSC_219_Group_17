@@ -48,7 +48,7 @@ class EnemySprite extends Sprite {
     }
 
     /**
-     * Should kill all the threads but doesnt.
+     * Stops the timer thread.
      */
     void stop() {
         this.timer.cancel();
