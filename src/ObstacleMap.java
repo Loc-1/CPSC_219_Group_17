@@ -168,13 +168,13 @@ public class ObstacleMap {
             newPortion = new ObstacleMap(100,oldMap[0].length, diff);
         }
 
-        boolean[][] newMap = new boolean[150][oldMap[0].length];
+        boolean[][] newMap = new boolean[200][oldMap[0].length];
 
         boolean[][] newPortion1 = newPortion.getObstacleMap();
 
         boolean[][] keepOldMap = Arrays.copyOf(oldMap, oldMap.length-100);
 
-       for(int q = 0; q < 150; q++){
+       for(int q = 0; q < 200; q++){
            for(int w = 0; w < newMap[0].length; w++){
             if(q < 100) {
                 newMap[q][w] = newPortion1[q][w];

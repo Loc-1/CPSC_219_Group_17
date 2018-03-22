@@ -304,13 +304,19 @@ public class Board {
 
     }
 
-
     /**
      * Updates the Boards ObstacleMap with new traversable map on top and chops off the bottom part of the board
-     *
+     * also updates locations of copied enemies and the player
      *
      */
     public void updateBoard() {
+
+        for(int i = 0; i < (this.difficulty * 5) * 3; i++) {
+            this.enemies[i].updateLocation();
+        }
+
+        this.playerOne.setRow(this.playerOne.getRow() + 100);
+
         this.obstacleMap.updateMap(this.obstacleMap.getObstacleMap(),this.difficulty);
 
     }

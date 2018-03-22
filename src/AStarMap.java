@@ -3,6 +3,8 @@ import java.util.PriorityQueue;
 /**
  * Class Owner: Ashton
  * <p>
+ * pathfinding code taken from http://www.codebytes.in/2015/02/a-shortest-path-finding-algorithm.html, Jatin Thakur.
+ *
  * Class is a pathfinding class to ensure there is a traversable path for the obstacleMap blocked nodes array
  * passed
  */

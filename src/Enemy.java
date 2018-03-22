@@ -91,6 +91,28 @@ public class Enemy {
     }
 
     /**
+     * Moves the enemies in the copied zone to the correct position when updating board
+     *
+     */
+    void updateLocation(){
+
+        this.x_current = this.x_current + 100;
+        this.x_start = this.x_start + 100;
+        this.x_end = this.x_end + 100;
+
+        List<int[]> newPath = this.path;
+
+        for(int i = 0; i < this.path.size(); i++) {
+            int[] localCoord = this.path.get(i);
+            localCoord[0] = localCoord[0] + 100;
+            newPath.add(i,localCoord);
+        }
+
+        this.path = newPath;
+
+    }
+
+    /**
      * @param x row position of start location
      * @param y column position of end location
      */
