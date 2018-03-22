@@ -16,7 +16,7 @@ class EnemySprite extends Sprite {
         this.updatePosition();
         Random r = new Random();
 
-        while (this.moveTimer < 50) {
+        while (this.moveTimer < 100) {
             this.moveTimer = (r.nextInt(1000) * difficulty);
         }
         this.run();
@@ -48,7 +48,7 @@ class EnemySprite extends Sprite {
     }
 
     /**
-     * Not currently working. Should kill all the threads but doesnt.
+     * Should kill all the threads but doesnt.
      */
     void stop() {
         this.timer.cancel();
