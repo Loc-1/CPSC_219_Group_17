@@ -26,6 +26,7 @@ class EnemySprite extends Sprite {
                 break;
             case 3:
                 difficultyMod = 1;
+                break;
         }
 
         while (this.moveTimer < 100) {
