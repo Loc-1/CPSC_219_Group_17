@@ -3,150 +3,133 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="471.41666666666674" y="2556.0">GameWindow</node>
-    <node x="722.167196745562" y="808.0">Board</node>
-    <node x="478.4166666666667" y="0.0">Enemy</node>
-    <node x="1319.5416666666667" y="1061.5">HighScores</node>
-    <node x="243.99999999999994" y="98.5">Player</node>
-    <node x="0.0" y="208.5">Sprite</node>
-    <node x="1078.4166666666667" y="154.0">AStarMap</node>
-    <node x="381.1666666666667" y="1072.0">EnemySprite</node>
-    <node x="736.4166666666667" y="109.5">ObstacleMap</node>
-    <node x="1382.4166666666667" y="274.5">Score</node>
-    <node x="334.6666666666667" y="1631.0">BoardWindow</node>
-    <node x="1602.0416666666667" y="0.0">PowerUp</node>
+    <node x="537.8833333333332" y="2898.0">GameWindow</node>
+    <node x="430.27505555555547" y="1158.0">Board</node>
+    <node x="244.0" y="410.0">Enemy</node>
+    <node x="867.0" y="508.5">Player</node>
+    <node x="0.0" y="618.5">Sprite</node>
+    <node x="433.8361666666666" y="0.0">AStarMap</node>
+    <node x="143.16949999999997" y="1433.0">EnemySprite</node>
+    <node x="525.0" y="508.5">ObstacleMap</node>
+    <node x="1042.5" y="2346.0">Score</node>
+    <node x="224.04166666666663" y="1983.0">BoardWindow</node>
+    <node x="1260.5" y="0.0">PowerUp</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="GameWindow" target="HighScores">
-      <point x="59.14999999999998" y="-48.0" />
-      <point x="615.0666666666667" y="2526.0" />
-      <point x="1485.2916666666667" y="2526.0" />
-      <point x="55.25" y="103.0" />
-    </edge>
     <edge source="BoardWindow" target="Board">
-      <point x="113.46153846153845" y="-422.5" />
-      <point x="595.6282051282051" y="1581.0" />
-      <point x="857.667196745562" y="1581.0" />
-      <point x="0.0" y="356.5" />
-    </edge>
-    <edge source="BoardWindow" target="HighScores">
-      <point x="136.1538461538462" y="-422.5" />
-      <point x="618.3205128205129" y="1611.0" />
-      <point x="1374.7916666666667" y="1611.0" />
-      <point x="-55.25" y="103.0" />
+      <point x="12.291666666666686" y="-422.5" />
+      <point x="383.8333333333333" y="1913.0" />
+      <point x="457.3750555555555" y="1913.0" />
+      <point x="-108.39999999999998" y="367.5" />
     </edge>
     <edge source="Board" target="ObstacleMap">
-      <point x="33.875" y="-356.5" />
-      <point x="891.542196745562" y="788.0" />
-      <point x="897.4166666666667" y="788.0" />
-      <point x="0.0" y="224.5" />
+      <point x="56.45833333333337" y="-367.5" />
+      <point x="622.2333888888888" y="1108.0" />
+      <point x="793.3333333333333" y="1108.0" />
+      <point x="107.33333333333326" y="235.5" />
     </edge>
     <edge source="Board" target="Enemy">
-      <point x="-33.875" y="-356.5" />
-      <point x="823.792196745562" y="708.0" />
-      <point x="656.9166666666667" y="708.0" />
-      <point x="59.5" y="334.0" />
+      <point x="-79.04166666666657" y="-367.5" />
+      <point x="486.7333888888889" y="1118.0" />
+      <point x="462.16666666666663" y="1118.0" />
+      <point x="99.16666666666663" y="334.0" />
     </edge>
     <edge source="BoardWindow" target="Sprite">
-      <point x="-136.1538461538462" y="-422.5" />
-      <point x="346.0128205128205" y="1611.0" />
-      <point x="69.16666666666663" y="1611.0" />
-      <point x="69.16666666666663" y="788.0" />
-      <point x="37.33333333333337" y="788.0" />
+      <point x="-135.2083333333332" y="-422.5" />
+      <point x="236.33333333333343" y="1963.0" />
+      <point x="69.16666666666663" y="1963.0" />
+      <point x="69.16666666666663" y="1138.0" />
+      <point x="37.33333333333337" y="1138.0" />
       <point x="-74.66666666666663" y="125.5" />
     </edge>
     <edge source="BoardWindow" target="Player">
-      <point x="-90.76923076923083" y="-422.5" />
-      <point x="391.39743589743586" y="1591.0" />
-      <point x="283.03258136094666" y="1591.0" />
-      <point x="283.03258136094666" y="788.0" />
-      <point x="308.99999999999994" y="788.0" />
-      <point x="-39.0" y="235.5" />
+      <point x="110.625" y="-422.5" />
+      <point x="482.16666666666663" y="1953.0" />
+      <point x="999.0" y="1953.0" />
+      <point x="999.0" y="1128.0" />
+      <point x="984.0" y="1128.0" />
+      <point x="13.0" y="235.5" />
     </edge>
     <edge source="BoardWindow" target="EnemySprite">
-      <point x="0.0" y="-422.5" />
-      <point x="0.0" y="92.5" />
+      <point x="-86.04166666666657" y="-422.5" />
+      <point x="285.50000000000006" y="1943.0" />
+      <point x="176.83616666666666" y="1943.0" />
+      <point x="-67.33333333333331" y="92.5" />
     </edge>
     <edge source="GameWindow" target="BoardWindow">
-      <point x="-25.350000000000023" y="-48.0" />
-      <point x="530.5666666666667" y="2506.0" />
-      <point x="445.2916666666667" y="2506.0" />
+      <point x="-56.33333333333337" y="-48.0" />
+      <point x="566.05" y="2868.0" />
+      <point x="334.66666666666663" y="2868.0" />
       <point x="-36.875" y="422.5" />
     </edge>
-    <edge source="BoardWindow" target="Enemy">
-      <point x="45.38461538461536" y="-422.5" />
-      <point x="527.551282051282" y="1551.0" />
-      <point x="593.6666666666667" y="1551.0" />
-      <point x="593.6666666666667" y="788.0" />
-      <point x="577.5833333333333" y="788.0" />
-      <point x="-19.83333333333337" y="334.0" />
-    </edge>
     <edge source="GameWindow" target="Score">
-      <point x="76.04999999999995" y="-48.0" />
-      <point x="631.9666666666667" y="2536.0" />
-      <point x="1551.0416666666667" y="2536.0" />
-      <point x="1551.0416666666667" y="788.0" />
-      <point x="1533.7916666666667" y="788.0" />
-      <point x="64.875" y="59.5" />
+      <point x="75.11111111111109" y="-48.0" />
+      <point x="697.4944444444443" y="2878.0" />
+      <point x="1129.0" y="2878.0" />
+      <point x="0.0" y="59.5" />
     </edge>
-    <edge source="HighScores" target="Score">
-      <point x="-73.66666666666674" y="-103.0" />
-      <point x="1356.375" y="788.0" />
-      <point x="1404.0416666666667" y="788.0" />
-      <point x="-64.875" y="59.5" />
+    <edge source="BoardWindow" target="Enemy">
+      <point x="-12.291666666666629" y="-422.5" />
+      <point x="359.25000000000006" y="1138.0" />
+      <point x="343.1666666666667" y="1138.0" />
+      <point x="-19.833333333333314" y="334.0" />
     </edge>
-    <edge source="Board" target="Player">
-      <point x="-101.62499999999989" y="-356.5" />
-      <point x="756.0421967455621" y="738.0" />
-      <point x="412.99999999999994" y="738.0" />
-      <point x="65.0" y="235.5" />
+    <edge source="ObstacleMap" target="AStarMap">
+      <point x="0.0" y="-235.5" />
+      <point x="686.0" y="390.0" />
+      <point x="682.3361666666666" y="390.0" />
+      <point x="106.5" y="180.0" />
     </edge>
     <edge source="EnemySprite" target="Enemy">
-      <point x="67.33333333333337" y="-92.5" />
-      <point x="549.5" y="788.0" />
-      <point x="537.9166666666667" y="788.0" />
+      <point x="67.33333333333331" y="-92.5" />
+      <point x="311.5028333333333" y="1138.0" />
+      <point x="303.5" y="1138.0" />
       <point x="-59.5" y="334.0" />
+    </edge>
+    <edge source="Board" target="Player">
+      <point x="101.625" y="-367.5" />
+      <point x="667.4000555555555" y="1128.0" />
+      <point x="906.0" y="1128.0" />
+      <point x="-65.0" y="235.5" />
     </edge>
     <edge source="EnemySprite" target="Sprite">
       <point x="-67.33333333333331" y="-92.5" />
-      <point x="414.83333333333337" y="758.0" />
-      <point x="186.66666666666669" y="758.0" />
+      <point x="176.83616666666666" y="1138.0" />
+      <point x="186.66666666666669" y="1138.0" />
       <point x="74.66666666666669" y="125.5" />
     </edge>
     <edge source="GameWindow" target="Player">
-      <point x="-76.05000000000007" y="-48.0" />
-      <point x="479.8666666666667" y="2536.0" />
-      <point x="232.91719674556214" y="2536.0" />
-      <point x="232.91719674556214" y="768.0" />
-      <point x="256.99999999999994" y="768.0" />
-      <point x="-91.0" y="235.5" />
+      <point x="37.55555555555554" y="-48.0" />
+      <point x="659.9388888888889" y="2858.0" />
+      <point x="1021.0" y="2858.0" />
+      <point x="1021.0" y="1128.0" />
+      <point x="1036.0" y="1128.0" />
+      <point x="65.0" y="235.5" />
     </edge>
     <edge source="Board" target="AStarMap">
-      <point x="79.04166666666663" y="-356.5" />
-      <point x="936.7088634122287" y="768.0" />
-      <point x="1125.75" y="768.0" />
-      <point x="-94.66666666666674" y="180.0" />
+      <point x="-33.875" y="-367.5" />
+      <point x="531.9000555555555" y="1128.0" />
+      <point x="503.5" y="1128.0" />
+      <point x="503.5" y="380.0" />
+      <point x="540.3361666666666" y="380.0" />
+      <point x="-35.5" y="180.0" />
     </edge>
     <edge source="GameWindow" target="Board">
-      <point x="42.25" y="-48.0" />
-      <point x="598.1666666666667" y="2516.0" />
-      <point x="865.5916666666666" y="2516.0" />
-      <point x="865.5916666666666" y="1601.0" />
-      <point x="966.067196745562" y="1601.0" />
-      <point x="108.39999999999995" y="356.5" />
+      <point x="0.0" y="-48.0" />
+      <point x="622.3833333333332" y="1933.0" />
+      <point x="619.9750555555555" y="1933.0" />
+      <point x="54.200000000000045" y="367.5" />
     </edge>
     <edge source="BoardWindow" target="GameWindow">
-      <point x="36.875" y="422.5" />
-      <point x="519.0416666666667" y="2496.0" />
-      <point x="547.4666666666667" y="2496.0" />
-      <point x="-8.450000000000045" y="-48.0" />
+      <point x="110.625" y="422.5" />
+      <point x="482.16666666666663" y="2848.0" />
+      <point x="603.6055555555556" y="2848.0" />
+      <point x="-18.777777777777715" y="-48.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.6312125748502994" x="637.7679394001434" y="791.1591769884328" />
-  <SelectedNodes>
-    <node>HighScores</node>
-  </SelectedNodes>
+  <settings layout="Hierarchic Group" zoom="0.8936297279362971" x="465.29895095069287" y="1171.9619104051262" />
+  <SelectedNodes />
   <Categories>
     <Category>Fields</Category>
     <Category>Constructors</Category>
