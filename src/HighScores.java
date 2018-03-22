@@ -22,12 +22,10 @@ abstract class HighScores {
     }
 
     /**
-     * @return an ArrayList<Score> containing all the HighScores.
+     * @return an ArrayList<Score> containing all the HighScores after loading them from disk.
      */
     static ArrayList<Score> getHighScores() {
-        if (highScores.isEmpty()) { // Only load the scores if the array is empty.
-            loadHighScores();
-        }
+        loadHighScores();
 
         return highScores;
     }

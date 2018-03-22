@@ -3,7 +3,7 @@ import java.io.Serializable;
 /**
  * This class is needed to serialize the score objects in such a way that they can be recovered.
  */
-class Score implements Serializable {
+final class Score implements Serializable {
     final String playerHandle;
     final int score;
 

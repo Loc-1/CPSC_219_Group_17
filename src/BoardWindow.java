@@ -333,9 +333,7 @@ public class BoardWindow extends Application {
     private void endGamePopup() {
         final Stage endGame = new Stage();
 
-        if (HighScores.isHighScore(this.player.getScore())) {
-            HighScores.addHighScore(this.player.getUserHandle(), this.player.getScore());
-        }
+        HighScores.addHighScore(this.player.getUserHandle(), this.player.getScore());
 
         VBox dialogBox = new VBox(10);
         dialogBox.setAlignment(Pos.CENTER);
