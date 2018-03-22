@@ -15,7 +15,9 @@ class EnemySprite extends Sprite {
         this.updatePosition();
         Random r = new Random();
 
-        this.moveTimer = (r.nextInt(1000) * difficulty);
+        while (this.moveTimer < 50) {
+            this.moveTimer = (r.nextInt(1000) * difficulty);
+        }
         this.run();
 
     }
