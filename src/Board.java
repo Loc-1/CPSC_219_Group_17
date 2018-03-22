@@ -321,6 +321,130 @@ public class Board {
 
     }
 
+
+    /**
+     * flags tiles according to their surrounding tiles for map art application
+     * Chars markers are based on the following:
+     * char markers are compass directions. E is substituted for T since enemy uses E
+     * if char marker is CAPITAL the letter is indicating the only side that is connected to an obstacle
+     * if char marker is lowercase the letter is indicating the only side that is not connected to an obstacle
+     *
+     * a = N & E sides exposed
+     * b = S & E sides exposed
+     * c = W & S sides exposed
+     * d = N & W sides exposed
+     * e = N & S sides exposed
+     * f = W & E sides exposed
+     */
+    public void markTiles() {
+
+        for(int i = 0; i < this.board.length; i++){
+            for(int j = 1; j < this.board[0].length - 1; j++) {
+                if (this.obstacleMap.isObstacle(i,j)) {
+
+                    if(this.obstacleMap.isObstacle(i,j-1) &&
+                            !this.obstacleMap.isObstacle(i,j+1) &&
+                            !this.obstacleMap.isObstacle(i-1,j) &&
+                            !this.obstacleMap.isObstacle(i+1,j) ) {
+                        this.board[i][j] = 'W';
+                    }
+
+                    if(this.obstacleMap.isObstacle(i,j+1) &&
+                            !this.obstacleMap.isObstacle(i,j-1) &&
+                            !this.obstacleMap.isObstacle(i-1,j) &&
+                            !this.obstacleMap.isObstacle(i+1,j) ) {
+                        this.board[i][j] = 'T';
+                    }
+
+                    if(this.obstacleMap.isObstacle(i+1,j) &&
+                            !this.obstacleMap.isObstacle(i,j+1) &&
+                            !this.obstacleMap.isObstacle(i,j-1) &&
+                            !this.obstacleMap.isObstacle(i-1,j) ) {
+                        this.board[i][j] = 'S';
+                    }
+
+                    if(this.obstacleMap.isObstacle(i-1,j) &&
+                            !this.obstacleMap.isObstacle(i,j+1) &&
+                            !this.obstacleMap.isObstacle(i,j-1) &&
+                            !this.obstacleMap.isObstacle(i+1,j) ) {
+                        this.board[i][j] = 'N';
+                    }
+
+                    if(!this.obstacleMap.isObstacle(i,j-1) &&
+                            this.obstacleMap.isObstacle(i,j+1) &&
+                            this.obstacleMap.isObstacle(i-1,j) &&
+                            this.obstacleMap.isObstacle(i+1,j) ) {
+                        this.board[i][j] = 'w';
+                    }
+
+                    if(!this.obstacleMap.isObstacle(i,j+1) &&
+                            this.obstacleMap.isObstacle(i,j-1) &&
+                            this.obstacleMap.isObstacle(i-1,j) &&
+                            this.obstacleMap.isObstacle(i+1,j) ) {
+                        this.board[i][j] = 't';
+                    }
+
+                    if(!this.obstacleMap.isObstacle(i+1,j) &&
+                            this.obstacleMap.isObstacle(i,j+1) &&
+                            this.obstacleMap.isObstacle(i,j-1) &&
+                            this.obstacleMap.isObstacle(i-1,j) ) {
+                        this.board[i][j] = 's';
+                    }
+
+                    if(!this.obstacleMap.isObstacle(i-1,j) &&
+                            this.obstacleMap.isObstacle(i,j+1) &&
+                            this.obstacleMap.isObstacle(i,j-1) &&
+                            this.obstacleMap.isObstacle(i+1,j) ) {
+                        this.board[i][j] = 'n';
+                    }
+
+                    if(!this.obstacleMap.isObstacle(i-1,j) &&
+                            !this.obstacleMap.isObstacle(i,j+1) &&
+                            this.obstacleMap.isObstacle(i,j-1) &&
+                            this.obstacleMap.isObstacle(i+1,j) ) {
+                        this.board[i][j] = 'a';
+                    }
+
+                    if(!this.obstacleMap.isObstacle(i,j+1) &&
+                            !this.obstacleMap.isObstacle(i+1,j) &&
+                            this.obstacleMap.isObstacle(i,j-1) &&
+                            this.obstacleMap.isObstacle(i-1,j) ) {
+                        this.board[i][j] = 'b';
+                    }
+
+                    if(!this.obstacleMap.isObstacle(i+1,j) &&
+                            !this.obstacleMap.isObstacle(i,j-1) &&
+                            this.obstacleMap.isObstacle(i,j+1) &&
+                            this.obstacleMap.isObstacle(i-1,j) ) {
+                        this.board[i][j] = 'c';
+                    }
+
+                    if(!this.obstacleMap.isObstacle(i-1,j) &&
+                            !this.obstacleMap.isObstacle(i,j-1) &&
+                            this.obstacleMap.isObstacle(i,j+1) &&
+                            this.obstacleMap.isObstacle(i+1,j) ) {
+                        this.board[i][j] = 'd';
+                    }
+
+                    if(!this.obstacleMap.isObstacle(i+1,j) &&
+                            !this.obstacleMap.isObstacle(i-1,j) &&
+                            this.obstacleMap.isObstacle(i,j+1) &&
+                            this.obstacleMap.isObstacle(i,j-1) ) {
+                        this.board[i][j] = 'e';
+                    }
+
+                    if(!this.obstacleMap.isObstacle(i,j-1) &&
+                            !this.obstacleMap.isObstacle(i,j+1) &&
+                            this.obstacleMap.isObstacle(i+1,j) &&
+                            this.obstacleMap.isObstacle(i-1,j) ) {
+                        this.board[i][j] = 'f';
+                    }
+                }
+            }
+        }
+
+   }
+
     /**
      * @param row         the row to set.
      * @param col         the col to set.
