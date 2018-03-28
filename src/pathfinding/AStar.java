@@ -66,9 +66,8 @@ public class AStar {
             if(!inOpen)open.add(t);
         }
     }
-    
-    public static void AStar(){ 
-        
+
+    public static void AStar() {
         //add the start location to open list.
         open.add(grid[startI][startJ]);
         

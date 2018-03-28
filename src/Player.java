@@ -5,24 +5,22 @@
  * current score. Player movement is handled via move methods defined in this class.
  */
 public class Player {
-    private Boolean isAlive;
+    private Boolean isAlive = true;
     private String userHandle;
 
     private int col;
     private int row;
     private int score = 0;
 
-    /***
-     * Constructor to add player sprite to the board.
-     * @param setRow player's starting x coordinate.
-     * @param setCol player's starting y coordinate.
-     * @param setUserHandle player's chosen handle.
-     */
-    Player(int setRow, int setCol, String setUserHandle) {
-        this.isAlive = true; // New players start off alive.
-        this.row = setRow;
-        this.col = setCol;
-        this.userHandle = setUserHandle;
+    public Player(int row, int col) {
+        this.row = row;
+        this.col = col;
+    }
+
+    public Player(int col, int row, String userHandle) {
+        this.userHandle = userHandle;
+        this.col = col;
+        this.row = row;
     }
 
     /**
@@ -30,6 +28,11 @@ public class Player {
      */
     void kill() {
         this.isAlive = false;
+    }
+
+    void setCoords(int row, int col) {
+        this.row = row;
+        this.col = col;
     }
 
     /**
@@ -43,18 +46,8 @@ public class Player {
         return col;
     }
 
-    @SuppressWarnings("unused")
-    public void setCol(int col) {
-        this.col = col;
-    }
-
     int getRow() {
         return row;
-    }
-
-    @SuppressWarnings("unused")
-    public void setRow(int row) {
-        this.row = row;
     }
 
     Boolean isAlive() {
@@ -89,4 +82,7 @@ public class Player {
         return userHandle;
     }
 
+    public void setUserHandle(String userHandle) {
+        this.userHandle = userHandle;
+    }
 }

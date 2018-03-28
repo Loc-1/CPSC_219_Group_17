@@ -22,7 +22,6 @@ import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * @author Josh + Lachlan. Renders the BoardWindow in JavaFX.
@@ -30,11 +29,9 @@ import java.util.Objects;
 @SuppressWarnings("FieldCanBeLocal")
 public class BoardWindow extends Application {
     private final int tileWidthHeight = 32; // Changing this number will have serious consequences. CHANGE WITH CAUTION.
-    private final Board board;
-    private final Player player;
+    private final ObstacleAndEnemyMap board;
     private int difficulty;
     private final ArrayList<EnemySprite> enemySprites;
-    private int viewRows;
 
     private Sprite playerSprite;
 
@@ -67,18 +64,12 @@ public class BoardWindow extends Application {
      * Custom constructor.
      *
      * @param board  the board to render.
-     * @param player the player to render.
      */
-    BoardWindow(Board board, Player player, int setViewRows, int difficulty) {
-        this.viewRows = setViewRows;
-        this.player = player;
+    BoardWindow(ObstacleAndEnemyMap board, int setViewRows, int difficulty) {
         this.board = board;
         this.difficulty = difficulty;
         this.enemySprites = new ArrayList<>();
 
-        if (Objects.equals(this.player.getUserHandle(), "")) {
-            this.player.setAnonUserHandle();
-        }
     }
 
     /**
@@ -87,10 +78,8 @@ public class BoardWindow extends Application {
      */
     @SuppressWarnings("unused")
     public BoardWindow() {
-        this.viewRows = 26;
         this.difficulty = 1;
-        this.player = new Player(this.viewRows + 99, 22 / 2, "");
-        this.board = new Board(this.viewRows + 100, 22, this.difficulty, player, this.viewRows);
+        this.board = new ObstacleAndEnemyMap(24, 20, this.difficulty);
         this.enemySprites = new ArrayList<>();
 
     }
@@ -110,13 +99,13 @@ public class BoardWindow extends Application {
         ParallelCamera parallelCamera = new ParallelCamera();
 
         // Set the scene size and add it to the primary stage.
-        Scene scene = new Scene(root, this.board.getColumns() * tileWidthHeight, this.viewRows * tileWidthHeight);
+        Scene scene = new Scene(root, this.board.getColumns() * tileWidthHeight, this.board.getVisibleRows() * tileWidthHeight);
 
         // Add the camera and position it in the start zone.
         scene.setCamera(parallelCamera);
         parallelCamera
-                .setClip(new Rectangle(this.board.getColumns() * tileWidthHeight, this.viewRows * tileWidthHeight));
-        parallelCamera.relocate(0, (board.getRows() * tileWidthHeight) - (viewRows * tileWidthHeight));
+                .setClip(new Rectangle(this.board.getColumns() * tileWidthHeight, this.board.getVisibleRows() * tileWidthHeight));
+        parallelCamera.relocate(0, (board.getRows() * tileWidthHeight) - (this.board.getVisibleRows() * tileWidthHeight));
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Ascend");
@@ -130,7 +119,7 @@ public class BoardWindow extends Application {
 
         this.fillBackground(); // Fills the background tiles with images.
 
-        Label scoreLabel = new Label(String.valueOf(this.player.getScore()));
+        Label scoreLabel = new Label(String.valueOf(this.board.getPlayer().getScore()));
         scoreLabel.setStyle("-fx-background-color: rgba(150, 150, 150, 0.55); -fx-background-radius: 10;");
         scoreLabel.setFont(Font.font("Verdana", 25));
         scoreLabel.setTextFill(Color.BLACK);
@@ -143,7 +132,7 @@ public class BoardWindow extends Application {
 
         // Center the countdown pane.
         this.countdownPane.setLayoutY(
-                parallelCamera.getLayoutY() + this.viewRows * tileWidthHeight / 2 - this.countdownPane.getHeight());
+                parallelCamera.getLayoutY() + this.board.getVisibleRows() * tileWidthHeight / 2 - this.countdownPane.getHeight());
         this.countdownPane.setLayoutX(this.board.getColumns() * tileWidthHeight / 2 + this.countdownPane.getWidth());
         this.countdownPane.setStyle("-fx-padding: 5;");
 
@@ -168,8 +157,8 @@ public class BoardWindow extends Application {
 
         // Create a new playerSprite, position it, and render it on the board.
         this.playerSprite = new Sprite();
-        this.playerSprite.setX(this.player.getCol());
-        this.playerSprite.setY(this.player.getRow());
+        this.playerSprite.setX(this.board.getPlayer().getCol());
+        this.playerSprite.setY(this.board.getPlayer().getRow());
         this.playerSprite.setImage(playerRightImage);
         this.playerSprite.render(gc);
 
@@ -200,46 +189,46 @@ public class BoardWindow extends Application {
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:
-                    if (this.board.isValidMove(player.getRow() - 1, player.getCol()) && countdownTimer <= 0) {
-                        player.moveUp();
+                    if (this.board.isValidMove(this.board.getPlayer().getRow() - 1, this.board.getPlayer().getCol()) && countdownTimer <= 0) {
+                        this.board.getPlayer().moveUp();
                     }
                     break;
                 case W:
-                    if (this.board.isValidMove(player.getRow() - 1, player.getCol()) && countdownTimer <= 0) {
-                        player.moveUp();
+                    if (this.board.isValidMove(this.board.getPlayer().getRow() - 1, this.board.getPlayer().getCol()) && countdownTimer <= 0) {
+                        this.board.getPlayer().moveUp();
                     }
                     break;
                 case DOWN:
-                    if (this.board.isValidMove(player.getRow() + 1, player.getCol()) && countdownTimer <= 0) {
-                        player.moveDown();
+                    if (this.board.isValidMove(this.board.getPlayer().getRow() + 1, this.board.getPlayer().getCol()) && countdownTimer <= 0) {
+                        this.board.getPlayer().moveDown();
                     }
                     break;
                 case S:
-                    if (this.board.isValidMove(player.getRow() + 1, player.getCol()) && countdownTimer <= 0) {
-                        player.moveDown();
+                    if (this.board.isValidMove(this.board.getPlayer().getRow() + 1, this.board.getPlayer().getCol()) && countdownTimer <= 0) {
+                        this.board.getPlayer().moveDown();
                     }
                     break;
                 case LEFT:
-                    if (this.board.isValidMove(player.getRow(), player.getCol() - 1) && countdownTimer <= 0) {
-                        player.moveLeft();
+                    if (this.board.isValidMove(this.board.getPlayer().getRow(), this.board.getPlayer().getCol() - 1) && countdownTimer <= 0) {
+                        this.board.getPlayer().moveLeft();
                         this.playerSprite.setImage(playerLeftImage);
                     }
                     break;
                 case A:
-                    if (this.board.isValidMove(player.getRow(), player.getCol() - 1) && countdownTimer <= 0) {
-                        player.moveLeft();
+                    if (this.board.isValidMove(this.board.getPlayer().getRow(), this.board.getPlayer().getCol() - 1) && countdownTimer <= 0) {
+                        this.board.getPlayer().moveLeft();
                         this.playerSprite.setImage(playerLeftImage);
                     }
                     break;
                 case RIGHT:
-                    if (this.board.isValidMove(player.getRow(), player.getCol() + 1) && countdownTimer <= 0) {
-                        player.moveRight();
+                    if (this.board.isValidMove(this.board.getPlayer().getRow(), this.board.getPlayer().getCol() + 1) && countdownTimer <= 0) {
+                        this.board.getPlayer().moveRight();
                         this.playerSprite.setImage(playerRightImage);
                     }
                     break;
                 case D:
-                    if (this.board.isValidMove(player.getRow(), player.getCol() + 1) && countdownTimer <= 0) {
-                        player.moveRight();
+                    if (this.board.isValidMove(this.board.getPlayer().getRow(), this.board.getPlayer().getCol() + 1) && countdownTimer <= 0) {
+                        this.board.getPlayer().moveRight();
                         this.playerSprite.setImage(playerRightImage);
                     }
                     break;
@@ -263,7 +252,7 @@ public class BoardWindow extends Application {
              */
             @Override
             public void handle(long now) {
-                if (!player.isAlive()) { // Kills the gameLoop and closes the stage when the player dies.
+                if (!board.getPlayer().isAlive()) { // Kills the gameLoop and closes the stage when the player dies.
                     this.stop();
                     primaryStage.close();
                     for (EnemySprite e : enemySprites) {
@@ -275,8 +264,12 @@ public class BoardWindow extends Application {
 
                 // Clears the graphics context before drawing the new positions.
                 gc.clearRect(0, 0, board.getColumns() * tileWidthHeight, board.getRows() * tileWidthHeight);
-                playerSprite.setY(player.getRow());
-                playerSprite.setX(player.getCol());
+                if (board.getPlayer().getRow() < board.getRows() / 2) {
+                    shiftCameraOnReload(parallelCamera);
+                }
+                playerSprite.setY(board.getPlayer().getRow());
+                playerSprite.setX(board.getPlayer().getCol());
+
                 playerSprite.render(gc);
                 renderEnemySprites(gc);
 
@@ -307,10 +300,10 @@ public class BoardWindow extends Application {
                 // enemy/player collisions.
                 if (scoreCount == 61) {
                     scoreCount = 0;
-                    player.setScore(player.getScore() + 1);
-                    scoreLabel.setText(String.valueOf(player.getScore()));
+                    board.getPlayer().setScore(board.getPlayer().getScore() + 1);
+                    scoreLabel.setText(String.valueOf(board.getPlayer().getScore()));
                     // This increases the move rate every ~1 min.
-                    if (player.getScore() % 60 == 0 && moveRate != 0) {
+                    if (board.getPlayer().getScore() % 60 == 0 && moveRate != 0) {
                         moveRate += .25;
                     }
                 } else {
@@ -323,6 +316,13 @@ public class BoardWindow extends Application {
     }
 
     private void shiftCameraOnReload(Camera camera) {
+        this.board.extendBoard();
+        this.board.getPlayer().setCoords(this.board.getPlayer().getRow() + this.board.getVisibleRows() / 2,
+                this.board.getPlayer().getCol());
+        Translate translate = new Translate();
+        this.fillBackground();
+        translate.setY(camera.getClip().getLayoutY() + ((this.board.getVisibleRows() / 2) - 1) * tileWidthHeight);
+        camera.getTransforms().add(translate);
 
     }
 
@@ -334,22 +334,22 @@ public class BoardWindow extends Application {
     private void endGamePopup() {
         final Stage endGame = new Stage();
 
-        HighScores.add(this.player.getUserHandle(), this.player.getScore());
+        HighScores.add(this.board.getPlayer().getUserHandle(), this.board.getPlayer().getScore());
 
         VBox dialogBox = new VBox(10);
         dialogBox.setAlignment(Pos.CENTER);
         dialogBox.setStyle("-fx-background-color: #2F2F2F;");
 
-        Label playerName = new Label("Sorry, " + this.player.getUserHandle() + ", you died.");
+        Label playerName = new Label("Sorry, " + this.board.getPlayer().getUserHandle() + ", you died.");
         playerName.setStyle("-fx-font-size: 16px;-fx-text-fill: #DEDEDE;");
         dialogBox.getChildren().add(playerName);
 
-        Label playerScore = new Label("Your score was: " + this.player.getScore());
+        Label playerScore = new Label("Your score was: " + this.board.getPlayer().getScore());
         playerScore.setStyle("-fx-font-size: 16px;-fx-text-fill: #DEDEDE;");
         dialogBox.getChildren().add(playerScore);
 
         Label isHighScore = new Label();
-        if (HighScores.isHighScore(this.player.getScore())) {
+        if (HighScores.isHighScore(this.board.getPlayer().getScore())) {
             isHighScore.setText("You set a new high score!");
         } else {
             isHighScore.setText("Sorry, that's not a new high score.");
@@ -389,7 +389,7 @@ public class BoardWindow extends Application {
         for (EnemySprite s : this.enemySprites) {
             s.render(gc);
             if (s.getBoundary().intersects(playerSprite.getBoundary())) {
-                this.player.kill();
+                this.board.getPlayer().kill();
                 for (EnemySprite s2 : this.enemySprites) {
                     s2.stop();
                 }
@@ -414,15 +414,15 @@ public class BoardWindow extends Application {
             // the number of rows is subtracted by one so the player dies when the Sprite is
             // 100% off the board.
             double minY = camera.localToScene(camera.getLayoutBounds()).getMaxY()
-                    + (this.viewRows - 1) * tileWidthHeight;
+                    + (this.board.getVisibleRows() - 1) * tileWidthHeight;
             this.scorePane.setLayoutY(maxY + 5); // 5 is used to add the padding.
 
             camera.getTransforms().add(translate);
 
-            // Yes, this is the easiest kill logic ever.
-            if (this.playerSprite.getBoundary().getMinY() > minY || this.playerSprite.getBoundary().getMaxY() < maxY) {
-                this.player.kill();
-            }
+//            // Yes, this is the easiest kill logic ever.
+//            if (this.playerSprite.getBoundary().getMinY() > minY || this.playerSprite.getBoundary().getMaxY() < maxY) {
+//                this.board.getPlayer().kill();
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -176,12 +176,10 @@ public class GameWindow extends Application {
                 colNum = 26;
             }
 
-            int bigRowNum = rowNum + this.extraRows;
-
             // Launch game.
-            Player player = new Player(bigRowNum - 1, colNum / 2, userName);
-            Board board = new Board(bigRowNum, colNum, difficultyNum, player, rowNum);
-            BoardWindow window = new BoardWindow(board, player, rowNum, difficultyNum);
+            ObstacleAndEnemyMap obstacleAndEnemyMap = new ObstacleAndEnemyMap(rowNum, colNum, difficultyNum);
+            obstacleAndEnemyMap.getPlayer().setUserHandle(userName);
+            BoardWindow window = new BoardWindow(obstacleAndEnemyMap, rowNum, difficultyNum);
             primaryStage.close();
             window.start(new Stage());
         });

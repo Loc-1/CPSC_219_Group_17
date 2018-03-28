@@ -5,69 +5,67 @@ import static org.junit.Assert.*;
 public class BoardTest {
     @Test
     public void isValidMove() throws Exception {
-        Player testPlayer = new Player(0, 0, "");
-        Board testBoard = new Board(5, 5, 1, testPlayer);
-
+        ObstacleAndEnemyMap obstacleAndEnemyMap = new ObstacleAndEnemyMap(25, 21, 1);
+        obstacleAndEnemyMap.getPlayer().setCoords(24, 15);
         // Set an arbitrary tile to X.
-        testBoard.setObstacleMap(0, 1, true);
-        testBoard.setObstacleMap(4, 4, false);
-        testPlayer.moveDown();
-        testBoard.refresh();
+        obstacleAndEnemyMap.set(4, 4, true);
+        obstacleAndEnemyMap.set(0, 1, false);
+        obstacleAndEnemyMap.getPlayer().moveDown();
+        obstacleAndEnemyMap.markTiles();
 
         // Ensure the previous tile is now marked as a bad move.
-        boolean isNotValid = testBoard.isValidMove(0, 1);
-        boolean isValid = testBoard.isValidMove(4, 4);
+        boolean isNotValid = obstacleAndEnemyMap.isObstacle(0, 1);
+        boolean isValid = obstacleAndEnemyMap.isObstacle(4, 4);
 
         assertFalse("Move is not valid.", isNotValid);
         assertTrue("Move is valid.", isValid);
-        assertFalse("Player is alive, player should be dead.", testPlayer.isAlive());
 
     }
 
     @Test
     public void setBoard() throws Exception {
-        Player testPlayer = new Player(0, 0, "");
-        Board testBoard = new Board(5, 5, 1, testPlayer);
+        ObstacleAndEnemyMap obstacleAndEnemyMap = new ObstacleAndEnemyMap(25, 21, 1);
 
-        testBoard.setBoard(0, 0, '.');
-        testBoard.setBoard(1, 1, 'X');
+        obstacleAndEnemyMap.setBoard(0, 0, '.');
+        obstacleAndEnemyMap.setBoard(1, 1, 'X');
 
-        assertEquals("Character doesn't equal '.' ", '.', testBoard.getTile(0, 0));
-        assertEquals("Character doesn't equal 'X' ", 'X', testBoard.getTile(1, 1));
+        assertEquals("Character doesn't equal '.' ", '.', obstacleAndEnemyMap.getTile(0, 0));
+        assertEquals("Character doesn't equal 'X' ", 'X', obstacleAndEnemyMap.getTile(1, 1));
 
     }
 
     @Test
     public void movePlayer() throws Exception {
-        Player testPlayer = new Player(5, 3, "");
-        Board testBoard = new Board(6, 6, 1, testPlayer);
+        ObstacleAndEnemyMap obstacleAndEnemyMap = new ObstacleAndEnemyMap(25, 21, 1);
 
         // Clear all obstacles from the board.
-        for (int i = 0; i <= 5; i++) {
-            for (int j = 0; j <= 5; j++) {
-                testBoard.setObstacleMap(i, j, false);
+        for (int i = 0; i < obstacleAndEnemyMap.getRows(); i++) {
+            for (int j = 0; j < obstacleAndEnemyMap.getColumns(); j++) {
+                obstacleAndEnemyMap.set(i, j, false);
             }
         }
 
+        obstacleAndEnemyMap.getPlayer().setCoords(5, 3);
+
         // Test moving Player Up.
-        testPlayer.moveUp();
-        testBoard.refresh();
-        assertEquals("Player did not move Up.", 'P', testBoard.getTile(4, 3));
+        obstacleAndEnemyMap.getPlayer().moveUp();
+        obstacleAndEnemyMap.markTiles();
+        assertEquals("Player did not move Up.", 'P', obstacleAndEnemyMap.getTile(4, 3));
 
         // Test moving Player Right.
-        testPlayer.moveRight();
-        testBoard.refresh();
-        assertEquals("Player did not move Right.", 'P', testBoard.getTile(4, 4));
+        obstacleAndEnemyMap.getPlayer().moveRight();
+        obstacleAndEnemyMap.markTiles();
+        assertEquals("Player did not move Right.", 'P', obstacleAndEnemyMap.getTile(4, 4));
 
         // Test moving Player Down.
-        testPlayer.moveDown();
-        testBoard.refresh();
-        assertEquals("Player did not move Down.", 'P', testBoard.getTile(5, 4));
+        obstacleAndEnemyMap.getPlayer().moveDown();
+        obstacleAndEnemyMap.markTiles();
+        assertEquals("Player did not move Down.", 'P', obstacleAndEnemyMap.getTile(5, 4));
 
         // Test moving Player Left.
-        testPlayer.moveLeft();
-        testBoard.refresh();
-        assertEquals("Player did not move Left.", 'P', testBoard.getTile(5, 3));
+        obstacleAndEnemyMap.getPlayer().moveLeft();
+        obstacleAndEnemyMap.markTiles();
+        assertEquals("Player did not move Left.", 'P', obstacleAndEnemyMap.getTile(5, 3));
 
     }
 
