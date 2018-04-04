@@ -18,11 +18,10 @@ class EnemySprite extends Sprite {
     private final Image enemyLeftImage;
 
     EnemySprite(int difficulty, Enemy setEnemy) {
-        super();
         this.enemy = setEnemy;
         this.enemyLeftImage = new Image("en_left.png");
         this.enemyRightImage = new Image("en_right.png");
-        this.setImage(this.enemyLeftImage);
+        super.setImage(this.enemyLeftImage);
 
         this.updatePosition();
 
@@ -64,6 +63,7 @@ class EnemySprite extends Sprite {
 
     /**
      * Update the sprites position in the Sprite parent.
+     * :TODO: Add the image update code here.
      */
     private void updatePosition() {
         int[] coords = this.enemy.getCurrentCoords();
