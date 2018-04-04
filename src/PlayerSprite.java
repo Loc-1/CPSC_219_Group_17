@@ -21,7 +21,7 @@ public class PlayerSprite extends Sprite {
     }
 
     /**
-     * Refresh the player's location relative the sprite.
+     * Refresh the sprite's location relative the player instance's location.
      *
      * @param setPlayer the player's location in need of refresh.
      */
