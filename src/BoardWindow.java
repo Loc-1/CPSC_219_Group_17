@@ -29,11 +29,11 @@ import java.util.ArrayList;
 @SuppressWarnings("FieldCanBeLocal")
 public class BoardWindow extends Application {
     private final int tileWidthHeight = 32; // Changing this number will have serious consequences. CHANGE WITH CAUTION.
-    private final ObstacleAndEnemyMap board;
-    private int difficulty;
-    private final ArrayList<EnemySprite> enemySprites;
+    private final PlayerSprite playerSprite;
 
-    private Sprite playerSprite;
+    private final ObstacleAndEnemyMap board;
+    private final ArrayList<EnemySprite> enemySprites;
+    private int difficulty;
 
     private Pane floorPane;
     private Pane wallPane;
@@ -41,8 +41,6 @@ public class BoardWindow extends Application {
     private Pane countdownPane;
 
     // Load all the images into Image instances--for speed!
-    private Image playerLeftImage;
-    private Image playerRightImage;
     private Image backgroundImage;
     private Image wallImage;
     private Image wallNImage;
@@ -53,8 +51,6 @@ public class BoardWindow extends Application {
     private Image wallSWImage;
     private Image wallEImage;
     private Image wallWImage;
-    private Image enemyRightImage;
-    private Image enemyLeftImage;
 
     private Label countdownLabel;
     private int countdownTimer = 3; // The amount of time to delay before the game starts.
@@ -67,6 +63,7 @@ public class BoardWindow extends Application {
      */
     BoardWindow(ObstacleAndEnemyMap board, int setViewRows, int difficulty) {
         this.board = board;
+        this.playerSprite = new PlayerSprite(this.board.getPlayer());
         this.difficulty = difficulty;
         this.enemySprites = new ArrayList<>();
 
@@ -80,6 +77,7 @@ public class BoardWindow extends Application {
     public BoardWindow() {
         this.difficulty = 1;
         this.board = new ObstacleAndEnemyMap(24, 20, this.difficulty);
+        this.playerSprite = new PlayerSprite(this.board.getPlayer());
         this.enemySprites = new ArrayList<>();
 
     }
@@ -155,17 +153,12 @@ public class BoardWindow extends Application {
         root.getChildren().add(canvas);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        // Create a new playerSprite, position it, and render it on the board.
-        this.playerSprite = new Sprite();
-        this.playerSprite.setX(this.board.getPlayer().getCol());
-        this.playerSprite.setY(this.board.getPlayer().getRow());
-        this.playerSprite.setImage(playerRightImage);
+        // Render the playerSprite for the initial render.
         this.playerSprite.render(gc);
 
         // Create an enemy Sprite for all enemies on the board.
         for (Enemy e : this.board.getEnemies()) {
             EnemySprite sprite = new EnemySprite(difficulty, e);
-            sprite.setImage(this.enemyRightImage);
             this.enemySprites.add(sprite);
         }
 
@@ -190,46 +183,42 @@ public class BoardWindow extends Application {
             switch (event.getCode()) {
                 case UP:
                     if (this.board.isValidMove(this.board.getPlayer().getRow() - 1, this.board.getPlayer().getCol()) && countdownTimer <= 0) {
-                        this.board.getPlayer().moveUp();
+                        this.playerSprite.moveUp(this.board.getPlayer());
                     }
                     break;
                 case W:
                     if (this.board.isValidMove(this.board.getPlayer().getRow() - 1, this.board.getPlayer().getCol()) && countdownTimer <= 0) {
-                        this.board.getPlayer().moveUp();
+                        this.playerSprite.moveUp(this.board.getPlayer());
                     }
                     break;
                 case DOWN:
                     if (this.board.isValidMove(this.board.getPlayer().getRow() + 1, this.board.getPlayer().getCol()) && countdownTimer <= 0) {
-                        this.board.getPlayer().moveDown();
+                        this.playerSprite.moveDown(this.board.getPlayer());
                     }
                     break;
                 case S:
                     if (this.board.isValidMove(this.board.getPlayer().getRow() + 1, this.board.getPlayer().getCol()) && countdownTimer <= 0) {
-                        this.board.getPlayer().moveDown();
+                        this.playerSprite.moveDown(this.board.getPlayer());
                     }
                     break;
                 case LEFT:
                     if (this.board.isValidMove(this.board.getPlayer().getRow(), this.board.getPlayer().getCol() - 1) && countdownTimer <= 0) {
-                        this.board.getPlayer().moveLeft();
-                        this.playerSprite.setImage(playerLeftImage);
+                        this.playerSprite.moveLeft(this.board.getPlayer());
                     }
                     break;
                 case A:
                     if (this.board.isValidMove(this.board.getPlayer().getRow(), this.board.getPlayer().getCol() - 1) && countdownTimer <= 0) {
-                        this.board.getPlayer().moveLeft();
-                        this.playerSprite.setImage(playerLeftImage);
+                        this.playerSprite.moveLeft(this.board.getPlayer());
                     }
                     break;
                 case RIGHT:
                     if (this.board.isValidMove(this.board.getPlayer().getRow(), this.board.getPlayer().getCol() + 1) && countdownTimer <= 0) {
-                        this.board.getPlayer().moveRight();
-                        this.playerSprite.setImage(playerRightImage);
+                        this.playerSprite.moveRight(this.board.getPlayer());
                     }
                     break;
                 case D:
                     if (this.board.isValidMove(this.board.getPlayer().getRow(), this.board.getPlayer().getCol() + 1) && countdownTimer <= 0) {
-                        this.board.getPlayer().moveRight();
-                        this.playerSprite.setImage(playerRightImage);
+                        this.playerSprite.moveRight(this.board.getPlayer());
                     }
                     break;
                 case ESCAPE:
@@ -247,8 +236,7 @@ public class BoardWindow extends Application {
              * This handler handles the continuous drawing of player sprites. Refresh is at
              * (about) 60 fps.
              *
-             * @param now
-             *            the time.
+             * @param now the time.
              */
             @Override
             public void handle(long now) {
@@ -267,9 +255,8 @@ public class BoardWindow extends Application {
                 if (board.getPlayer().getRow() < board.getRows() / 2) {
                     shiftCameraOnReload(parallelCamera);
                 }
-                playerSprite.setY(board.getPlayer().getRow());
-                playerSprite.setX(board.getPlayer().getCol());
 
+                playerSprite.refresh(board.getPlayer());
                 playerSprite.render(gc);
                 renderEnemySprites(gc);
 
@@ -278,8 +265,7 @@ public class BoardWindow extends Application {
                 }
 
                 // setLayoutX is needed to keep the label from falling off the side of the
-                // board. Five is subtracted
-                // to account for the CSS padding already in place.
+                // board. Five is subtracted to account for the CSS padding already in place.
                 scorePane.setLayoutX((board.getColumns() * tileWidthHeight) - (scorePane.getWidth() - 5));
 
                 // This uses the score counter to manage the countdown timer. Pauses the game
@@ -468,8 +454,6 @@ public class BoardWindow extends Application {
      * subsequent background painting calls.
      */
     private void loadGame() {
-        this.playerLeftImage = new Image("ch_left.png");
-        this.playerRightImage = new Image("ch_right.png");
         this.backgroundImage = new Image("floor.png");
         this.wallImage = new Image("brick_dark0.png");
 
@@ -483,8 +467,6 @@ public class BoardWindow extends Application {
         this.wallWImage = new Image("w_background.png");
         this.wallNWImage = new Image("nw_background.png");
 
-        this.enemyLeftImage = new Image("en_left.png");
-        this.enemyRightImage = new Image("en_right.png");
     }
 
 }

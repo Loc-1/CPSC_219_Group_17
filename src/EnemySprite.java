@@ -1,3 +1,5 @@
+import javafx.scene.image.Image;
+
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -12,9 +14,18 @@ class EnemySprite extends Sprite {
     private Timer timer;
     private long difficultyMod;
 
+    private final Image enemyRightImage;
+    private final Image enemyLeftImage;
+
     EnemySprite(int difficulty, Enemy setEnemy) {
+        super();
         this.enemy = setEnemy;
+        this.enemyLeftImage = new Image("en_left.png");
+        this.enemyRightImage = new Image("en_right.png");
+        this.setImage(this.enemyLeftImage);
+
         this.updatePosition();
+
         Random r = new Random();
 
         switch (difficulty) {
