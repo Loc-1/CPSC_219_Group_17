@@ -78,6 +78,10 @@ public class Player {
         this.col -= 1;
     }
 
+    void moveToZero(int setRow) {
+        this.row = setRow;
+    }
+
     String getUserHandle() {
         return userHandle;
     }

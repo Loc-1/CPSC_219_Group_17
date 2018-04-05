@@ -19,16 +19,16 @@ abstract class Board {
     /**
      * Constructor creates a single player board.
      *
-     * @param setRows       desired number of rows.
-     * @param setColumns    desired number of columns.
-     * @param setDifficulty desired difficulty (0 = easy; 1 = medium; 2 = hard)
-     * @param setPlayer     the player.
+     * @param setRows        desired number of rows.
+     * @param setColumns     desired number of columns.
+     * @param setDifficulty  desired difficulty (0 = easy; 1 = medium; 2 = hard)
+     * @param setVisibleRows the number of visible rows for the BoardWindow.
      */
-    Board(int setRows, int setColumns, int difficulty, int visibleRows) {
+    Board(int setRows, int setColumns, int setDifficulty, int setVisibleRows) {
         this.rows = setRows;
         this.columns = setColumns;
-        this.difficulty = difficulty;
-        this.visibleRows = visibleRows;
+        this.difficulty = setDifficulty;
+        this.visibleRows = setVisibleRows;
         this.board = new char[this.rows][this.columns];
 
         if (this.rows < 0 || this.columns < 0) { // Temp error catching if.
