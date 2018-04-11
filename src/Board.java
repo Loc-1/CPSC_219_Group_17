@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -14,6 +16,8 @@ abstract class Board {
     private int difficulty;
     private int visibleRows;
     private char[][] board;
+
+    private List<Observer> observers = new ArrayList<>();
 
 
     /**
@@ -66,6 +70,7 @@ abstract class Board {
 
     void setBoard(int row, int col, char setChar) {
         this.board[row][col] = setChar;
+        notifyAllObservers();
     }
 
     int getColumns() {
@@ -82,5 +87,19 @@ abstract class Board {
 
     int getVisibleRows() {
         return visibleRows;
+    }
+
+    public void attach(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void notifyAllObservers() {
+        for (Observer observer : observers) {
+            observer.update();
+        }
+    }
+
+    public interface BoardInterface {
+        void set();
     }
 }

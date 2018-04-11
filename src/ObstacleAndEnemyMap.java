@@ -2,39 +2,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class Owner: Ashton
+ * Class Owner: Lincoln
  * <p>
  * Class is a procedurally generated map of interesting and traversable 'obstacles' represented as a 2d array of
  * primitive booleans.
  */
 public class ObstacleAndEnemyMap extends Board {
     private boolean[][] obstacleMap;
-    private final int numberOfSteps = 150; // The number of times to run the simulation step.
-    private final double difficultyModifier = 0.7f;
+    private static final int numberOfSteps = 100; // The number of times to run the simulation step.
+    private static final double difficultyModifier = 0.55f;
+    private static final int safeZone = 2;
 
     private ArrayList<Enemy> enemies;
     private Player player;
-
 
     /**
      * Creates a new obstacle map.
      */
     ObstacleAndEnemyMap(int rows, int cols, int difficulty) {
-        super(rows * 3, cols, difficulty, rows);
+        super(rows * 4, cols, difficulty, rows);
 
         try { // Ensure board size is valid.
-            if (rows % 4 != 0 || cols < 20) {
-                throw new IllegalStateException("Invalid number of rows or columns. Rows must be a divisor of 4 and cols" +
-                        " must be a number greater than 20.");
+            if (rows % 4 != 0 || cols < 24) {
+                throw new IllegalStateException("Invalid number of rows or columns. Rows must be greater than 26" +
+                        " must be a number greater than 24.");
             }
         } catch (IllegalStateException e) {
             e.printStackTrace();
             return;
         }
 
+        this.enemies = new ArrayList<>();
         this.obstacleMap = this.generateNewMap();
         this.player = new Player(this.getRows() - 1, this.getColumns() / 2);
-        this.enemies = new ArrayList<>();
+        this.markTiles();
+        this.printBoard();
 
         while (!isTraversable(this.obstacleMap)) {
             this.obstacleMap = generateNewMap();
@@ -95,6 +97,11 @@ public class ObstacleAndEnemyMap extends Board {
         int chunkStepSize = this.getVisibleRows() / 4;
         int numOfChunks = this.getRows() / chunkStepSize;
 
+        if (offset != 0) {
+            numOfChunks = 1;
+            chunkStepSize = offset / 4;
+        }
+
         for (int chunkIndex = 0; chunkIndex < numOfChunks; chunkIndex++) {
             int visibleBoardStart = chunkIndex * chunkStepSize;
             int visibleBoardEnd = (chunkIndex + 1) * chunkStepSize;
@@ -111,6 +118,7 @@ public class ObstacleAndEnemyMap extends Board {
 
             chunkIndex++;
         }
+
     }
 
     /**
@@ -121,10 +129,10 @@ public class ObstacleAndEnemyMap extends Board {
      * @return a nice map with traversable obstacles.
      */
     private boolean[][] doSimulationStep(boolean[][] oldMap, int offset) {
-        final double deathLimit = 3; // These numbers are entirely arbitrary.
-        final double birthLimit = 6;
+        final double deathLimit = 2; // These numbers are entirely arbitrary.
+        final double birthLimit = 5;
 
-        for (int x = 0; x < this.getRows() - offset; x++) {
+        for (int x = 0; x < this.getRows() - (offset + this.getVisibleRows() / 4); x++) {
             for (int y = 0; y < oldMap[0].length; y++) {
                 int nbs = countAdjacentObstacles(oldMap, x, y);
                 //The new value is based on our simulation rules
@@ -159,7 +167,6 @@ public class ObstacleAndEnemyMap extends Board {
      */
     private boolean[][] generateNewMap() {
         boolean[][] newMap = new boolean[this.getRows()][this.getColumns()];
-        final int safeZone = 2;
 
         // Ensures the edges of the board are always an obstacle.
         for (int i = 0; i < this.getRows(); i++) {
@@ -167,82 +174,20 @@ public class ObstacleAndEnemyMap extends Board {
             newMap[i][this.getColumns() - 1] = true;
         }
 
-        for (int row = 0; row < this.getRows() - safeZone; row++) {
+        for (int row = 5; row < this.getRows() - safeZone; row++) {
             for (int col = 0; col < this.getColumns(); col++) {
-                if (generateRandomDouble() < this.difficultyModifier && row < this.getRows()) {
+                if (generateRandomDouble() < difficultyModifier && row < this.getRows()) {
                     newMap[row][col] = true;
                 }
             }
         }
 
         // This recursively runs the cellular simulation per the int in numberOfSteps.
-        for (int i = 0; i < this.numberOfSteps; i++) {
+        for (int i = 0; i < numberOfSteps; i++) {
             newMap = doSimulationStep(newMap, 0);
         }
 
         return makeTraverseable(newMap);
-    }
-
-    /**
-     * Generates a new map, taking into account the remaining board section and not modifying it.
-     * @param remainingSection the partial map to extend.
-     * @param offset the amount of rows to keep and not modify.
-     * @return a boolean[][] obstacle map.
-     */
-    private boolean[][] generateNewSection(boolean[][] remainingSection, int offset) {
-        boolean[][] newMap = remainingSection;
-
-        // Ensures the edges of the board are always an obstacle.
-        for (int i = 0; i < this.getRows() - offset; i++) {
-            newMap[i][0] = true;
-            newMap[i][this.getColumns() - 1] = true;
-        }
-
-        for (int row = 0; row < this.getRows() - offset; row++) {
-            for (int col = 0; col < this.getColumns(); col++) {
-                if (generateRandomDouble() < 0.45 && row < this.getRows()) {
-                    newMap[row][col] = true;
-                }
-            }
-        }
-
-        for (int i = 0; i < this.numberOfSteps; i++) {
-            newMap = doSimulationStep(newMap, offset);
-        }
-
-        return makeTraverseable(newMap);
-    }
-
-    /**
-     * Calling this method will extend the board.
-     */
-    void extendBoard() {
-        boolean[][] newMap = new boolean[this.getRows()][this.getColumns()];
-        final int OFFSET = 0;
-
-        for (int i = 1; i < this.getVisibleRows(); i++) {
-            newMap[this.getRows() - 1] = this.obstacleMap[this.player.getRow()];
-            newMap[this.getRows() - (i + 1)] = this.obstacleMap[this.player.getRow() - i];
-        }
-
-        for (int i = 0; i < this.enemies.size(); i++) {
-            this.enemies.get(i).moveWithBoard(this.getVisibleRows() / 2);
-            int[] coords = this.enemies.get(i).getCurrentCoords();
-            if (coords[0] > this.getRows() - 1) {
-                this.enemies.remove(i);
-            }
-        }
-
-        this.player.moveToZero(this.getRows() - (this.getVisibleRows() / 2));
-        newMap = this.generateNewSection(newMap, this.getVisibleRows() + OFFSET);
-
-        while (!this.isTraversable(newMap)) {
-            newMap = this.generateNewSection(newMap, this.getVisibleRows() + OFFSET);
-        }
-
-        this.obstacleMap = newMap;
-        this.markTiles();
-
     }
 
     /**
@@ -277,7 +222,7 @@ public class ObstacleAndEnemyMap extends Board {
      * @return true if map is traversable.
      */
     private boolean isTraversable(boolean[][] map) {
-        int threshold = 5000; // Decrease value to tighten restraints on traversability
+        int threshold = 7000; // Decrease value to tighten restraints on traversability
         boolean isTraversable = false;
 
         try {
@@ -289,7 +234,7 @@ public class ObstacleAndEnemyMap extends Board {
                 }
             }
         } catch (NullPointerException e) {
-            //
+            return false;
         }
 
         return isTraversable;
@@ -472,6 +417,7 @@ public class ObstacleAndEnemyMap extends Board {
 
 
         this.setBoard(this.player.getRow(), this.player.getCol(), 'P');
+        this.notifyAllObservers();
     }
 
     ArrayList<Enemy> getEnemies() {
@@ -503,6 +449,7 @@ public class ObstacleAndEnemyMap extends Board {
 
     public void set(int row, int col, boolean set) {
         this.obstacleMap[row][col] = set;
+        this.notifyAllObservers();
     }
 
     public Player getPlayer() {

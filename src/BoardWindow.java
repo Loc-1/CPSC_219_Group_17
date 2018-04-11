@@ -76,10 +76,9 @@ public class BoardWindow extends Application {
     @SuppressWarnings("unused")
     public BoardWindow() {
         this.difficulty = 1;
-        this.board = new ObstacleAndEnemyMap(24, 20, this.difficulty);
+        this.board = new ObstacleAndEnemyMap(24, 24, this.difficulty);
         this.playerSprite = new PlayerSprite(this.board.getPlayer());
         this.enemySprites = new ArrayList<>();
-
     }
 
     public static void main(String[] args) {
@@ -165,13 +164,13 @@ public class BoardWindow extends Application {
         // Vary the camera move rate by difficulty.
         switch (difficulty) {
             case 1:
-                this.moveRate = 0.5;
-                break;
-            case 2:
                 this.moveRate = 0.75;
                 break;
+            case 2:
+                this.moveRate = 1.00;
+                break;
             case 3:
-                this.moveRate = 1;
+                this.moveRate = 1.25;
                 break;
         }
 
@@ -249,13 +248,8 @@ public class BoardWindow extends Application {
                     endGamePopup();
 
                 }
-
                 // Clears the graphics context before drawing the new positions.
                 gc.clearRect(0, 0, board.getColumns() * tileWidthHeight, board.getRows() * tileWidthHeight);
-                if (board.getPlayer().getRow() < board.getRows() / 2) {
-                    shiftCameraOnReload(parallelCamera);
-                }
-
                 playerSprite.refresh(board.getPlayer());
                 playerSprite.render(gc);
                 renderEnemySprites(gc);
@@ -289,7 +283,7 @@ public class BoardWindow extends Application {
                     board.getPlayer().setScore(board.getPlayer().getScore() + 1);
                     scoreLabel.setText(String.valueOf(board.getPlayer().getScore()));
                     // This increases the move rate every ~1 min.
-                    if (board.getPlayer().getScore() % 60 == 0 && moveRate != 0) {
+                    if (board.getPlayer().getScore() % 30 == 0 && moveRate != 0) {
                         moveRate += .25;
                     }
                 } else {
@@ -298,17 +292,6 @@ public class BoardWindow extends Application {
             }
         };
         gameLoop.start();
-
-    }
-
-    private void shiftCameraOnReload(Camera camera) {
-        this.board.extendBoard();
-        this.board.getPlayer().setCoords(this.board.getPlayer().getRow() + this.board.getVisibleRows() / 2,
-                this.board.getPlayer().getCol());
-        Translate translate = new Translate();
-        this.fillBackground();
-        translate.setY(camera.getClip().getLayoutY() + ((this.board.getVisibleRows() / 2) - 1) * tileWidthHeight);
-        camera.getTransforms().add(translate);
 
     }
 
