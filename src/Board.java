@@ -47,7 +47,7 @@ abstract class Board {
     }
 
     /**
-     * Prints the board to console in a nicely formatted fashion.
+     * Prints the board to console in a nicely formatted fashion. Needed for debugging.
      */
     @SuppressWarnings("unused")
     void printBoard() {

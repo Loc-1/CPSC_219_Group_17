@@ -236,7 +236,7 @@ public class BoardWindow extends Application {
                     }
 
                     enemySprites.clear();
-                    winLevel();
+                    winGamePopup();
 
                 }
 
@@ -318,7 +318,7 @@ public class BoardWindow extends Application {
     /**
      * The win game pop up. Button initiates a new game map.
      */
-    private void winLevel() {
+    private void winGamePopup() {
         final Stage winGame = new Stage();
 
         VBox dialogBox = new VBox(10);
@@ -402,7 +402,8 @@ public class BoardWindow extends Application {
     }
 
     /**
-     * Renders all the enemy sprites from the Enemy[] on the board.
+     * Renders all the enemy sprites from the Enemy[] on the board. Kills the player when the player touches an enemy's
+     * boundary.
      *
      * @param gc the canvas GraphicsContext where the Sprites are drawn.
      */
