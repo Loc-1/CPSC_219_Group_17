@@ -66,7 +66,8 @@ class ObstacleAndEnemyMap extends Board {
         }
 
         this.enemies = new ArrayList<>();
-        this.obstacleMap = this.generateNewMap();
+        this.obstacleMap = new boolean[this.getRows()][this.getColumns()];
+        this.obstacleMap = generateNewMap();
         this.player = player;
 
         while (!isTraversable(this.obstacleMap)) {

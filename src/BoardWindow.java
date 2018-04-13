@@ -246,7 +246,6 @@ public class BoardWindow extends Application {
                 playerSprite.refresh(board.getPlayer());
                 playerSprite.render(gc);
                 renderEnemySprites(gc);
-                System.out.println(parallelCamera.getBoundsInParent().getMaxY());
 
                 if (countdownTimer == -1 && parallelCamera.getBoundsInParent().getMaxY() > 0) {
                     moveCameraUp(parallelCamera, root);

@@ -97,6 +97,12 @@ abstract class HighScores {
     private static void load() {
         try {
             if (highScores.isEmpty()) { // Prevent load if highScores isn't empty.
+                File scoresFile = new File("highscores.ser");
+
+                if (!scoresFile.exists()) {
+                    scoresFile.createNewFile();
+                }
+
                 FileInputStream fileIn = new FileInputStream("highscores.ser");
                 ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 
@@ -108,6 +114,8 @@ abstract class HighScores {
                 fileIn.close();
                 sort();
             }
+        } catch (EOFException ignore) {
+            // do nothing
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
