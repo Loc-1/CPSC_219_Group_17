@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Class Owner: Lachlan
@@ -19,8 +20,6 @@ import java.util.ArrayList;
  * The game settings window and main menu.
  */
 public class GameWindow extends Application {
-    private final int extraRows = 100; // Adds a fixed number of rows to the top of the board array.
-
     /**
      * Launches GUI
      */
@@ -71,7 +70,7 @@ public class GameWindow extends Application {
         gridPane.add(boardSizeLabel, 0, 4);
 
         ComboBox<String> boardSize = new ComboBox<>();
-        boardSize.setItems(FXCollections.observableArrayList("Small (26 x 22)", "Medium (30 x 26)", "Large (34 x 28)"));
+        boardSize.setItems(FXCollections.observableArrayList("Small (24 x 24)", "Medium (24 x 26)", "Large (24 x 28)"));
         boardSize.setPromptText("Select a board size.");
         boardSize.setPrefWidth(200);
         boardSize.setStyle("-fx-font-size: 14px;-fx-background-color: #666666;-fx-text-fill: #DEDEDE;");
@@ -155,31 +154,36 @@ public class GameWindow extends Application {
 
             try {
                 switch (boardSize.getValue()) {
-                case "Small (26 x 22)":
-                    rowNum = 26;
-                    colNum = 22;
+                    case "Small (24 x 24)":
+                        rowNum = 24;
+                        colNum = 24;
                     break;
-                case "Medium (30 x 26)":
-                    rowNum = 30;
+                    case "Medium (24 x 26)":
+                        rowNum = 24;
                     colNum = 26;
                     break;
-                case "Large (34 x 28)":
-                    rowNum = 34;
+                    case "Large (24 x 28)":
+                        rowNum = 24;
                     colNum = 28;
                     break;
                 default:
-                    rowNum = 30;
-                    colNum = 26;
+                    rowNum = 24;
+                    colNum = 24;
                 }
             } catch (NullPointerException e) {
-                rowNum = 30;
-                colNum = 26;
+                rowNum = 24;
+                colNum = 24;
             }
 
             // Launch game.
             ObstacleAndEnemyMap obstacleAndEnemyMap = new ObstacleAndEnemyMap(rowNum, colNum, difficultyNum);
-            obstacleAndEnemyMap.getPlayer().setUserHandle(userName);
-            BoardWindow window = new BoardWindow(obstacleAndEnemyMap, rowNum, difficultyNum);
+            if (Objects.equals(userName, "")) {
+                obstacleAndEnemyMap.getPlayer().setAnonUserHandle();
+            } else {
+                obstacleAndEnemyMap.getPlayer().setUserHandle(userName);
+            }
+
+            BoardWindow window = new BoardWindow(obstacleAndEnemyMap, difficultyNum);
             primaryStage.close();
             window.start(new Stage());
         });

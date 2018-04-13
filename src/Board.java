@@ -1,6 +1,4 @@
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -16,9 +14,6 @@ abstract class Board {
     private int difficulty;
     private int visibleRows;
     private char[][] board;
-
-    private List<Observer> observers = new ArrayList<>();
-
 
     /**
      * Constructor creates a single player board.
@@ -54,6 +49,7 @@ abstract class Board {
     /**
      * Prints the board to console in a nicely formatted fashion.
      */
+    @SuppressWarnings("unused")
     void printBoard() {
         for (char[] row : this.getBoard()) {
             System.out.println(Arrays.toString(row).replace(", ", " "));
@@ -70,7 +66,6 @@ abstract class Board {
 
     void setBoard(int row, int col, char setChar) {
         this.board[row][col] = setChar;
-        notifyAllObservers();
     }
 
     int getColumns() {
@@ -89,17 +84,4 @@ abstract class Board {
         return visibleRows;
     }
 
-    public void attach(Observer observer) {
-        observers.add(observer);
-    }
-
-    public void notifyAllObservers() {
-        for (Observer observer : observers) {
-            observer.update();
-        }
-    }
-
-    public interface BoardInterface {
-        void set();
-    }
 }

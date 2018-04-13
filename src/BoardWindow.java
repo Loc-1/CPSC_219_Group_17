@@ -26,31 +26,21 @@ import java.util.ArrayList;
 /**
  * @author Josh + Lachlan. Renders the BoardWindow in JavaFX.
  */
-@SuppressWarnings("FieldCanBeLocal")
 public class BoardWindow extends Application {
     private final int tileWidthHeight = 32; // Changing this number will have serious consequences. CHANGE WITH CAUTION.
     private final PlayerSprite playerSprite;
 
-    private final ObstacleAndEnemyMap board;
+    private final int difficulty;
     private final ArrayList<EnemySprite> enemySprites;
-    private int difficulty;
+    private ObstacleAndEnemyMap board;
 
     private Pane floorPane;
     private Pane wallPane;
     private Pane scorePane;
     private Pane countdownPane;
 
-    // Load all the images into Image instances--for speed!
     private Image backgroundImage;
     private Image wallImage;
-    private Image wallNImage;
-    private Image wallNEImage;
-    private Image wallNWImage;
-    private Image wallSImage;
-    private Image wallSEImage;
-    private Image wallSWImage;
-    private Image wallEImage;
-    private Image wallWImage;
 
     private Label countdownLabel;
     private int countdownTimer = 3; // The amount of time to delay before the game starts.
@@ -61,12 +51,12 @@ public class BoardWindow extends Application {
      *
      * @param board  the board to render.
      */
-    BoardWindow(ObstacleAndEnemyMap board, int setViewRows, int difficulty) {
+    BoardWindow(ObstacleAndEnemyMap board, int difficulty) {
         this.board = board;
         this.playerSprite = new PlayerSprite(this.board.getPlayer());
         this.difficulty = difficulty;
         this.enemySprites = new ArrayList<>();
-
+        this.setCameraMoveRate();
     }
 
     /**
@@ -79,6 +69,8 @@ public class BoardWindow extends Application {
         this.board = new ObstacleAndEnemyMap(24, 24, this.difficulty);
         this.playerSprite = new PlayerSprite(this.board.getPlayer());
         this.enemySprites = new ArrayList<>();
+        this.setCameraMoveRate();
+
     }
 
     public static void main(String[] args) {
@@ -161,19 +153,6 @@ public class BoardWindow extends Application {
             this.enemySprites.add(sprite);
         }
 
-        // Vary the camera move rate by difficulty.
-        switch (difficulty) {
-            case 1:
-                this.moveRate = 0.75;
-                break;
-            case 2:
-                this.moveRate = 1.00;
-                break;
-            case 3:
-                this.moveRate = 1.25;
-                break;
-        }
-
         primaryStage.show();
 
         // Adds the key listeners and move validators. Player can't move until the game
@@ -248,13 +227,26 @@ public class BoardWindow extends Application {
                     endGamePopup();
 
                 }
+
+                if (board.getPlayer().getRow() == 0) { // Starts a new map when player reaches row 0.
+                    this.stop();
+                    primaryStage.close();
+                    for (EnemySprite e : enemySprites) {
+                        e.stop();
+                    }
+
+                    enemySprites.clear();
+                    winLevel();
+
+                }
+
                 // Clears the graphics context before drawing the new positions.
                 gc.clearRect(0, 0, board.getColumns() * tileWidthHeight, board.getRows() * tileWidthHeight);
                 playerSprite.refresh(board.getPlayer());
                 playerSprite.render(gc);
                 renderEnemySprites(gc);
 
-                if (countdownTimer == -1) {
+                if (countdownTimer == -1 && parallelCamera.getBoundsInParent().getMinY() != 0) {
                     moveCameraUp(parallelCamera, root);
                 }
 
@@ -293,6 +285,66 @@ public class BoardWindow extends Application {
         };
         gameLoop.start();
 
+    }
+
+    /**
+     * Varies the starting camera move rate by difficulty.
+     */
+    private void setCameraMoveRate() {
+        switch (difficulty) {
+            case 1:
+                this.moveRate = 0.75;
+                break;
+            case 2:
+                this.moveRate = 1.00;
+                break;
+            case 3:
+                this.moveRate = 1.25;
+                break;
+        }
+    }
+
+    /**
+     * Resets all timers and generates a new map.
+     */
+    private void nextGame() {
+        this.countdownTimer = 3;
+        this.board = new ObstacleAndEnemyMap(this.board.getVisibleRows(), this.board.getColumns(),
+                this.board.getDifficulty(), this.board.getPlayer());
+        this.board.getPlayer().setCoords(this.board.getRows() - 1, this.board.getColumns() / 2);
+        this.start(new Stage());
+    }
+
+    /**
+     * The win game pop up. Button initiates a new game map.
+     */
+    private void winLevel() {
+        final Stage winGame = new Stage();
+
+        VBox dialogBox = new VBox(10);
+        dialogBox.setAlignment(Pos.CENTER);
+        dialogBox.setStyle("-fx-background-color: #2F2F2F;");
+
+        Label message = new Label("You win! \n\nClick to continue to the next stage.");
+        message.setStyle("-fx-font-size: 16px;-fx-text-fill: #DEDEDE; -fx-text-alignment: center;");
+        dialogBox.getChildren().add(message);
+
+        Region separator = new Region();
+        separator.setMinHeight(10);
+        dialogBox.getChildren().add(separator);
+
+        Button next = new Button("Continue");
+        next.setStyle("-fx-font-size: 16px;-fx-text-fill: #DADADA;-fx-background-color: #44AE52;");
+        next.setPrefWidth(100);
+        next.setOnAction(event -> {
+            winGame.close();
+            this.nextGame();
+        });
+        dialogBox.getChildren().add(next);
+
+        Scene winGameScene = new Scene(dialogBox, 300, 200);
+        winGame.setScene(winGameScene);
+        winGame.show();
     }
 
     /**
@@ -388,10 +440,10 @@ public class BoardWindow extends Application {
 
             camera.getTransforms().add(translate);
 
-//            // Yes, this is the easiest kill logic ever.
-//            if (this.playerSprite.getBoundary().getMinY() > minY || this.playerSprite.getBoundary().getMaxY() < maxY) {
-//                this.board.getPlayer().kill();
-//            }
+            // Yes, this is the easiest kill logic ever.
+            if (this.playerSprite.getBoundary().getMinY() > minY || this.playerSprite.getBoundary().getMaxY() < maxY) {
+                this.board.getPlayer().kill();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -439,16 +491,6 @@ public class BoardWindow extends Application {
     private void loadGame() {
         this.backgroundImage = new Image("floor.png");
         this.wallImage = new Image("brick_dark0.png");
-
-        // Load wall images by exposed face.
-        this.wallNImage = new Image("n_background.png");
-        this.wallNEImage = new Image("ne_background.png");
-        this.wallEImage = new Image("e_background.png");
-        this.wallSEImage = new Image("se_background.png");
-        this.wallSImage = new Image("s_background.png");
-        this.wallSWImage = new Image("sw_background.png");
-        this.wallWImage = new Image("w_background.png");
-        this.wallNWImage = new Image("nw_background.png");
 
     }
 

@@ -7,7 +7,7 @@ import javafx.scene.image.Image;
  * @author Josh
  * Custom class to handle the Sprites on the board.
  */
-public abstract class Sprite {
+abstract class Sprite {
     private final int tileWidthHeight = 32;
     private Image image;
     private int x;
@@ -16,7 +16,7 @@ public abstract class Sprite {
     /**
      * Initialize the sprite in the top right.
      */
-    public Sprite() {
+    Sprite() {
         x = 0;
         y = 0;
     }
@@ -26,7 +26,7 @@ public abstract class Sprite {
      *
      * @param gc the graphics context to draw in.
      */
-    public void render(GraphicsContext gc) {
+    void render(GraphicsContext gc) {
         gc.drawImage(this.image, this.x * tileWidthHeight - 1, this.y * tileWidthHeight - 1);
     }
 
@@ -36,21 +36,21 @@ public abstract class Sprite {
      *
      * @return a Rectangle bounding box.
      */
-    public Bounds getBoundary() {
+    Bounds getBoundary() {
         return new BoundingBox(this.x * tileWidthHeight - tileWidthHeight - 1,
                 this.y * tileWidthHeight - tileWidthHeight - 1, tileWidthHeight - 1, tileWidthHeight - 1);
     }
 
 
-    public void setX(int x) {
+    void setX(int x) {
         this.x = x;
     }
 
-    public void setY(int y) {
+    void setY(int y) {
         this.y = y;
     }
 
-    public void setImage(Image image) {
+    void setImage(Image image) {
         this.image = image;
     }
 }

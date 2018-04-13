@@ -2,8 +2,10 @@ import javafx.scene.image.Image;
 
 /**
  * A class for handling the PlayerSprite. Moves the player passed via method calls along the board.
+ *
+ * @author Josh Harkema
  */
-public class PlayerSprite extends Sprite {
+class PlayerSprite extends Sprite {
     private final Image playerLeftImage;
     private final Image playerRightImage;
 
@@ -12,7 +14,7 @@ public class PlayerSprite extends Sprite {
      *
      * @param setPlayer the player to draw a sprite for.
      */
-    public PlayerSprite(Player setPlayer) {
+    PlayerSprite(Player setPlayer) {
         this.playerLeftImage = new Image("ch_left.png");
         this.playerRightImage = new Image("ch_right.png");
         super.setX(setPlayer.getCol());
@@ -25,7 +27,7 @@ public class PlayerSprite extends Sprite {
      *
      * @param setPlayer the player's location in need of refresh.
      */
-    public void refresh(Player setPlayer) {
+    void refresh(Player setPlayer) {
         super.setX(setPlayer.getCol());
         super.setY(setPlayer.getRow());
     }
@@ -35,7 +37,7 @@ public class PlayerSprite extends Sprite {
      *
      * @param setPlayer the player instance to move.
      */
-    public void moveRight(Player setPlayer) {
+    void moveRight(Player setPlayer) {
         setPlayer.moveRight();
         super.setImage(this.playerRightImage);
     }
@@ -45,7 +47,7 @@ public class PlayerSprite extends Sprite {
      *
      * @param setPlayer the player instance to move.
      */
-    public void moveLeft(Player setPlayer) {
+    void moveLeft(Player setPlayer) {
         setPlayer.moveLeft();
         super.setImage(this.playerLeftImage);
     }
@@ -55,7 +57,7 @@ public class PlayerSprite extends Sprite {
      *
      * @param setPlayer the player instance to move.
      */
-    public void moveUp(Player setPlayer) {
+    void moveUp(Player setPlayer) {
         setPlayer.moveUp();
         super.setImage(this.playerRightImage);
     }
@@ -65,7 +67,7 @@ public class PlayerSprite extends Sprite {
      *
      * @param setPlayer the player instance to move.
      */
-    public void moveDown(Player setPlayer) {
+    void moveDown(Player setPlayer) {
         setPlayer.moveDown();
         super.setImage(this.playerLeftImage);
     }

@@ -14,14 +14,11 @@ class EnemySprite extends Sprite {
     private Timer timer;
     private long difficultyMod;
 
-    private final Image enemyRightImage;
-    private final Image enemyLeftImage;
-
     EnemySprite(int difficulty, Enemy setEnemy) {
         this.enemy = setEnemy;
-        this.enemyLeftImage = new Image("en_left.png");
-        this.enemyRightImage = new Image("en_right.png");
-        super.setImage(this.enemyLeftImage);
+
+        Image enemyLeftImage = new Image("en_left.png");
+        super.setImage(enemyLeftImage);
 
         this.updatePosition();
 

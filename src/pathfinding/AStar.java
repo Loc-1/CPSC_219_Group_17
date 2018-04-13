@@ -14,22 +14,9 @@ import java.util.*;
 public class AStar {
     public static final int DIAGONAL_COST = 1400; // Changed Diagonal cost to 1400 from 14 to not consider diagonal moves
     public static final int V_H_COST = 10;
-    
-    static class Cell{  
-        int heuristicCost = 0; //Heuristic cost
-        int finalCost = 0; //G+H
-        int i, j;
-        Cell parent; 
-        
-        Cell(int i, int j){
-            this.i = i;
-            this.j = j; 
-        }
-        
-        @Override
-        public String toString(){
-            return "["+this.i+", "+this.j+"]";
-        }
+
+    public static int[][] append(int[][] arrayOne, int[][] arrayTwo) {
+        return new int[arrayOne.length + arrayTwo.length][];
     }
     
     //Blocked cells are just null Cell values in grid
@@ -344,10 +331,23 @@ public class AStar {
         
         return theDestination;
  }
-    
-    public static int[][] append(int[][] arrayOne, int[][] arrayTwo) {
-    	int[][] summedArray = new int[arrayOne.length + arrayTwo.length][];
-    	return summedArray;
+
+    static class Cell {
+        int heuristicCost = 0; //Heuristic cost
+        int finalCost = 0; //G+H
+        final int i;
+        final int j;
+        Cell parent;
+
+        Cell(int i, int j) {
+            this.i = i;
+            this.j = j;
+        }
+
+        @Override
+        public String toString() {
+            return "[" + this.i + ", " + this.j + "]";
+        }
     }
     
     /**

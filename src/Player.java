@@ -4,7 +4,7 @@
  * The player class handles the player's location on the board, as well as tracking the player's id, handle, and
  * current score. Player movement is handled via move methods defined in this class.
  */
-public class Player {
+class Player {
     private Boolean isAlive = true;
     private String userHandle;
 
@@ -12,12 +12,12 @@ public class Player {
     private int row;
     private int score = 0;
 
-    public Player(int row, int col) {
+    Player(int row, int col) {
         this.row = row;
         this.col = col;
     }
 
-    public Player(int col, int row, String userHandle) {
+    Player(int col, int row, String userHandle) {
         this.userHandle = userHandle;
         this.col = col;
         this.row = row;
@@ -30,16 +30,16 @@ public class Player {
         this.isAlive = false;
     }
 
-    void setCoords(int row, int col) {
-        this.row = row;
-        this.col = col;
-    }
-
     /**
      * This is used to set a default handle for when the player doesn't input one.
      */
     void setAnonUserHandle() {
         this.userHandle = "Anon";
+    }
+
+    void setCoords(int row, int col) {
+        this.row = row;
+        this.col = col;
     }
 
     int getCol() {
@@ -78,15 +78,12 @@ public class Player {
         this.col -= 1;
     }
 
-    void moveToZero(int setRow) {
-        this.row = setRow;
-    }
-
     String getUserHandle() {
         return userHandle;
     }
 
-    public void setUserHandle(String userHandle) {
+    void setUserHandle(String userHandle) {
         this.userHandle = userHandle;
     }
+
 }
