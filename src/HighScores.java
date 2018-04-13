@@ -8,7 +8,7 @@ import java.util.Comparator;
  * Handles the storage, retrieval, and setting of Score objects. Limits the total number of high scores to a max of 10.
  */
 abstract class HighScores {
-    private static final ArrayList<Score> highScores = new ArrayList<>();
+    private static ArrayList<Score> highScores = new ArrayList<>();
 
     /**
      * Adds a highscore to the Array of Scores if the score is actually a high score.
@@ -19,6 +19,7 @@ abstract class HighScores {
     static void add(String playerHandle, int score) {
         highScores.add(new Score(playerHandle, score));
         save();
+        load();
     }
 
     /**
