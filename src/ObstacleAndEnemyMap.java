@@ -200,6 +200,11 @@ class ObstacleAndEnemyMap extends Board {
             newMap[i][this.getColumns() - 1] = true;
         }
 
+        // Clear all obstacles from the top row.
+        for (int i = 0; i < this.getColumns(); i++) {
+            newMap[0][i] = false;
+        }
+
         for (int row = 3; row < this.getRows() - safeZone; row++) {
             for (int col = 0; col < this.getColumns(); col++) {
                 if (generateRandomDouble() < difficultyModifier && row < this.getRows()) {
@@ -444,6 +449,9 @@ class ObstacleAndEnemyMap extends Board {
 
 
         this.setBoard(this.player.getRow(), this.player.getCol(), 'P');
+        for (int i = 0; i < this.getColumns(); i++) {
+            this.setBoard(0, i, 'F');
+        }
 
     }
 

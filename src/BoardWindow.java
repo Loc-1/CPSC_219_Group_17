@@ -41,6 +41,7 @@ public class BoardWindow extends Application {
 
     private Image backgroundImage;
     private Image wallImage;
+    private Image endImage;
 
     private Label countdownLabel;
     private int countdownTimer = 3; // The amount of time to delay before the game starts.
@@ -245,8 +246,9 @@ public class BoardWindow extends Application {
                 playerSprite.refresh(board.getPlayer());
                 playerSprite.render(gc);
                 renderEnemySprites(gc);
+                System.out.println(parallelCamera.getBoundsInParent().getMaxY());
 
-                if (countdownTimer == -1 && parallelCamera.getBoundsInParent().getMinY() != 0) {
+                if (countdownTimer == -1 && parallelCamera.getBoundsInParent().getMaxY() > 0) {
                     moveCameraUp(parallelCamera, root);
                 }
 
@@ -479,6 +481,10 @@ public class BoardWindow extends Application {
                         i.setImage(this.backgroundImage);
                         this.floorPane.getChildren().add(i);
                         break;
+                    case 'F':
+                        i.setImage(this.endImage);
+                        this.floorPane.getChildren().add(i);
+                        break;
                 }
             }
         }
@@ -492,6 +498,7 @@ public class BoardWindow extends Application {
     private void loadGame() {
         this.backgroundImage = new Image("floor.png");
         this.wallImage = new Image("brick_dark0.png");
+        this.endImage = new Image("CheckerBoardImage.png");
 
     }
 
